@@ -7,12 +7,13 @@ import com.ExclusiveService.model.enums.UserRoles;
 import com.ExclusiveService.repo.RoleRepository;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.service.UserService;
-import com.ExclusiveService.util.UserDetailsService;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +23,16 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final RoleRepository roleRepository;
+    private final ModelMapper modelMapper;
     
-    
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsServiceImpl, RoleRepository roleRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
     }
     
     @Override
@@ -39,12 +41,8 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isPresent()){
             return false;
         }
-        User user = new User();
-        user.setEmail(data.getEmail());
-        user.setName(data.getName());
-        user.setViberNumber(data.getViberNumber());
+        User user = modelMapper.map(data, User.class);
         user.setPassword(passwordEncoder.encode(data.getPassword()));
-        
         List<Role> roles = new ArrayList<>();
         if (userRepository.count() == 0){
             Role adminRole = roleRepository.findByName(UserRoles.ADMIN);

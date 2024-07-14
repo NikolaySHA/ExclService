@@ -5,7 +5,7 @@ import com.ExclusiveService.model.dto.AddAppointmentDTO;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
-import com.ExclusiveService.service.impl.UserHelperService;
+import com.ExclusiveService.service.impl.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +24,11 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final CarService carService;
     
-    private final UserHelperService userHelperService;
-    public AppointmentController(AppointmentService appointmentService, CarService carService, UserHelperService userHelperService) {
+    private final UserDetailsServiceImpl userDetailsService;
+    public AppointmentController(AppointmentService appointmentService, CarService carService, UserDetailsServiceImpl userDetailsService) {
         this.appointmentService = appointmentService;
         this.carService = carService;
-        this.userHelperService = userHelperService;
+        this.userDetailsService = userDetailsService;
     }
     
     @ModelAttribute("appointmentData")
@@ -43,7 +43,7 @@ public class AppointmentController {
     @GetMapping("/add-appointment")
     public String addAppointment(Model model, RedirectAttributes redirectAttributes) {
         List<Car> carsData = new ArrayList<>();
-        if (!userHelperService.hasRole("ADMIN")) {
+        if (!userDetailsService.hasRole("ADMIN")) {
             carsData = carService.findCarsByUser();
         } else {
             carsData = carService.findAllCars();

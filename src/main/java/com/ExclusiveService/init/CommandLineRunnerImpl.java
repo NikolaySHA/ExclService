@@ -26,7 +26,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
             return;
         }
         List<Role> toInsert = Arrays.stream(UserRoles.values())
-                .map(role -> new Role(role.name()))
+                .map(role -> new Role(role))
                 .collect(Collectors.toList());
         this.roleRepository.saveAll(toInsert);
 

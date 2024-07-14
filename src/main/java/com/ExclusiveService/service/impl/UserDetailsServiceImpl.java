@@ -1,11 +1,13 @@
-package com.ExclusiveService.util;
+package com.ExclusiveService.service.impl;
 
-import com.ExclusiveService.util.UserDetails;
 import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.repo.UserRepository;
+import com.ExclusiveService.util.UserDetails;
 import org.hibernate.Hibernate;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class UserDetailsServiceImpl implements org.springframework.security.core.userdetails.UserDetailsService {
+    private static final String ROLE_PREFIX = "ROLE_";
     private final UserRepository userRepository;
     
-    public UserDetailsService(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
     
@@ -41,5 +44,29 @@ public class UserDetailsService implements org.springframework.security.core.use
                 .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().name()))
                 .collect(Collectors.toUnmodifiableList());
+    }
+    
+    public boolean hasRole(String role){
+        return getUserDetails()
+                .getAuthorities()
+                .stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(ROLE_PREFIX + role));
+    }
+    
+    public User getLoggedUser(){
+        return userRepository.findByEmail(getUserDetails().getUsername())
+                .orElse(null);
+    }
+    
+    public UserDetails getUserDetails() {
+        return (UserDetails) getAuthentication().getPrincipal();
+    }
+    
+    public boolean isAuthenticated(){
+        return !hasRole("ANONYMOUS");
+    }
+    
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }
