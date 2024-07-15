@@ -1,8 +1,8 @@
 package com.ExclusiveService.service.impl;
 
-import com.ExclusiveService.model.entity.Role;
+import com.ExclusiveService.model.entity.UserRole;
 import com.ExclusiveService.model.entity.User;
-import com.ExclusiveService.model.enums.UserRoles;
+import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.util.UserDetails;
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -40,8 +39,8 @@ class UserDetailsServiceImplTest {
         testUser.setPassword("111");
         testUser.setName("Nikolay Shatov");
         testUser.setRoles(List.of(
-                new Role(UserRoles.ADMIN),
-                new Role(UserRoles.CUSTOMER)
+                new UserRole(UserRolesEnum.ADMIN),
+                new UserRole(UserRolesEnum.CUSTOMER)
         ));
         
         when(userRepository.findByEmail(TEST_EMAIL))
@@ -54,7 +53,7 @@ class UserDetailsServiceImplTest {
         Assertions.assertEquals(userDetails.getName(), testUser.getName());
         Assertions.assertEquals(2, userDetails.getAuthorities().size());
         Assertions.assertTrue(userDetails.getAuthorities().stream().anyMatch(a-> a.getAuthority().equals("ROLE_ADMIN")));
-        List<String> expectedAuthorities = testUser.getRoles().stream().map(Role::getName).map(r -> "ROLE_" + r).toList();
+        List<String> expectedAuthorities = testUser.getRoles().stream().map(UserRole::getName).map(r -> "ROLE_" + r).toList();
         List<String> actualAuthorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         Assertions.assertEquals(expectedAuthorities, actualAuthorities);
     }

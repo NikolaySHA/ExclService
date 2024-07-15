@@ -1,7 +1,7 @@
 package com.ExclusiveService.init;
 
-import com.ExclusiveService.model.entity.Role;
-import com.ExclusiveService.model.enums.UserRoles;
+import com.ExclusiveService.model.entity.UserRole;
+import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.repo.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -25,8 +25,8 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         if (count > 0) {
             return;
         }
-        List<Role> toInsert = Arrays.stream(UserRoles.values())
-                .map(role -> new Role(role))
+        List<UserRole> toInsert = Arrays.stream(UserRolesEnum.values())
+                .map(role -> new UserRole(role))
                 .collect(Collectors.toList());
         this.roleRepository.saveAll(toInsert);
 

@@ -73,7 +73,6 @@ public class UserController {
     @GetMapping("/users/login-error")
     public ModelAndView viewLoginError(@ModelAttribute("loginData") LoginDTO loginDTO) {
         ModelAndView modelAndView = new ModelAndView("login");
-        
         modelAndView.addObject("loginData", loginDTO);
         modelAndView.addObject("showErrorMessage", true);
         return modelAndView;

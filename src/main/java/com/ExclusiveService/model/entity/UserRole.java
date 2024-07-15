@@ -1,20 +1,20 @@
 package com.ExclusiveService.model.entity;
 
-import com.ExclusiveService.model.enums.UserRoles;
+import com.ExclusiveService.model.enums.UserRolesEnum;
 import jakarta.persistence.*;
 @Entity
 @Table(name = "roles")
-public class Role {
+public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Enumerated(EnumType.STRING)
-    private UserRoles name;
+    private UserRolesEnum name;
     
-    public Role() {
+    public UserRole() {
     }
     
-    public Role(UserRoles name) {
+    public UserRole(UserRolesEnum name) {
         this.name = name;
     }
     
@@ -26,11 +26,11 @@ public class Role {
         this.id = id;
     }
     
-    public UserRoles getName() {
+    public UserRolesEnum getName() {
         return name;
     }
     
-    public void setName(UserRoles name) {
+    public void setName(UserRolesEnum name) {
         this.name = name;
     }
 }

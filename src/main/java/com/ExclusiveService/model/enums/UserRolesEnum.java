@@ -1,6 +1,6 @@
 package com.ExclusiveService.model.enums;
 
-public enum UserRoles {
+public enum UserRolesEnum {
     ADMIN,
     CUSTOMER
 }

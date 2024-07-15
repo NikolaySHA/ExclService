@@ -10,12 +10,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserDetailsServiceImpl implements org.springframework.security.core.userdetails.UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     private static final String ROLE_PREFIX = "ROLE_";
     private final UserRepository userRepository;
     
@@ -52,21 +52,16 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
                 .stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(ROLE_PREFIX + role));
     }
-    
     public User getLoggedUser(){
         return userRepository.findByEmail(getUserDetails().getUsername())
                 .orElse(null);
     }
-    
+
     public UserDetails getUserDetails() {
-        return (UserDetails) getAuthentication().getPrincipal();
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-    
     public boolean isAuthenticated(){
         return !hasRole("ANONYMOUS");
     }
     
-    public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
 }

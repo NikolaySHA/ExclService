@@ -31,20 +31,20 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles;
+    private List<UserRole> userRoles;
     
-    public List<Role> getRoles() {
-        return roles;
+    public List<UserRole> getRoles() {
+        return userRoles;
     }
     
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
     
     public User() {
        this.cars = new ArrayList<>();
        this.appointments = new ArrayList<>();
-       this.roles = new ArrayList<>();
+       this.userRoles = new ArrayList<>();
     }
     
     public User(String email, String password, String name) {

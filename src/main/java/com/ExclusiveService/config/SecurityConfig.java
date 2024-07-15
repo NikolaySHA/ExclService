@@ -1,5 +1,8 @@
 package com.ExclusiveService.config;
 
+import com.ExclusiveService.repo.UserRepository;
+import com.ExclusiveService.service.impl.UserDetailsServiceImpl;
+import com.ExclusiveService.util.UserDetails;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfig {
@@ -14,7 +18,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .authorizeRequests(authorizeRequests ->
+                .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 // Permit all static resources
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
@@ -38,8 +42,14 @@ public class SecurityConfig {
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()
+                ).csrf(csrf -> csrf // This enables CSRF protection
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // Example of using a custom CSRF token repository
                 )
                 .build();
+    }
+    @Bean
+    public UserDetailsServiceImpl userDetailsService(UserRepository userRepository){
+        return new UserDetailsServiceImpl(userRepository);
     }
     @Bean
     public PasswordEncoder encoder() {

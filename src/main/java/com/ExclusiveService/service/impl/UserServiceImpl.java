@@ -1,16 +1,13 @@
 package com.ExclusiveService.service.impl;
 
 import com.ExclusiveService.model.dto.RegisterDTO;
-import com.ExclusiveService.model.entity.Role;
+import com.ExclusiveService.model.entity.UserRole;
 import com.ExclusiveService.model.entity.User;
-import com.ExclusiveService.model.enums.UserRoles;
+import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.repo.RoleRepository;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.service.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,14 +40,14 @@ public class UserServiceImpl implements UserService {
         }
         User user = modelMapper.map(data, User.class);
         user.setPassword(passwordEncoder.encode(data.getPassword()));
-        List<Role> roles = new ArrayList<>();
+        List<UserRole> userRoles = new ArrayList<>();
         if (userRepository.count() == 0){
-            Role adminRole = roleRepository.findByName(UserRoles.ADMIN);
-            roles.add(adminRole);
+            UserRole adminUserRole = roleRepository.findByName(UserRolesEnum.ADMIN);
+            userRoles.add(adminUserRole);
         }
-        Role customerRole = roleRepository.findByName(UserRoles.CUSTOMER);
-        roles.add(customerRole);
-        user.setRoles(roles);
+        UserRole customerUserRole = roleRepository.findByName(UserRolesEnum.CUSTOMER);
+        userRoles.add(customerUserRole);
+        user.setRoles(userRoles);
         
         userRepository.save(user);
         return true;
@@ -58,16 +55,6 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User findLoggedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                Optional<User> user = userRepository.findByEmail(((UserDetails) principal).getUsername());
-                if (user.isPresent()){
-                    return user.get();
-                }
-            }
-        }
-        return null;
+        return this.userDetailsServiceImpl.getLoggedUser();
     }
 }
