@@ -9,13 +9,13 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Enumerated(EnumType.STRING)
-    private UserRolesEnum name;
+    private UserRolesEnum role;
     
     public UserRole() {
     }
     
-    public UserRole(UserRolesEnum name) {
-        this.name = name;
+    public UserRole(UserRolesEnum role) {
+        this.role = role;
     }
     
     public long getId() {
@@ -26,11 +26,11 @@ public class UserRole {
         this.id = id;
     }
     
-    public UserRolesEnum getName() {
-        return name;
+    public UserRolesEnum getRole() {
+        return role;
     }
     
-    public void setName(UserRolesEnum name) {
-        this.name = name;
+    public void setRole(UserRolesEnum name) {
+        this.role = name;
     }
 }

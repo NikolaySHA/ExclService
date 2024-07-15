@@ -6,7 +6,7 @@ import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
-import com.ExclusiveService.util.UserDetails;
+import com.ExclusiveService.util.ExclusiveUserDetails;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -29,9 +29,9 @@ public class AdminController {
     
     @GetMapping("/admin-panel")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String loggedIn(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String loggedIn(@AuthenticationPrincipal ExclusiveUserDetails exclusiveUserDetails, Model model) {
         User loggedUser = userService.findLoggedUser();
-            model.addAttribute("welcomeMessage", userDetails.getName());
+            model.addAttribute("welcomeMessage", exclusiveUserDetails.getName());
             List<Appointment> appointments = appointmentService.getAllAppointments();
             model.addAttribute("appointmentsData",appointments);
             List<Car> cars = carService.findAllCars();

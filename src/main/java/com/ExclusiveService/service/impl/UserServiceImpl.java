@@ -8,6 +8,9 @@ import com.ExclusiveService.repo.RoleRepository;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +23,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final ExclusiveUserDetailsService exclusiveUserDetailsService;
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
     
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsServiceImpl, RoleRepository roleRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ExclusiveUserDetailsService exclusiveUserDetailsService, RoleRepository roleRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.exclusiveUserDetailsService = exclusiveUserDetailsService;
         this.roleRepository = roleRepository;
         this.modelMapper = modelMapper;
     }
@@ -55,6 +58,14 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User findLoggedUser() {
-        return this.userDetailsServiceImpl.getLoggedUser();
+        String email = exclusiveUserDetailsService.getAuthentication().getName();
+        return userRepository.findByEmail(email).orElse(null);
+    }
+    
+    @Override
+    public boolean hasRole(String role) {
+        UserDetails userDetails = (UserDetails) exclusiveUserDetailsService.getAuthentication().getPrincipal();
+        return userDetails.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_" + role));
     }
 }

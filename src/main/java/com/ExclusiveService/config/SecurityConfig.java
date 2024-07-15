@@ -1,8 +1,7 @@
 package com.ExclusiveService.config;
 
 import com.ExclusiveService.repo.UserRepository;
-import com.ExclusiveService.service.impl.UserDetailsServiceImpl;
-import com.ExclusiveService.util.UserDetails;
+import com.ExclusiveService.service.impl.ExclusiveUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,8 +47,8 @@ public class SecurityConfig {
                 .build();
     }
     @Bean
-    public UserDetailsServiceImpl userDetailsService(UserRepository userRepository){
-        return new UserDetailsServiceImpl(userRepository);
+    public ExclusiveUserDetailsService userDetailsService(UserRepository userRepository){
+        return new ExclusiveUserDetailsService(userRepository);
     }
     @Bean
     public PasswordEncoder encoder() {

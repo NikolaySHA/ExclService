@@ -1,6 +1,6 @@
 package com.ExclusiveService.controller;
 
-import com.ExclusiveService.util.UserDetails;
+import com.ExclusiveService.util.ExclusiveUserDetails;
 import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.entity.User;
@@ -36,11 +36,11 @@ public class HomeController {
     }
     
     @GetMapping("/home")
-    public String loggedIn(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String loggedIn(@AuthenticationPrincipal ExclusiveUserDetails exclusiveUserDetails, Model model) {
         User loggedUser = userService.findLoggedUser();
         if (loggedUser != null) {
-            model.addAttribute("welcomeMessage", userDetails.getName());
-            List<Appointment> appointmentsForCustomer = appointmentService.getAppointments(userDetails.getUsername());
+            model.addAttribute("welcomeMessage", exclusiveUserDetails.getName());
+            List<Appointment> appointmentsForCustomer = appointmentService.getAppointments(exclusiveUserDetails.getUsername());
             model.addAttribute("appointmentsData", appointmentsForCustomer);
             List<Car> myCars = carService.findCarsByUser();
             model.addAttribute("myCarsData", myCars);

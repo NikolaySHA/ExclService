@@ -10,6 +10,9 @@ public interface UserService {
     boolean register(RegisterDTO data);
     
     User findLoggedUser();
+    
+    boolean hasRole(String admin);
+    
     //    @Transactional
 //    public List<Appointment> findFavourites(Long id) {
 //        return customerRepository.findById(id)
