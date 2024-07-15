@@ -8,8 +8,6 @@ import com.ExclusiveService.repo.RoleRepository;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.service.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,10 +43,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(data.getPassword()));
         List<UserRole> userRoles = new ArrayList<>();
         if (userRepository.count() == 0){
-            UserRole adminUserRole = roleRepository.findByName(UserRolesEnum.ADMIN);
+            UserRole adminUserRole = roleRepository.findByRole(UserRolesEnum.ADMIN);
             userRoles.add(adminUserRole);
         }
-        UserRole customerUserRole = roleRepository.findByName(UserRolesEnum.CUSTOMER);
+        UserRole customerUserRole = roleRepository.findByRole(UserRolesEnum.CUSTOMER);
         userRoles.add(customerUserRole);
         user.setRoles(userRoles);
         

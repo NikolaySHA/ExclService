@@ -1,13 +1,14 @@
 package com.ExclusiveService.controller;
 
-import com.ExclusiveService.util.ExclusiveUserDetails;
 import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
+import com.ExclusiveService.util.ExclusiveUserDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,11 +37,10 @@ public class HomeController {
     }
     
     @GetMapping("/home")
-    public String loggedIn(@AuthenticationPrincipal ExclusiveUserDetails exclusiveUserDetails, Model model) {
-        User loggedUser = userService.findLoggedUser();
-        if (loggedUser != null) {
-            model.addAttribute("welcomeMessage", exclusiveUserDetails.getName());
-            List<Appointment> appointmentsForCustomer = appointmentService.getAppointments(exclusiveUserDetails.getUsername());
+    public String loggedIn(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        if (userDetails instanceof ExclusiveUserDetails exclusiveUserDetails) {
+            model.addAttribute("welcomeMessage", userDetails.getUsername());
+            List<Appointment> appointmentsForCustomer = appointmentService.getAppointments(userDetails.getUsername());
             model.addAttribute("appointmentsData", appointmentsForCustomer);
             List<Car> myCars = carService.findCarsByUser();
             model.addAttribute("myCarsData", myCars);

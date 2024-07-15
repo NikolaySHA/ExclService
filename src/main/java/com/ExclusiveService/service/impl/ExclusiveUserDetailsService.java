@@ -1,5 +1,6 @@
 package com.ExclusiveService.service.impl;
 
+
 import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.model.entity.UserRole;
 import com.ExclusiveService.util.ExclusiveUserDetails;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.repo.UserRepository;
+
 
 public class ExclusiveUserDetailsService implements UserDetailsService {
     private static final String ROLE_PREFIX = "ROLE_";
@@ -39,7 +41,7 @@ public class ExclusiveUserDetailsService implements UserDetailsService {
                 user.getPassword(),
                 user.getRoles().stream().map(UserRole::getRole).map(ExclusiveUserDetailsService::map).toList(),
                 user.getName()
-                );
+        );
     }
     
     private static GrantedAuthority map(UserRolesEnum role) {

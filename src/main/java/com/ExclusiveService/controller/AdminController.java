@@ -9,6 +9,7 @@ import com.ExclusiveService.service.UserService;
 import com.ExclusiveService.util.ExclusiveUserDetails;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +30,9 @@ public class AdminController {
     
     @GetMapping("/admin-panel")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String loggedIn(@AuthenticationPrincipal ExclusiveUserDetails exclusiveUserDetails, Model model) {
+    public String loggedIn(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         User loggedUser = userService.findLoggedUser();
-            model.addAttribute("welcomeMessage", exclusiveUserDetails.getName());
+            model.addAttribute("welcomeMessage", userDetails.getUsername());
             List<Appointment> appointments = appointmentService.getAllAppointments();
             model.addAttribute("appointmentsData",appointments);
             List<Car> cars = carService.findAllCars();

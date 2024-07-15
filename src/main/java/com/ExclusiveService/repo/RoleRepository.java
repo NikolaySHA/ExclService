@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleRepository extends JpaRepository<UserRole, Long> {
     
-    UserRole findByName(UserRolesEnum userRolesEnum);
+    UserRole findByRole(UserRolesEnum userRolesEnum);
 }
