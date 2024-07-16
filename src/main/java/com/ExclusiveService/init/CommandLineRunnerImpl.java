@@ -3,6 +3,7 @@ package com.ExclusiveService.init;
 import com.ExclusiveService.model.entity.UserRole;
 import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.repo.RoleRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -10,14 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
   
     private final RoleRepository roleRepository;
-    
-    public CommandLineRunnerImpl(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
     
     @Override
     public void run(String... args) throws Exception {

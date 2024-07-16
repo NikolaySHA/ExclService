@@ -4,13 +4,20 @@ import com.ExclusiveService.model.enums.PaymentMethod;
 import com.ExclusiveService.model.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 
 @Entity
 @Table(name = "appointments")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Appointment {
+   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,70 +36,4 @@ public class Appointment {
     private Status status;
     private String comment;
     
-    public Appointment() {
-    }
-    
-    public int getPaintDetails() {
-        return paintDetails;
-    }
-    
-    public void setPaintDetails(int paintDetails) {
-        this.paintDetails = paintDetails;
-    }
-    
-    public Status getStatus() {
-        return status;
-    }
-    
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-    
-    public LocalDate getDate() {
-        return date;
-    }
-    
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-    
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public User getUser() {
-        return user;
-    }
-    
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
-    public Car getCar() {
-        return car;
-    }
-    
-    public void setCar(Car car) {
-        this.car = car;
-    }
-    
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
-    }
-    
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-    
-    public String getComment() {
-        return comment;
-    }
-    
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 }

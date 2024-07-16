@@ -6,22 +6,18 @@ import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.repo.CarRepository;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@AllArgsConstructor
 @Service
 public class CarServiceImpl implements CarService {
     
     private final UserService userService;
     private final CarRepository carRepository;
     
-    
-    public CarServiceImpl(UserService userService, CarRepository carRepository) {
-        this.userService = userService;
-        this.carRepository = carRepository;
-    }
     
     @Override
     public boolean addCar(AddCarDataDTO data) {

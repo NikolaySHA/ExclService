@@ -4,9 +4,15 @@ package com.ExclusiveService.model.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
 public class AddCarDataDTO {
+    
     @NotBlank(message = "Полето е задължително!")
     @Size(min = 5, max = 12, message = "Регистрационният номер трябва да съдържа между 5 и 12 символа!")
     private String licensePlate;
@@ -20,46 +26,4 @@ public class AddCarDataDTO {
     private String vin;
     private String color;
     
-    public AddCarDataDTO() {
-    }
-    
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-    
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-    
-    public String getMake() {
-        return make;
-    }
-    
-    public void setMake(String make) {
-        this.make = make;
-    }
-    
-    public String getModel() {
-        return model;
-    }
-    
-    public void setModel(String model) {
-        this.model = model;
-    }
-    
-    public String getVin() {
-        return vin;
-    }
-    
-    public void setVin(String vin) {
-        this.vin = vin;
-    }
-    
-    public String getColor() {
-        return color;
-    }
-    
-    public void setColor(String color) {
-        this.color = color;
-    }
 }

@@ -4,6 +4,7 @@ package com.ExclusiveService.service.impl;
 import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.model.entity.UserRole;
 import com.ExclusiveService.util.ExclusiveUserDetails;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,14 +15,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.repo.UserRepository;
 
-
+@AllArgsConstructor
 public class ExclusiveUserDetailsService implements UserDetailsService {
     private static final String ROLE_PREFIX = "ROLE_";
     private final UserRepository userRepository;
-    
-    public ExclusiveUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
     
     @Override
     public UserDetails loadUserByUsername(String email)

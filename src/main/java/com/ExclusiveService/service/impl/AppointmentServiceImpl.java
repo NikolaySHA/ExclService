@@ -6,26 +6,18 @@ import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.model.enums.Status;
 import com.ExclusiveService.repo.AppointmentRepository;
 import com.ExclusiveService.service.AppointmentService;
-import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@AllArgsConstructor
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
     
     private final AppointmentRepository appointmentRepository;
     private final UserService userService;
-    private final CarService carService;
-    
-    
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, UserService userService, CarService carService) {
-        this.appointmentRepository = appointmentRepository;
-        this.userService = userService;
-        this.carService = carService;
-    }
     
     @Override
     public boolean create(AddAppointmentDTO data) {

@@ -7,6 +7,7 @@ import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.repo.RoleRepository;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.service.UserService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -24,14 +25,6 @@ public class UserServiceImpl implements UserService {
     private final ExclusiveUserDetailsService exclusiveUserDetailsService;
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
-    
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, ExclusiveUserDetailsService exclusiveUserDetailsService, RoleRepository roleRepository, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.exclusiveUserDetailsService = exclusiveUserDetailsService;
-        this.roleRepository = roleRepository;
-        this.modelMapper = modelMapper;
-    }
     
     @Override
     public boolean register(RegisterDTO data) {

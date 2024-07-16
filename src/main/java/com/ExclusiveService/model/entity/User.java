@@ -2,12 +2,17 @@ package com.ExclusiveService.model.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,20 +36,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<UserRole> userRoles;
-    
-    public List<UserRole> getRoles() {
-        return userRoles;
-    }
-    
-    public void setRoles(List<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
+    private List<UserRole> roles;
     
     public User() {
        this.cars = new ArrayList<>();
        this.appointments = new ArrayList<>();
-       this.userRoles = new ArrayList<>();
+       this.roles = new ArrayList<>();
     }
     
     public User(String email, String password, String name) {
@@ -55,59 +52,4 @@ public class User {
         this.cars = new ArrayList<>();
     }
     
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-    
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getViberNumber() {
-        return viberNumber;
-    }
-    
-    public void setViberNumber(String viberNumber) {
-        this.viberNumber = viberNumber;
-    }
-    
-    public List<Car> getCars() {
-        return cars;
-    }
-    
-    public void setCars(List<Car> cars) {
-        this.cars = cars;
-    }
 }
