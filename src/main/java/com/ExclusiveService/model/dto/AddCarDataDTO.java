@@ -13,16 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddCarDataDTO {
     
-    @NotBlank(message = "{not_blank_message}")
-    @Size(min = 5, max = 12, message = "{size_number_plate_message}")
+    @NotBlank(message = "{error_message_not_null}")
+    @Size(min = 5, max = 12, message = "{error_message_size_number_plate}")
     private String licensePlate;
-    @NotBlank(message = "{not_blank_message}")
-    @Size(min = 2, max = 30, message = "{size_2_30_message}")
+    @NotBlank(message = "{error_message_not_null}")
+    @Size(min = 2, max = 30, message = "{error_message_size_2_30}")
     private String make;
-    @NotBlank(message = "{not_blank_message}")
-    @Size(min = 2, max = 50, message = "{size_2_50_message}")
+    @NotBlank(message = "{error_message_not_null}")
+    @Size(min = 2, max = 50, message = "{error_message_size_2_50}")
     private String model;
-    @Pattern(regexp = "[A-Z0-9]{17}|", message = "{vin_message}")
+    @Pattern(regexp = "[A-Z0-9]{17}|", message = "{error_message_vin}")
     private String vin;
     private String color;
     

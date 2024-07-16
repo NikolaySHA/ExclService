@@ -32,10 +32,10 @@
             <ul class="navbar-nav mr-auto">
 
                 <div class="nav-item">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/services}">Услуги</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/services}" th:text="#{nav_bar_services}"></a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/aboutus}">За нас</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/aboutus}" th:text="#{nav_bar_about_us}"></a>
                 </div>
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/gallery}" th:text="#{nav_bar_gallery}"></a>
@@ -49,13 +49,13 @@
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/add-appointment}">
                         <i class="fa-solid fa-calendar-check"></i>
-                        <span class="button-text-2">Запази час</span>
+                        <span class="button-text-2" th:text="#{nav_bar_add_appointment}"></span>
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/add-car}">
                         <i class="fa-solid fa-car"></i>
-                        <span class="button-text">Добави автомобил</span>
+                        <span class="button-text" th:text="#{nav_bar_add_car}"></span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -82,7 +82,7 @@
                 <li class="nav-item active" sec:authorize="!isAuthenticated()">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/users/register}">
                         <i class="fa-solid fa-user"></i>
-                        <span class="button-text">Регистрация</span>
+                        <span class="button-text" th:text="#{nav_bar_register}"></span>
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">

@@ -28,8 +28,7 @@
                         th:text="${car.getLicensePlate()}">
                 </option>
             </select>
-
-            <small class="invalid-feedback text-danger">Трябва да имате регистриран автомобил за да запазите час.</small>
+            <small th:errors="*{car}" class="invalid-feedback text-danger"></small>
         </div>
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
@@ -45,7 +44,7 @@
                 <option value="ANOTHER_INSURER_CLAIM">Щета по каско / по съгласувана Фактура</option>
                 <option value="PRIVATE_ORDER">Частна поръчка</option>
             </select>
-            <small class="invalid-feedback text-danger">Моля изберете тип начин за плащане</small>
+            <small th:errors="*{paymentMethod}" class="invalid-feedback text-danger"></small>
         </div>
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
@@ -73,7 +72,7 @@
                 <option value="13">Цялостно боядисване</option>
             </select>
 
-            <small class="invalid-feedback text-danger">Моля изберете брой детайли за боядисване</small>
+            <small th:errors="*{paintDetails}" class="invalid-feedback text-danger"></small>
         </div>
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
@@ -85,7 +84,7 @@
                    name="date"
                    th:field="*{date}"
                    th:errorclass="'is-invalid alert-danger'">
-            <small class="invalid-feedback text-danger">Моля изберете бъдеща дата за записване</small>
+            <small th:errors="*{date}" class="invalid-feedback text-danger"></small>
         </div>
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
@@ -95,9 +94,7 @@
                       id="comment"
                       name="comment"
                       rows="4"
-                      th:field="*{comment}"
-                      th:errorclass="'is-invalid alert-danger'"></textarea>
-            <small class="invalid-feedback text-danger">Моля добавете коментар, ако е необходимо</small>
+                      th:field="*{comment}"></textarea>
         </div>
 
 

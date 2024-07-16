@@ -12,20 +12,20 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RegisterDTO {
     
-    @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "{not_email_message}")
-    @NotBlank(message = "{not_blank_message}")
+    @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "{error_message_not_email}")
+    @NotBlank(message = "{error_message_not_null}")
     private String email;
-    @NotBlank(message = "{not_blank_message}")
-    @Size(min = 3 , max = 20, message = "{size_3_20_message}")
+    @NotBlank(message = "{{error_message_not_null}")
+    @Size(min = 3 , max = 20, message = "{error_message_size_3_20}")
     private String password;
-    @NotBlank(message = "{not_blank_message}")
-    @Size(min = 3 , max = 20, message = "{size_3_20_message}")
+    @NotBlank(message = "{error_message_not_null}")
+    @Size(min = 3 , max = 20, message = "{error_message_size_3_20")
     private String confirmPassword;
-    @NotBlank(message = "{not_blank_message}")
-    @Size(min = 3 , max = 20, message = "{size_3_20_message}")
+    @NotBlank(message = "{{error_message_not_null}}")
+    @Size(min = 3 , max = 20, message = "{error_message_size_3_20")
     private String name;
-    @NotBlank(message = "{not_blank_message}")
-    @Size(min = 8 , max = 20, message = "{size_8_20_message}")
+    @NotBlank(message = "{error_message_not_null}")
+    @Size(min = 8 , max = 20, message = "{error_message_size_8_20")
     private String viberNumber;
     
 }
