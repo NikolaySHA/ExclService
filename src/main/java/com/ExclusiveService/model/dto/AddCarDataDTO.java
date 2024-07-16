@@ -13,16 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddCarDataDTO {
     
-    @NotBlank(message = "Полето е задължително!")
-    @Size(min = 5, max = 12, message = "Регистрационният номер трябва да съдържа между 5 и 12 символа!")
+    @NotBlank(message = "{not_blank_message}")
+    @Size(min = 5, max = 12, message = "{size_number_plate_message}")
     private String licensePlate;
-    @NotBlank
-    @Size(min = 2, max = 30)
+    @NotBlank(message = "{not_blank_message}")
+    @Size(min = 2, max = 30, message = "{size_2_30_message}")
     private String make;
-    @NotBlank
-    @Size(min = 2, max = 50)
+    @NotBlank(message = "{not_blank_message}")
+    @Size(min = 2, max = 50, message = "{size_2_50_message}")
     private String model;
-    @Pattern(regexp = "[A-Z0-9]{17}|", message = "Рамата не е задължително поле но трябва да съдържа 17 символа!")
+    @Pattern(regexp = "[A-Z0-9]{17}|", message = "{vin_message}")
     private String vin;
     private String color;
     

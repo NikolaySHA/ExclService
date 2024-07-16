@@ -17,14 +17,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AddAppointmentDTO {
     
-    @NotNull
+    @NotNull(message = "{not_blank_message}")
     @FutureOrPresent
     private LocalDate date;
-    @NotNull
+    @NotNull(message = "{not_blank_message}")
     private Car car;
-    @NotNull
+    @NotNull(message = "{not_blank_message}")
     private Integer paintDetails;
-    @NotNull
+    @NotNull(message = "{not_blank_message}")
     private PaymentMethod paymentMethod;
     @ManyToOne
     private User user;
