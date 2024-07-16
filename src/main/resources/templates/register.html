@@ -30,7 +30,10 @@
                    name="email"
                    th:field="*{email}"
                    th:errorclass="'is-invalid alert-danger'"/>
-            <small class="invalid-feedback text-danger">Моля въведете валиден имейл!</small>
+            <small th:errors="*{email}" class="invalid-feedback text-danger"></small>
+
+
+            <!--<small class="invalid-feedback text-danger">Моля въведете валиден имейл!</small>-->
 
             <div class="label-holder text-white d-flex justify-content-center">
                 <label for="password" class="h3 mb-2">Парола</label>
@@ -41,7 +44,8 @@
                    name="password"
                    th:field="*{password}"
                    th:errorclass="'is-invalid alert-danger'"/>
-            <small class="invalid-feedback text-danger">Моля въведете парола между 3 и 20 символа!</small>
+            <small th:errors="*{password}" class="invalid-feedback text-danger"></small>
+<!--            <small class="invalid-feedback text-danger">Моля въведете парола между 3 и 20 символа!</small>-->
 
             <div class="label-holder text-white d-flex justify-content-center">
                 <label for="confirmPassword" class="h3 mb-2">Повтори парола</label>
@@ -52,7 +56,8 @@
                    name="confirmPassword"
                    th:field="*{confirmPassword}"
                    th:errorclass="'is-invalid alert-danger'"/>
-            <small class="invalid-feedback text-danger">Моля въведете парола между 3 и 20 символа!</small>
+            <small th:errors="*{confirmPassword}" class="invalid-feedback text-danger"></small>
+<!--            <small class="invalid-feedback text-danger">Моля въведете парола между 3 и 20 символа!</small>-->
 
             <div class="label-holder text-white d-flex justify-content-center">
                 <label for="name" class="h3 mb-2">Име</label>
@@ -63,7 +68,8 @@
                    name="name"
                    th:field="*{name}"
                    th:errorclass="'is-invalid alert-danger'"/>
-            <small class="invalid-feedback text-danger">Моля въведете име между 3 и 20 символа!</small>
+            <small th:errors="*{name}" class="invalid-feedback text-danger"></small>
+<!--            <small class="invalid-feedback text-danger">Моля въведете име между 3 и 20 символа!</small>-->
 
 
             <div class="label-holder text-white d-flex justify-content-center">
@@ -75,7 +81,8 @@
                    name="viberNumber"
                    th:field="*{viberNumber}"
                    th:errorclass="'is-invalid alert-danger'"/>
-            <small class="invalid-feedback text-danger">Моля въведете актуален вайбър номер съдържащ между 8 и 20 символа!</small>
+            <small th:errors="*{viberNumber}" class="invalid-feedback text-danger"></small>
+<!--            <small class="invalid-feedback text-danger">Моля въведете актуален вайбър номер съдържащ между 8 и 20 символа!</small>-->
 
         </div>
         <div class="button-holder d-flex justify-content-center">

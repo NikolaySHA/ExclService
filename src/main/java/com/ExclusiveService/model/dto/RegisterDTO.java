@@ -7,21 +7,20 @@ import jakarta.validation.constraints.Size;
 public class RegisterDTO {
     
     @Email
-    @NotBlank
+    @NotBlank(message = "{not_blank_message}")
     private String email;
-    
-    @Size(min = 3 , max = 20)
-    @NotBlank
+    @NotBlank(message = "{not_blank_message}")
+    @Size(min = 3 , max = 20, message = "{size_3_20_message}")
     private String password;
-    @Size(min = 3 , max = 20)
-    @NotBlank
+    @NotBlank(message = "{not_blank_message}")
+    @Size(min = 3 , max = 20, message = "{size_3_20_message}")
     private String confirmPassword;
     
-    @Size(min = 3 , max = 20)
-    @NotBlank
+    @NotBlank(message = "{not_blank_message}")
+    @Size(min = 3 , max = 20, message = "{size_3_20_message}")
     private String name;
-    @Size(min = 8 , max = 20)
-    @NotBlank
+    @NotBlank(message = "{not_blank_message}")
+    @Size(min = 8 , max = 20, message = "{size_8_20_message}")
     private String viberNumber;
     
     

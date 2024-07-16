@@ -32,8 +32,6 @@ public class AdminController {
         this.carService = carService;
     }
     
-    
-    
     @GetMapping("/admin-panel")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String loggedIn(@AuthenticationPrincipal UserDetails userDetails, Model model) {

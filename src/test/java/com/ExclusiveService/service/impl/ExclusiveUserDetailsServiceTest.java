@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
-class ExclusiveExclusiveUserDetailsServiceTest {
+class ExclusiveUserDetailsServiceTest {
     private static final String TEST_EMAIL = "nik@nik";
     private static final String NOT_EXISTING_EMAIL = "aaa@aaa";
     private ExclusiveUserDetailsService service;

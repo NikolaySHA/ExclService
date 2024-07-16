@@ -42,6 +42,8 @@ footer {
 .text-yellow {
     color: #F2CD13!important;
 }
+
+
 .table td, .table th {
     padding: 0.15rem;
 
@@ -83,7 +85,7 @@ footer {
     left: 0;
     width: 100%; /* Сменете тази стойност, за да контролирате ширината на страничната лента */
     height: 20px;
-    border-top: 2px solid #F2CD13; /* Добавете гранична линия, ако желаете */
+    border-top: 1px solid #F2CD13; /* Добавете гранична линия, ако желаете */
     z-index: 1030; /* Уверете се, че страничната лента е над други елементи */
 }
 
@@ -92,36 +94,10 @@ footer {
 }
 
 .admin-navbar .nav-link {
-    color: #000; /* Променете цвета на текста */
+    color: #F2CD13; /* Променете цвета на текста */
     padding: 10px 15px;
 }
 
-
-.navbar-toggler .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 193, 7, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Промяна на цвета на иконата */
-}
-
-.navbar-toggler:focus {
-    outline: none; /* Премахване на outline при фокус */
-    box-shadow: none; /* Премахване на shadow при фокус */
-}
-
-/*.lang-select {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*}*/
-
-/*.lang-select select {*/
-/*    display: none; !* Initially hide the select element *!*/
-/*    position: absolute;*/
-/*    top: 20px; !* Adjust this value based on your needs *!*/
-/*    left: 0;*/
-/*    z-index: 10;*/
-/*}*/
-
-/*.lang-select:hover select {*/
-/*    display: block; !* Show the select element on hover *!*/
-/*}*/
 
 .card {
     background-color: #343a40; /* За да е в синхрон с текстовете в картите */

@@ -31,16 +31,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
-                <div class="dropdown">
-                    <a class="nav-link dropdown-toggle text-light active h5 text-stroke" th:href="@{/services}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Услуги
-                    </a>
-
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Боядисване на автомобили</a></li>
-                        <li><a class="dropdown-item" href="#">Възстановяване на джанти</a></li>
-                        <li><a class="dropdown-item" href="#">Подмяна на стъкла</a></li>
-                    </ul>
+                <div class="nav-item">
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/services}">Услуги</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/aboutus}">За нас</a>
                 </div>
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/gallery}" th:text="#{nav_bar_gallery}"></a>
@@ -54,7 +49,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/add-appointment}">
                         <i class="fa-solid fa-calendar-check"></i>
-                        <span class="button-text">Запази час</span>
+                        <span class="button-text-2">Запази час</span>
                     </a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -98,7 +93,7 @@
                 </li>
                 <li class="nav-item">
                     <div class="lang-select">
-                        <i class="fa-solid fa-language"></i>
+<!--                        <i class="fa-solid fa-language"></i>-->
                         <form th:method="get" for="lang">
                             <select id="lang" name="lang" onchange="this.form.submit()">
                                 <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
@@ -115,7 +110,7 @@
         <div class="container">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-light" th:href="@{/admin/repairs}">Ремонти</a>
+                    <a class="nav-link text-light" th:href="@{/admin-panel}">Ремонти</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" th:href="@{/admin/cars}">Автомобили</a>

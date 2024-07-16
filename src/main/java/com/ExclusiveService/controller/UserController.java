@@ -39,34 +39,33 @@ public class UserController {
     
     @GetMapping("/users/register")
     public String register(){
-       
         return "register";
     }
     
     @PostMapping("/users/register")
     public String doRegister(@Valid RegisterDTO data,
                              BindingResult bindingResult,
-                             Model model) {
+                             RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-            model.addAttribute("registerData", data);
-            return "register";
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
+            redirectAttributes.addFlashAttribute("registerData", data);
+            return "redirect:/users/register";
         }
         
         if (!data.getPassword().equals(data.getConfirmPassword())) {
-            model.addAttribute("registerData", data);
-            model.addAttribute("passwordMismatch", true);
-            model.addAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-            return "register";
+            redirectAttributes.addFlashAttribute("registerData", data);
+            redirectAttributes.addFlashAttribute("passwordMismatch", true);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
+            return "redirect:/users/register";
         }
         
         boolean success = userService.register(data);
         if (!success) {
-            model.addAttribute("registerData", data);
-            model.addAttribute("registrationFailed", true);
-            return "register";
+            redirectAttributes.addFlashAttribute("registerData", data);
+            redirectAttributes.addFlashAttribute("registrationFailed", true);
+            return "redirect:/users/register";
         }
-        return "redirect:/login";
+        return "redirect:/users/login";
     }
     @GetMapping("/users/login")
     public String viewLogin() {
@@ -76,11 +75,12 @@ public class UserController {
         return "login";
     }
     @GetMapping("/users/login-error")
-    public ModelAndView viewLoginError(@ModelAttribute("loginData") LoginDTO loginDTO) {
-        ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("loginData", loginDTO);
-        modelAndView.addObject("showErrorMessage", true);
-        return modelAndView;
+    public String viewLoginError(@Valid LoginDTO data,
+                                 BindingResult bindingResult, Model model) {
+        model.addAttribute("loginData", data);
+        model.addAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
+        model.addAttribute("showErrorMessage", true);
+        return "redirect:/users/login";
     }
 
     
