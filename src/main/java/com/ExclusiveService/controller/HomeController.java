@@ -39,7 +39,7 @@ public class HomeController {
     @GetMapping("/home")
     public String loggedIn(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails instanceof ExclusiveUserDetails exclusiveUserDetails) {
-            model.addAttribute("welcomeMessage", userDetails.getUsername());
+            model.addAttribute("welcomeMessage", ((ExclusiveUserDetails) userDetails).getName());
             List<Appointment> appointmentsForCustomer = appointmentService.getAppointments(userDetails.getUsername());
             model.addAttribute("appointmentsData", appointmentsForCustomer);
             List<Car> myCars = carService.findCarsByUser();

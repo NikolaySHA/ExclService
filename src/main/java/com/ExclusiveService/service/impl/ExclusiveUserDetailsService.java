@@ -47,7 +47,7 @@ public class ExclusiveUserDetailsService implements UserDetailsService {
     private static GrantedAuthority map(UserRolesEnum role) {
         return new SimpleGrantedAuthority(ROLE_PREFIX + role);
     }
-    protected Authentication getAuthentication() {
+    public Authentication getAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return null;

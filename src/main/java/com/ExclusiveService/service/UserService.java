@@ -13,16 +13,5 @@ public interface UserService {
     
     boolean hasRole(String admin);
     
-    //    @Transactional
-//    public List<Appointment> findFavourites(Long id) {
-//        return customerRepository.findById(id)
-//                .map(Customer::getFavouriteRecipes)
-//                .orElseGet(ArrayList::new);
-//        Optional<User> optionalUser = userRepository.findById(id);
-//        if (optionalUser.isEmpty()) {
-//            return new ArrayList<>();
-//        }
-//        return optionalUser.get().getFavouriteRecipes();
-   //  }
    
 }

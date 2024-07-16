@@ -18,15 +18,21 @@ import java.util.List;
 
 @Controller
 public class AdminController {
+    
+    
     private final UserService userService;
     private final AppointmentService appointmentService;
-    
     private final CarService carService;
+    
+    
+    
     public AdminController(UserService userService, AppointmentService appointmentService, CarService carService) {
         this.userService = userService;
         this.appointmentService = appointmentService;
         this.carService = carService;
     }
+    
+    
     
     @GetMapping("/admin-panel")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -39,4 +45,6 @@ public class AdminController {
             model.addAttribute("carsData", cars);
             return "admin-panel";
     }
+    
+    
 }
