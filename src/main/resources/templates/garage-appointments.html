@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/commons::head}"></head>
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+<main>
+    <div class="container bg-blur rounded mt-1 mb-4 text small">
+        <form method="get" th:action="@{/garage/appointments}" th:object="${searchCriteria}">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="licensePlate">Рег. номер</label>
+                    <input type="text" class="form-control" id="licensePlate" name="licensePlate" placeholder="Рег. номер" th:field="*{licensePlate}">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="status">Статус на ремонт</label>
+                    <select id="status" name="status" class="form-control" th:field="*{status}">
+                        <option value="" selected>Избери...</option>
+                        <option th:each="statusOption : ${statuses}"
+                                th:value="${statusOption.name()}"
+                                th:text="${statusOption.name()}">
+                            Статус
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="make">Марка</label>
+                    <input type="text" class="form-control" id="make" name="make" placeholder="Марка" th:field="*{make}">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="client">Клиент</label>
+                    <input type="text" class="form-control" id="client" name="client" placeholder="Клиент" th:field="*{client}">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="date">Дата след</label>
+                    <input type="date" class="form-control" id="date" name="date" th:field="*{date}">
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="reset" class="btn btn-secondary mb-3">Изчисти</button>
+                <button type="submit" class="btn btn-primary mb-3">Търси</button>
+            </div>
+
+        </form>
+    </div>
+    <div class="container bg-blur rounded mt-1 mb-4">
+        <h3 class="bg-gray text-light mb-0 mt-0"><span class="badge badge-pill badge-warning">Резултати [<span th:text="${appointmentsData.size()}"></span>]</span></h3>
+        <div class="row mt-1 mb-2">
+            <div class="col-12 mt-1 mb-1">
+                <div>
+                    <h3 class="mySticky bg-gray text-light mb-0 mt-2"></h3>
+                    <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Дата</th>
+                                <th>Автомобил</th>
+                                <th>Клиент</th>
+                                <th>Бр. детайли</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="appointment : ${appointmentsData}">
+                                <td class="bg-warning" scope="row" style="width: 5%">
+                                    <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                </td>
+                                <td th:text="${appointment.getDate()}">Дата</td>
+                                <td th:text="'[' + ${appointment.getCar().getLicensePlate()} + ']' + ' ' + ${appointment.getCar().getMake()} + ' ' + ${appointment.getCar().getModel()}">Автомобил</td>
+                                <td th:text="${appointment.getUser().getName()}">Клиент</td>
+                                <td th:text="${appointment.getPaintDetails()}">Детайли за боя</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

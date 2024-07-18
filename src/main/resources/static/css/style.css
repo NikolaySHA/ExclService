@@ -127,6 +127,9 @@ body > main > div > p:nth-child(5) > a {
     position: relative;
     width: 100%;
 }
+.container{
+
+}
 .gallery-img {
     width: 100%;
     height: auto;
@@ -140,13 +143,7 @@ body > main > div > p:nth-child(5) > a {
     padding: 5px 10px;
     border-radius: 5px;
 }
-/*.col-md-4, .col-sm-12 {*/
-/*    padding: 0;*/
-/*}*/
-/*col-md-6 {*/
-/*    padding-right: 0;*/
-/*    margin: 0;*/
-/*}*/
+
 .header-image {
     background: url('https://www.hdcarwallpapers.com/walls/mansory_lamborghini_huracan_sterrato_2024_rear-HD.jpg') no-repeat center center;
     background-size: cover;
@@ -172,6 +169,10 @@ body > main > div > p:nth-child(5) > a {
 .about {
     padding-right: 0;
     padding-left: 0;
+}
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
 }
 @font-face {
            font-family: "Jura", sans-serif;

@@ -10,6 +10,7 @@ import com.ExclusiveService.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 @AllArgsConstructor
@@ -51,6 +52,15 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointments = byCustomerEmailForCar;
         }
         return appointments;
+    }
+    
+    @Override
+    public List<Appointment> searchAppointments(String date, String licensePlate, String make, String client, Status status) {
+        LocalDate localDate = null;
+        if (date != null && !date.isEmpty()) {
+            localDate = LocalDate.parse(date);
+        }
+        return appointmentRepository.findAppointments(localDate, licensePlate, make, client, status);
     }
     
     @Override

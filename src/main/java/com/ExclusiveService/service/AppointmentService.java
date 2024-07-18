@@ -8,6 +8,7 @@ import com.ExclusiveService.model.enums.Status;
 import com.ExclusiveService.repo.AppointmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public interface AppointmentService {
     List<Appointment> getAppointmentsForCar(String email, String licenseNumber);
     
     public List<Appointment> getAllAppointments();
-
     
+    
+    List<Appointment> searchAppointments(String date, String licensePlate, String make, String client, Status status);
 }
