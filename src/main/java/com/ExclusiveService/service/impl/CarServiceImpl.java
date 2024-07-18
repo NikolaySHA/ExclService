@@ -45,11 +45,11 @@ public class CarServiceImpl implements CarService {
         User loggedUser = userService.findLoggedUser();
         return this.carRepository.findByOwner_Email(loggedUser.getEmail());
     }
-    
     @Override
     public Optional<Car> findById(Long id) {
         return this.carRepository.findById(id);
     }
+    
     
     @Override
     public void delete(Car car) {
@@ -59,5 +59,10 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<Car> findAllCars() {
         return carRepository.findAll();
+    }
+    
+    @Override
+    public List<Car> searchCars(String licensePlate, String make, String customer) {
+        return carRepository.searchCarsByFilter(licensePlate, make, customer);
     }
 }

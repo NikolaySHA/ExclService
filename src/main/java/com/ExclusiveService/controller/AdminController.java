@@ -1,6 +1,7 @@
 package com.ExclusiveService.controller;
 
 import com.ExclusiveService.model.dto.AppointmentSearchDTO;
+import com.ExclusiveService.model.dto.CarSearchDTO;
 import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.entity.User;
@@ -36,20 +37,32 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
                            @ModelAttribute("searchCriteria") AppointmentSearchDTO searchCriteria) {
-        User loggedUser = userService.findLoggedUser();
         model.addAttribute("statuses", Status.values());
-        model.addAttribute("welcomeMessage", userDetails.getUsername());
-        
         List<Appointment> appointments;
-        if (searchCriteria.getDate() != null || searchCriteria.getLicensePlate() != null || searchCriteria.getMake() != null || searchCriteria.getClient() != null || searchCriteria.getStatus() != null) {
-            appointments = appointmentService.searchAppointments(searchCriteria.getDate(), searchCriteria.getLicensePlate(), searchCriteria.getMake(), searchCriteria.getClient(), searchCriteria.getStatus());
+        if (searchCriteria.getDate() != null || searchCriteria.getLicensePlate() != null || searchCriteria.getMake() != null || searchCriteria.getCustomer() != null || searchCriteria.getStatus() != null) {
+            appointments = appointmentService.searchAppointments(searchCriteria.getDate(), searchCriteria.getLicensePlate(), searchCriteria.getMake(), searchCriteria.getCustomer(), searchCriteria.getStatus());
         } else {
             appointments = appointmentService.getAllAppointments();
         }
-        
         model.addAttribute("appointmentsData", appointments);
         model.addAttribute("searchCriteria", searchCriteria);
         
         return "garage-appointments";
+    }
+    @GetMapping("/garage/cars")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
+                                     @ModelAttribute("searchCriteria") CarSearchDTO searchCriteria) {
+        List<Car> cars;
+        if (searchCriteria.getLicensePlate() != null || searchCriteria.getMake() != null || searchCriteria.getCustomer() != null) {
+            cars = carService.searchCars(searchCriteria.getLicensePlate(), searchCriteria.getMake(), searchCriteria.getCustomer());
+        } else {
+            cars = carService.findAllCars();
+        }
+        
+        model.addAttribute("carsData", cars);
+        model.addAttribute("searchCriteria", searchCriteria);
+        
+        return "garage-cars";
     }
 }

@@ -2,33 +2,18 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragments/commons::head}">
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/commons::head}"></head>
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
 <main>
     <div class="container bg-blur rounded mt-1 mb-4">
         <div class="row">
-            <!-- Първа колона за филтрите -->
             <div class="col-md-10">
-                <form method="get" th:action="@{/garage/appointments}" th:object="${searchCriteria}">
+                <form method="get" th:action="@{/garage/cars}" th:object="${searchCriteria}">
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="licensePlate">Рег. номер</label>
                             <input type="text" class="form-control" id="licensePlate" name="licensePlate" placeholder="Рег. номер" th:field="*{licensePlate}">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="status">Статус на ремонт</label>
-                            <select id="status" name="status" class="form-control" th:field="*{status}">
-                                <option value="" selected>Избери...</option>
-                                <option th:each="statusOption : ${statuses}"
-                                        th:value="${statusOption.name()}"
-                                        th:text="${statusOption.name()}">
-                                    Статус
-                                </option>
-                            </select>
                         </div>
                         <div class="form-group col-md-3">
                             <label for="make">Марка</label>
@@ -38,25 +23,19 @@
                             <label for="client">Клиент</label>
                             <input type="text" class="form-control" id="client" name="client" placeholder="Клиент" th:field="*{customer}">
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="date">Дата след</label>
-                            <input type="date" class="form-control" id="date" name="date" th:field="*{date}">
-                        </div>
                     </div>
                 </form>
             </div>
-
-            <!-- Втора колона за бутоните -->
             <div class="col-md-2 d-flex flex-column justify-content-center">
                 <button type="reset" class="btn btn-secondary mb-2 btn-sm">Изчисти</button>
                 <button type="submit" class="btn btn-warning btn-sm">Търси</button>
             </div>
+
+
         </div>
     </div>
-
-    <!-- Резултатите от търсенето -->
     <div class="container bg-blur rounded mt-1 mb-4">
-        <h3 class="bg-gray text-light mb-0 mt-0"><span class="badge badge-pill badge-warning">Резултати [<span th:text="${appointmentsData.size()}"></span>]</span></h3>
+        <h3 class="bg-gray text-light mb-0 mt-0"><span class="badge badge-pill badge-warning">Резултати [<span th:text="${carsData.size()}"></span>]</span></h3>
         <div class="row mt-1 mb-2">
             <div class="col-12 mt-1 mb-1">
                 <div>
@@ -66,21 +45,21 @@
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Дата</th>
-                                <th>Автомобил</th>
+                                <th>Регистрационен номер</th>
+                                <th>Марка</th>
+                                <th>Модел</th>
                                 <th>Клиент</th>
-                                <th>Бр. детайли</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="appointment : ${appointmentsData}">
+                            <tr th:each="car : ${carsData}">
                                 <td class="bg-warning" scope="row" style="width: 5%">
                                     <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                 </td>
-                                <td th:text="${appointment.getDate()}">Дата</td>
-                                <td th:text="'[' + ${appointment.getCar().getLicensePlate()} + ']' + ' ' + ${appointment.getCar().getMake()} + ' ' + ${appointment.getCar().getModel()}">Автомобил</td>
-                                <td th:text="${appointment.getUser().getName()}">Клиент</td>
-                                <td th:text="${appointment.getPaintDetails()}">Детайли за боя</td>
+                                <td th:text="${car.getLicensePlate()}"></td>
+                                <td th:text="${car.getMake()}"></td>
+                                <td th:text="${car.getModel()}"></td>
+                                <td th:text="${car.getOwner().getName()}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -90,9 +69,5 @@
         </div>
     </div>
 </main>
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

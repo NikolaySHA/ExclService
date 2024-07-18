@@ -17,4 +17,5 @@ public interface CarService {
     
     List<Car> findAllCars();
     
+    List<Car> searchCars(String licensePlate, String make, String customer);
 }
