@@ -50,6 +50,10 @@ public class HomeController {
         }
     }
     
+    @GetMapping("/about")
+    public String aboutUs(){
+        return "about";
+    }
     @GetMapping("/gallery")
     public String gallery(){
         return "gallery";

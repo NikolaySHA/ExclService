@@ -5,81 +5,19 @@
 <body>
 <header th:replace="fragments/commons::nav"></header>
 <main>
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning">Контакт</span></h1>
-    <hr class="hr-3 w-25 bg-white"/>
+    <div class="container bg-blur rounded mt-5 ">
 
-    <div class="container">
-        <form class="form-container bg-blur"
-              th:method="POST"
-              th:action="@{/contact}"
-              th:object="${contactData}">
-            <div class="form-group">
-                <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="email" class="h3 mb-2">Имейл</label>
-                </div>
-                <input type="email"
-                       class="form-control"
-                       id="email"
-                       name="email"/>
-                <small class="invalid-feedback text-danger">Моля въведете валиден имейл!</small>
 
-                <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="password" class="h3 mb-2">Парола</label>
-                </div>
-                <input type="password"
-                       class="form-control"
-                       id="password"
-                       name="password"/>
-                <small class="invalid-feedback text-danger">Моля въведете парола между 3 и 20 символа!</small>
 
-                <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="confirmPassword" class="h3 mb-2">Повтори парола</label>
-                </div>
-                <input type="password"
-                       class="form-control"
-                       id="confirmPassword"
-                       name="confirmPassword"/>
-                <small class="invalid-feedback text-danger">Моля въведете парола между 3 и 20 символа!</small>
-
-                <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="name" class="h3 mb-2">Име</label>
-                </div>
-                <input type="text"
-                       class="form-control"
-                       id="name"
-                       name="name"/>
-                <small class="invalid-feedback text-danger">Моля въведете име между 3 и 20 символа!</small>
-
-                <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="viberNumber" class="h3 mb-2">Вайбър</label>
-                </div>
-                <input type="number"
-                       class="form-control"
-                       id="viberNumber"
-                       name="viberNumber"/>
-                <small class="invalid-feedback text-danger">Моля въведете актуален вайбър номер съдържащ между 8 и 20 символа!</small>
-            </div>
-            <div class="button-holder d-flex justify-content-center">
-                <button type="submit" class="btn btn-warning mb-3">Регистрирай ме</button>
-            </div>
-        </form>
-        <div id="map" class="map-container"></div>
     </div>
+
+
+
 </main>
 <footer th:replace="fragments/commons::footer"></footer>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 <script>
-    function initMap() {
-        var location = {lat: 42.6977, lng: 23.3219}; // Примерна локация (София, България)
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: location
-        });
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map
-        });
-    }
+
 </script>
 </body>
 </html>
