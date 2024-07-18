@@ -9,12 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AppointmentSearchDTO {
-    private String date;
+public class CarSearchDTO {
     private String licensePlate;
     private String make;
     private String customer;
-    private Status status;
-    private boolean unread;
+    
 
 }

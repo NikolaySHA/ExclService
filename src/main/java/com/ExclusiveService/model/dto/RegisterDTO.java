@@ -15,17 +15,17 @@ public class RegisterDTO {
     @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "{error_message_not_email}")
     @NotBlank(message = "{error_message_not_null}")
     private String email;
-    @NotBlank(message = "{{error_message_not_null}")
+    @NotBlank(message = "{error_message_not_null}")
     @Size(min = 3 , max = 20, message = "{error_message_size_3_20}")
     private String password;
     @NotBlank(message = "{error_message_not_null}")
-    @Size(min = 3 , max = 20, message = "{error_message_size_3_20")
+    @Size(min = 3 , max = 20, message = "{error_message_size_3_20}")
     private String confirmPassword;
-    @NotBlank(message = "{{error_message_not_null}}")
-    @Size(min = 3 , max = 20, message = "{error_message_size_3_20")
+    @NotBlank(message = "{error_message_not_null}")
+    @Size(min = 3 , max = 20, message = "{error_message_size_3_20}")
     private String name;
     @NotBlank(message = "{error_message_not_null}")
-    @Size(min = 8 , max = 20, message = "{error_message_size_8_20")
-    private String viberNumber;
+    @Size(min = 8 , max = 20, message = "{error_message_size_8_20}")
+    private String phoneNumber;
     
 }

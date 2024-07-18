@@ -66,15 +66,15 @@
             <small th:errors="*{name}" class="invalid-feedback text-danger"></small>
 
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="viberNumber" class="h3 mb-2">Вайбър <span class="text-danger">*</span></label>
+                <label for="viberNumber" class="h3 mb-2">Телефон <span class="text-danger">*</span></label>
             </div>
             <input type="number"
                    class="form-control"
                    id="viberNumber"
                    name="viberNumber"
-                   th:field="*{viberNumber}"
+                   th:field="*{phoneNumber}"
                    th:errorclass="'is-invalid alert-danger'"/>
-            <small th:errors="*{viberNumber}" class="invalid-feedback text-danger"></small>
+            <small th:errors="*{phoneNumber}" class="invalid-feedback text-danger"></small>
 
         </div>
         <div class="button-holder d-flex justify-content-center">

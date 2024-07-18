@@ -8,8 +8,10 @@ import com.ExclusiveService.repo.RoleRepository;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.service.UserService;
 import lombok.AllArgsConstructor;
+import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,5 +60,39 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = (UserDetails) exclusiveUserDetailsService.getAuthentication().getPrincipal();
         return userDetails.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_" + role));
+    }
+    
+    @Override
+    public List<User> findAllUsers() {
+        return this.userRepository.findAll();
+    }
+    
+    @Override
+    public List<User> searchUsers(String name, String email, UserRolesEnum role) {
+        return this.userRepository.searchUsers(name, email, role);
+    }
+    
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
+    }
+    
+    @Override
+    public void updateUser(Long id, RegisterDTO updatedUser) {
+        Optional<User> currentUser = userRepository.findById(id);
+        if (currentUser.isEmpty()){
+            //TODO;
+            return;
+        }
+        User user = currentUser.get();
+        user.setName(updatedUser.getName());
+        String email = updatedUser.getEmail();
+        if (userRepository.findByEmail(email).isPresent()){
+            //TODO;
+            return;
+        }
+        user.setEmail(email);
+        user.setPhoneNumber(updatedUser.getPhoneNumber());
+        userRepository.save(user);
     }
 }

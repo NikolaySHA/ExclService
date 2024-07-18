@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/commons::head}"></head>
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+<main>
+    <div class="container bg-blur rounded mt-1 mb-4">
+        <form method="get" th:action="@{/garage/users}" th:object="${searchCriteria}">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="licensePlate">Име</label>
+                            <input type="text" class="form-control" id="licensePlate" name="licensePlate" placeholder="Име" th:field="*{name}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="make">Имейл</label>
+                            <input type="text" class="form-control" id="make" name="make" placeholder="Имейл" th:field="*{email}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="Role">Роля</label>
+                            <select id="role" name="role" class="form-control" th:field="*{role}">
+                                <option value="" selected>Избери...</option>
+                                <option th:each="role : ${userRoles}"
+                                        th:value="${role.name()}"
+                                        th:text="${role.name()}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-2 d-flex flex-column justify-content-center">
+                    <a th:href="@{/garage/users}" class="btn btn-secondary mb-2 btn-sm">Изчисти</a>
+                    <button type="submit" class="btn btn-warning btn-sm">Търси</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container bg-blur rounded mt-1 mb-4">
+        <h3 class="bg-gray text-light mb-0 mt-0"><span class="badge badge-pill badge-warning">Резултати [<span th:text="${usersData.size()}"></span>]</span></h3>
+        <div class="row mt-1 mb-2">
+            <div class="col-12 mt-1 mb-1">
+                <div>
+                    <h3 class="mySticky bg-gray text-light mb-0 mt-2"></h3>
+                    <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Име</th>
+                                <th>Имейл</th>
+                                <th>Телефон</th>
+                                <th>Роля</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user : ${usersData}">
+                                <a th:href="@{/users/{id}(id=${user.id})}" style="display: table-row; color: inherit; text-decoration: none;">
+                                    <td class="bg-warning" scope="row" style="width: 5%">
+                                        <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                    </td>
+                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getName()}"></a></td>
+                                    <td><a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getEmail()}"></a></td>
+                                    <td><a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getPhoneNumber()}"></a></td>
+                                    <td><a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getRoles().getFirst().getRole()}"></a></td>
+                                </a>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

@@ -25,7 +25,7 @@ public class User {
     private String name;
     
     @Column(nullable = false)
-    private String viberNumber;
+    private String phoneNumber;
     @OneToMany(mappedBy = "owner")
     private List<Car> cars;
     @OneToMany(mappedBy = "user")

@@ -17,6 +17,7 @@ textarea {
 
 footer {
     position: static;
+    color: dimgray!important;
     bottom: 0;
     width: 100%;
 }

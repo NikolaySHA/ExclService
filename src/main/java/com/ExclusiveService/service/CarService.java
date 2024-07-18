@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CarService {
     
     boolean addCar(AddCarDataDTO data);
-    List<Car> findCarsByUser();
+    List<Car> findCarsByUser(Long id);
     
     Optional<Car> findById(Long id);
     
@@ -17,4 +17,5 @@ public interface CarService {
     
     List<Car> findAllCars();
     
+    List<Car> searchCars(String licensePlate, String make, String customer);
 }

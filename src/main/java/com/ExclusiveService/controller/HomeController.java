@@ -42,7 +42,7 @@ public class HomeController {
             model.addAttribute("welcomeMessage", ((ExclusiveUserDetails) userDetails).getName());
             List<Appointment> appointmentsForCustomer = appointmentService.getAppointments(userDetails.getUsername());
             model.addAttribute("appointmentsData", appointmentsForCustomer);
-            List<Car> myCars = carService.findCarsByUser();
+            List<Car> myCars = carService.findCarsByUser(userService.findLoggedUser().getId());
             model.addAttribute("myCarsData", myCars);
             return "home";
         } else {

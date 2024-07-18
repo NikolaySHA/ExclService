@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
@@ -23,7 +24,7 @@ public class SecurityConfig {
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // Permit access to specific paths for all users
                                 .requestMatchers("/", "/users/login", "/users/register", "/gallery","/users/login-error", "/contacts", "/services", "/about").permitAll()
-                                .requestMatchers("/admin-panel").hasRole("ADMIN")
+                                .requestMatchers("/garage/cars", "/garage/appointments","/garage/users").hasRole("ADMIN")
                                 // All other requests need to be authenticated
                                 .anyRequest().authenticated()
                 )
@@ -32,7 +33,7 @@ public class SecurityConfig {
                                 .loginPage("/users/login")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
-                                .defaultSuccessUrl("/home", true )
+                                .defaultSuccessUrl("/home", true)
                                 .failureUrl("/users/login-error")
                 )
                 .logout(logout ->

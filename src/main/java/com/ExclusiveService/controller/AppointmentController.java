@@ -44,7 +44,7 @@ public class AppointmentController {
     public String addAppointment(Model model, RedirectAttributes redirectAttributes) {
         List<Car> carsData = new ArrayList<>();
         if (!userService.hasRole("ADMIN")) {
-            carsData = carService.findCarsByUser();
+            carsData = carService.findCarsByUser(userService.findLoggedUser().getId());
         } else {
             carsData = carService.findAllCars();
         }
