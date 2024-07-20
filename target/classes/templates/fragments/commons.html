@@ -45,13 +45,13 @@
                     <a class="nav-link text-light active h5 text-stroke" sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/contacts}" th:text="#{nav_bar_contact_us}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link text-light" th:href="@{/garage/appointments}">Ремонти</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/appointments}">Ремонти</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link text-light" th:href="@{/garage/cars}">Автомобили</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/cars}">Автомобили</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link text-light" th:href="@{/garage/users}">Клиенти</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/users}">Клиенти</a>
                 </li>
             </ul>
 
