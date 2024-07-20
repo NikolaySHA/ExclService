@@ -7,7 +7,9 @@ import com.ExclusiveService.model.enums.Status;
 import com.ExclusiveService.repo.AppointmentRepository;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -67,5 +69,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getAllAppointments() {
         return this.appointmentRepository.findAll();
+    }
+    @Override
+    @Scheduled(cron = "0 0 0 * * ?")
+    @Transactional
+    public void updateAppointmentStatus() {
+        LocalDate today = LocalDate.now();
+        List<Appointment> appointments = appointmentRepository.findByDate(today);
+        for (Appointment appointment : appointments) {
+            appointment.setStatus(Status.PENDING);
+        }
+        appointmentRepository.saveAll(appointments);
     }
 }

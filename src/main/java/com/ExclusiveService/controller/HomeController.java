@@ -52,18 +52,18 @@ public class HomeController {
     
     @GetMapping("/about")
     public String aboutUs(){
-        return "about";
+        return "home-about";
     }
     @GetMapping("/gallery")
     public String gallery(){
-        return "gallery";
+        return "home-gallery";
     }
     @GetMapping("/services")
     public String services(){
-        return "services";
+        return "home-services";
     }
     @GetMapping("/contacts")
     public String contacts(){
-        return "contacts";
+        return "home-contacts";
     }
 }
