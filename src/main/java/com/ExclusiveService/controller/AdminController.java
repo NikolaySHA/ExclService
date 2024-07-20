@@ -12,6 +12,7 @@ import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
+import com.ExclusiveService.web.aop.WarnIfExecutionExceeds;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,7 @@ public class AdminController {
         this.carService = carService;
     }
     
+    @WarnIfExecutionExceeds(threshold = 1000)
     @GetMapping("/garage/appointments")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
@@ -51,6 +53,7 @@ public class AdminController {
         
         return "garage-appointments";
     }
+    @WarnIfExecutionExceeds(threshold = 1000)
     @GetMapping("/garage/cars")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
@@ -67,6 +70,7 @@ public class AdminController {
         
         return "garage-cars";
     }
+    @WarnIfExecutionExceeds(threshold = 1000)
     @GetMapping("/garage/users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String searchCustomers(@AuthenticationPrincipal UserDetails userDetails, Model model,

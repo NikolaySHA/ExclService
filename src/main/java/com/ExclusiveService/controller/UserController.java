@@ -9,6 +9,7 @@ import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
+import com.ExclusiveService.web.aop.WarnIfExecutionExceeds;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,11 +64,11 @@ public class UserController {
     public String register(){
         return "register";
     }
-    
+    @WarnIfExecutionExceeds(threshold = 1500)
     @PostMapping("/register")
     public String doRegister(@Valid RegisterDTO data,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+                             RedirectAttributes redirectAttributes) throws InterruptedException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
             redirectAttributes.addFlashAttribute("registerData", data);
