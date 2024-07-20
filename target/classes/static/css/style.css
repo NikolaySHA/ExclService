@@ -11,16 +11,12 @@ body > main {
     margin-top: 6rem;
 }
 
-textarea {
 
+.footer-badge {
+    backdrop-filter: blur(10px); /* Замъгляване */
+    color: darkgray;
 }
 
-footer {
-    position: static;
-    color: dimgray!important;
-    bottom: 0;
-    width: 100%;
-}
 .contacts-panel{
     padding: 0!important;
 }
@@ -36,10 +32,10 @@ footer {
     text-align: center;
 }
 
-.mySticky {
-    position: sticky;
-    left: 0;
-}
+/*.mySticky {*/
+/*    position: sticky;*/
+/*    left: 0;*/
+/*}*/
 
 .navbar .nav-link:hover,
 .text-yellow {
@@ -64,8 +60,8 @@ footer {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
-    color: #F2CD13;
-    text-decoration: none;
+    /*color: #F2CD13;*/
+    /*text-decoration: none;*/
 }
 
 .navbar-nav .nav-link::before {
@@ -83,6 +79,9 @@ footer {
 .navbar-nav .nav-link:hover::before {
     width: calc(100%); /* Ширина на подчертаването */
 }
+.navbar {
+    backdrop-filter: blur(10px); /* Замъгляване */
+}
 .card {
     background-color: #343a40; /* За да е в синхрон с текстовете в картите */
 
@@ -93,9 +92,7 @@ body > main > div > p:nth-child(5) > a {
 .text-white {
     text-decoration-color: white;
 }
-.navbar {
-    backdrop-filter: blur(10px); /* Замъгляване */
-}
+
 .card-img-top {
     width: 100%;
     height: 300px;
@@ -107,14 +104,14 @@ body > main > div > p:nth-child(5) > a {
 .gallery-container {
     position: relative;
     width: 100%;
+    height: 250px; /* Определете височината на контейнера за изображенията */
+    overflow: hidden;
 }
-.container{
 
-}
 .gallery-img {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+    object-fit: cover; /* Уверете се, че изображението запълва контейнера без изкривяване */
 }
 .text-overlay {
     position: absolute;

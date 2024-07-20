@@ -101,16 +101,14 @@
                         <button type="submit" class="nav-link text-light active h5 text-stroke bg-transparent border-0"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </form>
                 </li>
-                <li class="nav-item">
-                    <div class="lang-select">
-<!--                        <i class="fa-solid fa-language"></i>-->
-                        <form th:method="get" for="lang">
-                            <select id="lang" name="lang" onchange="this.form.submit()">
-                                <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
-                                <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
-                            </select>
-                        </form>
-                    </div>
+                <li class="nav-item align-content-lg-center">
+<!--                    <img src="/images/flag.png" class="img-fluid" height="10px" alt="bg">-->
+                    <form th:method="get" for="lang">
+                        <select id="lang" name="lang" onchange="this.form.submit()">
+                            <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
+                            <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
+                        </select>
+                    </form>
                 </li>
 
             </ul>
@@ -118,10 +116,11 @@
     </nav>
 </header>
 <footer class="footer bg-transparent py-2">
-    <div class="container-fluid text-center">
-        <div class="footer-background h5 fixed-bottom">
-            &copy;Exclusive Service 2024. All rights reserved.
-        </div>
+    <div class="container-fluid text-center fixed-bottom">
+        <h1 class="text-center text-white mt-2 h4"><span class="badge badge-pill footer-badge">&copy;Exclusive Service 2024. All rights reserved.</span></h1>
+<!--        <div class="footer-background h5 fixed-bottom">-->
+<!--            &copy;Exclusive Service 2024. All rights reserved.-->
+<!--        </div>-->
     </div>
 </footer>
 <script src="/js/jquery.min.js"></script>
