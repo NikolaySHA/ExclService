@@ -74,11 +74,12 @@ public class CarController {
                 return "redirect:/error-contactAdmin";
             }
             carService.delete(car);
+//            TODO: send message to owner
             return "redirect:/";
         } else {
             // Handle case where car with given id is not found
             // Redirect to an error page or handle accordingly
-            return "redirect:/";
+            return "redirect:/error-contactAdmin";
         }
     }
     @GetMapping("/error-contactAdmin")

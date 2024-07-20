@@ -2,7 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{fragments/commons::head}"></head>
+<head th:replace="~{fragments/commons::head}">
+    <script src="https://kit.fontawesome.com/8c77968f69.js" crossorigin="anonymous"></script>
+</head>
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
 <main>
@@ -19,6 +21,7 @@
                                 <td>Марка</td>
                                 <td>Модел</td>
                                 <td>Рег. номер</td>
+                                <td>Премахни</td>
                             </tr>
                             <tr th:each="car : ${myCarsData}">
                                 <td class="bg-success" scope="row" style="width: 5%">
@@ -31,7 +34,11 @@
                                 <td>
                                     <form th:method="POST"
                                           th:action="@{/delete-car/{id}(id=${car.id})}">
-                                        <button class="bg-transparent" type="submit"><img class="mx-auto" src="/images/delete-512.png" alt="Appointments" width="25px" height="25px"></button>
+                                        <button class="bg-transparent border-0" type="submit">
+                                            <a>
+                                                <i class="fa-solid fa-trash-can text-yellow"></i>
+                                            </a>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -64,8 +71,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </main>

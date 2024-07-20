@@ -82,9 +82,16 @@ body > main {
 .navbar {
     backdrop-filter: blur(10px); /* Замъгляване */
 }
+.row.d-flex {
+    display: flex;
+}
+
+.bg-dark {
+    height: 100%; /* Ensure the background section takes up full height */
+}
 .card {
     background-color: #343a40; /* За да е в синхрон с текстовете в картите */
-
+    flex: 1;
 }
 body > main > div > p:nth-child(5) > a {
     text-decoration-color: #F2CD13;

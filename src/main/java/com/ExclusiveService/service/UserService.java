@@ -1,5 +1,6 @@
 package com.ExclusiveService.service;
 
+import com.ExclusiveService.model.dto.EditUserDTO;
 import com.ExclusiveService.model.dto.RegisterDTO;
 import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.model.enums.UserRolesEnum;
@@ -22,5 +23,6 @@ public interface UserService {
     List<User> searchUsers(String name, String email, UserRolesEnum role);
     
     User getUserById(Long id);
-    void updateUser(Long id, RegisterDTO updatedUser);
+    void updateUser(Long id, EditUserDTO user);
+    
 }

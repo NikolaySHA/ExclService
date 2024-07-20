@@ -5,39 +5,55 @@
 <body>
 <header th:replace="fragments/commons::nav"></header>
 <main>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Edit User</h5>
-                        <form th:action="@{/users/edit/{id}(id=${user.id})}" th:object="${user}" method="post">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" th:field="*{name}" class="form-control">
-                                <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" th:field="*{email}" class="form-control">
-                                <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                            </div>
-                            <div class="form-group text-right">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-secondary">Cancel</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning">Промени профил</span></h1>
+    <hr class="hr-3 w-25 bg-white"/>
 
+    <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
+          th:method="POST"
+          th:action="@{/users/edit/{id}(id=${id})}"
+          th:object="${editData}"
+          style="padding: 20px;"
+    >
+        <div class="form-group">
+            <div class="label-holder text-white d-flex justify-content-center">
+                <label for="email" class="h4 mb-2">Имейл</label>
+            </div>
+            <input type="email"
+                   class="form-control"
+                   id="email"
+                   name="email"
+                   th:field="*{email}"
+                   th:errorclass="'is-invalid alert-danger'"/>
+            <small th:errors="*{email}" class="invalid-feedback text-danger"></small>
+
+            <div class="label-holder text-white d-flex justify-content-center">
+                <label for="name" class="h4 mb-2">Име</label>
+            </div>
+            <input type="text"
+                   class="form-control"
+                   id="name"
+                   name="name"
+                   th:field="*{name}"
+                   th:errorclass="'is-invalid alert-danger'"/>
+            <small th:errors="*{name}" class="invalid-feedback text-danger"></small>
+
+            <div class="label-holder text-white d-flex justify-content-center">
+                <label for="phoneNumber" class="h4 mb-2">Телефон</label>
+            </div>
+            <input type="number"
+                   class="form-control"
+                   id="phoneNumber"
+                   name="phoneNumber"
+                   th:field="*{phoneNumber}"
+                   th:errorclass="'is-invalid alert-danger'"/>
+            <small th:errors="*{phoneNumber}" class="invalid-feedback text-danger"></small>
+
+        </div>
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-warning mb-3">Запази</button>
+        </div>
+    </form>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
-<script>
-
-</script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.ExclusiveService.controller;
 
 
 import com.ExclusiveService.model.dto.AddAppointmentDTO;
+import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
@@ -13,11 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AppointmentController {
@@ -76,5 +79,19 @@ public class AppointmentController {
         }
         return "redirect:/home";
     }
-    
+    @PostMapping("/delete-appointment/{id}")
+    public String deleteAppointment(@PathVariable("id") Long id) {
+        
+        Optional<Appointment> appointmentOptional = appointmentService.findById(id);
+        if (appointmentOptional.isPresent()) {
+            Appointment appointment = appointmentOptional.get();
+            appointmentService.delete(appointment);
+//          TODO: send message to owner
+            return "redirect:/";
+        } else {
+            // Handle case where car with given id is not found
+            // Redirect to an error page or handle accordingly
+            return "redirect:/error-contactAdmin";
+        }
+    }
 }
