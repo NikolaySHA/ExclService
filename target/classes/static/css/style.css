@@ -38,7 +38,7 @@ body > main {
 /*}*/
 
 .navbar .nav-link:hover,
-.text-yellow {
+.text-yellow{
     color: #F2CD13!important;
 }
 
@@ -92,6 +92,13 @@ body > main {
 .card {
     background-color: #343a40; /* За да е в синхрон с текстовете в картите */
     flex: 1;
+}
+
+.table thead th {
+    position: sticky;
+    top: -2px;
+    z-index: 10;
+    background: #343a40; /* Ensure the background color matches your table header */
 }
 body > main > div > p:nth-child(5) > a {
     text-decoration-color: #F2CD13;
@@ -159,6 +166,7 @@ body > main > div > p:nth-child(5) > a {
     display: flex;
     justify-content: flex-end;
 }
+
 @font-face {
            font-family: "Jura", sans-serif;
            src: url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap') format('truetype');

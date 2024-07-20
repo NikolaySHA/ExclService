@@ -64,14 +64,15 @@ public class CarController {
         return "redirect:/";
     }
     @PostMapping("/delete-car/{id}")
-    public String deleteCar(@PathVariable("id") Long id) {
+    public String deleteCar(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         // Find the car by id
         Optional<Car> carOptional = carService.findById(id);
         if (carOptional.isPresent()) {
             Car car = carOptional.get();
             List<Appointment> appointments = appointmentService.getAppointmentsForCar(userService.findLoggedUser().getEmail(), car.getLicensePlate());
             if (!appointments.isEmpty()) {
-                return "redirect:/error-contactAdmin";
+                redirectAttributes.addFlashAttribute("deleteCarErrorMessage", true);
+                return "redirect:/error/contact-admin";
             }
             carService.delete(car);
 //            TODO: send message to owner
@@ -79,10 +80,11 @@ public class CarController {
         } else {
             // Handle case where car with given id is not found
             // Redirect to an error page or handle accordingly
-            return "redirect:/error-contactAdmin";
+            redirectAttributes.addFlashAttribute("noSuchCarErrorMessage", true);
+            return "redirect:/error/contact-admin";
         }
     }
-    @GetMapping("/error-contactAdmin")
+    @GetMapping("/error/contact-admin")
     public String errorContactAdmin(){
         return "error-contact-admin";
     }

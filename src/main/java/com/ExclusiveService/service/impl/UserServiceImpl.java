@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(Long id, EditUserDTO updatedUser) {
         Optional<User> toEdit = userRepository.findById(id);
         if (toEdit.isEmpty()){
-            //TODO;
+            //TODO; Add message to custom error page and pass it
             return;
         }
         User user = toEdit.get();
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         String email = updatedUser.getEmail();
         if (!user.getEmail().equals(email)){
             if (userRepository.findByEmail(email).isPresent()){
-                //TODO;
+                //TODO; Add message to custom error page and pass it
                 return;
             }
         }

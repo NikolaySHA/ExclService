@@ -18,6 +18,10 @@
                 <a class="close" data-dismiss="alert" aria-label="close"></a>
                 <div th:text="#{error_message_login}"></div>
             </div>
+            <div class="alert alert-success" th:if="${successfulRegistration}">
+                <a class="close" data-dismiss="alert" aria-label="close"></a>
+                <div th:text="#{success_registration_message}"></div>
+            </div>
             <div class="label-holder text-white d-flex justify-content-center">
                 <label for="email" class="h4 mb-2">Имейл</label>
             </div>
@@ -46,7 +50,7 @@
         </div>
     </form>
     <div class="text-center mt-3">
-        <p class="text-white">Ако нямате профил, можете да се <a href="#" th:href="@{/users/register}" class="text-yellow">регистрирате тук</a>.</p>
+        <p class="text-white">Ако нямате профил, можете да се <a href="#" th:href="@{/register}" class="text-yellow">регистрирате тук</a>.</p>
     </div>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>

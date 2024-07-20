@@ -52,7 +52,17 @@
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/users}">Клиенти</a>
                 </li>
             </ul>
-
+            <ul class="navbar-nav ml-auto">
+                <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.instagram.com/exclusiveservice.sofia/'}">
+                    <i class="fa-brands fa-square-instagram"></i>
+                </a>
+                <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.facebook.com/eurolinkservice/'}">
+                    <i class="fa-brands fa-square-facebook"></i>
+                </a>
+                <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://maps.app.goo.gl/cFwKBYrQBYPQYKCKA'}">
+                    <i class="fa-solid fa-map"></i>
+                </a>
+            </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/add-appointment}">
@@ -66,21 +76,7 @@
                         <span class="button-text" th:text="#{nav_bar_add_car}"></span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.instagram.com/exclusiveservice.sofia/'}">
-                        <i class="fa-brands fa-square-instagram"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.facebook.com/eurolinkservice/'}">
-                        <i class="fa-brands fa-square-facebook"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://maps.app.goo.gl/cFwKBYrQBYPQYKCKA'}">
-                        <i class="fa-solid fa-map"></i>
-                    </a>
-                </li>
+
                 <li class="nav-item active" sec:authorize="!isAuthenticated()">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/users/login}">
                         <i class="fa-solid fa-right-to-bracket"></i>
@@ -94,7 +90,7 @@
                     </a>
                 </li>
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
-                        <a class="nav-link text-light active h5 text-stroke" th:href="@{/users/{id}(id=${1})}">
+                        <a class="nav-link text-light active h5 text-stroke" th:href="@{/users/{id}(id=1)}">
                             <i class="fa-solid fa-user"></i>
                             <span class="button-text">Моят профил</span>
                         </a>
@@ -121,9 +117,12 @@
 
 </main>
 <footer class="footer bg-transparent py-2">
-    <div class="container-fluid text-center fixed-bottom">
-        <h1 class="text-center text-white mt-2 h4"><span class="badge badge-pill footer-badge">&copy;Exclusive Service 2024. All rights reserved.</span></h1>
-    </div>
+        <div class="container-fluid text-center fixed-bottom">
+            <h1 class="text-center text-white mt-2 h4"><span class="badge badge-pill footer-badge">&copy;Exclusive Service 2024. All rights reserved.</span></h1>
+        </div>
+
+
+
 </footer>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>

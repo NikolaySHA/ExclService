@@ -35,48 +35,45 @@
             </div>
             <!-- Right Column -->
             <div class="col-xl-8 d-flex flex-column">
-                <div class="row mt-1 mb-2 flex-fill">
+                <div class="row mt-1 mb-2 flex-fill" th:if="!${userData.cars.isEmpty()}">
                     <div class="col-md-12 col-12 mt-1 mb-1">
-                        <div>
-                            <h3 class="mySticky bg-gray text-light mb-0 mt-2">Автомобили</h3>
-                            <div class="bg-dark rounded" style="height: 25vh; overflow: auto">
-                                <table class="table table-striped table-dark">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Марка</th>
-                                        <th>Модел</th>
-                                        <th>Рег. номер</th>
-                                        <th>Премахни</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="car : ${userData.cars}">
-                                        <td class="bg-success" style="width: 5%">
-                                            <img class="mr-2" src="/images/p911.png" alt="myCars" width="35px" height="35px">
-                                        </td>
-                                        <td th:text="${car.make}">Марка</td>
-                                        <td th:text="${car.model}">Модел</td>
-                                        <td th:text="${car.licensePlate}">Рег. номер</td>
-                                        <td>
-                                            <form th:method="POST" th:action="@{/delete-car/{id}(id=${car.id})}">
-                                                <button class="bg-transparent border-0" type="submit">
-                                                    <i class="fa-solid fa-trash-can text-yellow"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <h3 class="mySticky bg-gray text-light mb-0 mt-2">Автомобили</h3>
+                        <div class="bg-dark rounded" style="height: 20vh; overflow: auto">
+                            <table class="table table-striped table-dark">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Марка</th>
+                                    <th>Модел</th>
+                                    <th>Рег. номер</th>
+                                    <th>Премахни</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="car : ${userData.cars}">
+                                    <td class="bg-success" style="width: 4%">
+                                        <img class="mr-2" src="/images/p911.png" alt="myCars" width="35px" height="35px">
+                                    </td>
+                                    <td th:text="${car.make}">Марка</td>
+                                    <td th:text="${car.model}">Модел</td>
+                                    <td th:text="${car.licensePlate}">Рег. номер</td>
+                                    <td>
+                                        <form th:method="POST" th:action="@{/delete-car/{id}(id=${car.id})}">
+                                            <button class="bg-transparent border-0" type="submit">
+                                                <i class="fa-solid fa-trash-can text-yellow"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="row mt-1 mb-2 flex-fill">
+                <div class="row mt-1 mb-2 flex-fill" th:if="!${userData.appointments.isEmpty()}">
                     <div class="col-md-12 col-12 mt-1 mb-1">
-                        <div>
                             <h3 class="mySticky bg-gray text-light mb-0 mt-2">Запазени часове</h3>
-                            <div class="bg-dark rounded" style="height: 25vh; overflow: auto">
+                            <div class="bg-dark rounded" style="height: 20vh; overflow: auto">
                                 <table class="table table-striped table-dark">
                                     <thead>
                                     <tr>
@@ -106,7 +103,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

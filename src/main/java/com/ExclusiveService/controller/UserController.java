@@ -12,6 +12,8 @@ import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
 import com.ExclusiveService.web.aop.WarnIfExecutionExceeds;
+import com.itextpdf.text.pdf.qrcode.Mode;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.model.IModel;
 
 import java.util.List;
 
@@ -93,6 +96,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("registrationFailed", true);
             return "redirect:/register";
         }
+        redirectAttributes.addFlashAttribute("successfulRegistration", true);
         return "redirect:/users/login";
     }
     @GetMapping("/users/login")
@@ -110,13 +114,15 @@ public class UserController {
         redirectAttributes.addFlashAttribute("showErrorMessage", true);
         return "redirect:/users/login";
     }
-    @GetMapping("users/{id}")
-    public String getUserById(@PathVariable("id") Long id, ShowUserDTO data, Model model) {
+
+    @GetMapping("/users/{id}")
+    public String getUserById(@PathVariable("id") Long id, ShowUserDTO data, RedirectAttributes redirectAttributes, Model model) {
         User user = userService.getUserById(id);
-        if (!userService.findLoggedUser().getId().equals(id) && !userService.hasRole("ADMIN")){
-//              TODO: throw error or redirect to error page
-            return "redirect:/home";
-            
+        if (!userService.findLoggedUser().getId().equals(id)){
+            if (!userService.hasRole("ADMIN")){
+                redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+                return "redirect:/error/contact-admin";
+            }
         }
         data.setName(user.getName());
         data.setEmail(user.getEmail());
