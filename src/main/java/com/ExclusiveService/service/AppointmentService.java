@@ -27,4 +27,8 @@ public interface AppointmentService {
     void updateAppointmentStatus();
     
     List<Appointment> searchAppointments(String date, String licensePlate, String make, String client, Status status);
+    
+    Optional<Appointment> findById(Long id);
+    
+    void delete(Appointment appointment);
 }

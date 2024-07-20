@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -29,10 +31,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setPaymentMethod(data.getPaymentMethod());
         appointment.setDate(data.getDate());
         appointment.setCar(data.getCar());
-        appointment.setUser(user);
+        appointment.setUser(data.getCar().getOwner());
         appointment.setStatus(Status.SCHEDULED);
         appointment.setPaintDetails(data.getPaintDetails());
-//        appointment.setUnread(true);
         this.appointmentRepository.save(appointment);
         return true;
     }
@@ -80,5 +81,15 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setStatus(Status.PENDING);
         }
         appointmentRepository.saveAll(appointments);
+    }
+    
+    @Override
+    public Optional<Appointment> findById(Long id) {
+        return appointmentRepository.findById(id);
+    }
+    
+    @Override
+    public void delete(Appointment appointment) {
+        appointmentRepository.delete(appointment);
     }
 }

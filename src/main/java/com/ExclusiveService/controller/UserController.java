@@ -6,6 +6,7 @@ import com.ExclusiveService.model.dto.ShowUserDTO;
 import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.entity.User;
+import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
@@ -106,9 +107,13 @@ public class UserController {
         return "redirect:/users/login";
     }
     @GetMapping("users/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getUserById(@PathVariable("id") Long id, ShowUserDTO data, Model model) {
         User user = userService.getUserById(id);
+        if (!userService.findLoggedUser().getId().equals(id) && !userService.hasRole("ADMIN")){
+//              TODO: throw error or redirect to error page
+            return "redirect:/home";
+            
+        }
         data.setName(user.getName());
         data.setEmail(user.getEmail());
         data.setPhoneNumber(user.getPhoneNumber());
@@ -118,7 +123,7 @@ public class UserController {
         return "user";
     }
     @GetMapping("/users/edit/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editUserForm(@PathVariable("id") Long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);

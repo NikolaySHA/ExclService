@@ -8,10 +8,8 @@ import com.ExclusiveService.repo.RoleRepository;
 import com.ExclusiveService.repo.UserRepository;
 import com.ExclusiveService.service.UserService;
 import lombok.AllArgsConstructor;
-import org.hibernate.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -95,4 +93,5 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(updatedUser.getPhoneNumber());
         userRepository.save(user);
     }
+    
 }
