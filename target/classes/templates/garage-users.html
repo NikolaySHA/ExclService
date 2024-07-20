@@ -63,9 +63,9 @@
                                         <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                     </td>
                                     <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getName()}"></a></td>
-                                    <td><a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getEmail()}"></a></td>
-                                    <td><a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getPhoneNumber()}"></a></td>
-                                    <td><a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getRoles().getFirst().getRole()}"></a></td>
+                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getEmail()}"></a></td>
+                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getPhoneNumber()}"></a></td>
+                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getRoles().getFirst().getRole()}"></a></td>
                                 </a>
                             </tr>
                             </tbody>

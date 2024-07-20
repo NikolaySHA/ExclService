@@ -30,7 +30,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setUser(user);
         appointment.setStatus(Status.SCHEDULED);
         appointment.setPaintDetails(data.getPaintDetails());
-        appointment.setUnread(true);
+//        appointment.setUnread(true);
         this.appointmentRepository.save(appointment);
         return true;
     }

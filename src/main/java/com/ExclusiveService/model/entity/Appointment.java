@@ -35,5 +35,5 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private Status status;
     private String comment;
-    private boolean unread;
+//    private boolean unread;
 }

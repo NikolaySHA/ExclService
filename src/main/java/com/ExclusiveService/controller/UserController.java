@@ -98,10 +98,10 @@ public class UserController {
     }
     @GetMapping("/users/login-error")
     public String viewLoginError(@Valid LoginDTO data,
-                                 BindingResult bindingResult, Model model) {
-        model.addAttribute("loginData", data);
-        model.addAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
-        model.addAttribute("showErrorMessage", true);
+                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("loginData", data);
+        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
+        redirectAttributes.addFlashAttribute("showErrorMessage", true);
         return "redirect:/users/login";
     }
     @GetMapping("users/{id}")
