@@ -16,8 +16,7 @@
         <div class="form-group">
             <div class="alert alert-danger" th:if="${showErrorMessage}">
                 <a class="close" data-dismiss="alert" aria-label="close"></a>
-                <strong>Неуспешен вход!</strong>
-                Грешен имейл или парола!
+                <div th:text="#{error_message_login}"></div>
             </div>
             <div class="label-holder text-white d-flex justify-content-center">
                 <label for="email" class="h3 mb-2">Имейл</label>
