@@ -10,7 +10,7 @@
 
     <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
           th:method="POST"
-          th:action="@{/users/register}"
+          th:action="@{/register}"
           th:object="${registerData}"
           style="padding: 20px;"
     >
@@ -70,8 +70,8 @@
             </div>
             <input type="number"
                    class="form-control"
-                   id="viberNumber"
-                   name="viberNumber"
+                   id="phoneNumber"
+                   name="phoneNumber"
                    th:field="*{phoneNumber}"
                    th:errorclass="'is-invalid alert-danger'"/>
             <small th:errors="*{phoneNumber}" class="invalid-feedback text-danger"></small>

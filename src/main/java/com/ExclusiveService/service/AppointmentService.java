@@ -24,7 +24,7 @@ public interface AppointmentService {
     List<Appointment> getAppointmentsForCar(String email, String licenseNumber);
     
     public List<Appointment> getAllAppointments();
-    
+    void updateAppointmentStatus();
     
     List<Appointment> searchAppointments(String date, String licensePlate, String make, String client, Status status);
 }

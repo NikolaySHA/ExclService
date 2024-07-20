@@ -24,13 +24,13 @@
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="licensePlate" class="h4 mb-2">Регистрационен номер <span class="text-danger">*</span></label>
             </div>
-            <textarea type="text"
+            <input type="text"
                       class="form-control"
                       id="licensePlate"
                       name="licensePlate"
                       th:field="*{licensePlate}"
                       th:errorclass="'is-invalid alert-danger'"
-            ></textarea>
+            >
            <small th:errors="*{licensePlate}" class="invalid-feedback text-danger"></small>
 
         </div>
@@ -39,39 +39,39 @@
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="make" class="h4 mb-2">Марка <span class="text-danger">*</span></label>
             </div>
-            <textarea type="text"
+            <input type="text"
                       class="form-control"
                       id="make"
                       name="make"
                       th:field="*{make}"
                       th:errorclass="'is-invalid alert-danger'"
-            ></textarea>
+            >
             <small th:errors="*{make}" class="invalid-feedback text-danger"></small>
         </div>
         <div class="form-group">
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="model" class="h4 mb-2">Модел <span class="text-danger">*</span></label>
             </div>
-            <textarea type="text"
+            <input type="text"
                       class="form-control"
                       id="model"
                       name="model"
                       th:field="*{model}"
                       th:errorclass="'is-invalid alert-danger'"
-            ></textarea>
+            >
             <small th:errors="*{model}" class="invalid-feedback text-danger"></small>
         </div>
         <div class="form-group">
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="vin" class="h4 mb-2">Рама</label>
             </div>
-            <textarea type="text"
+            <input type="text"
                       class="form-control"
                       id="vin"
                       name="vin"
                       th:field="*{vin}"
                       th:errorclass="'is-invalid alert-danger'"
-            ></textarea>
+            >
             <small th:errors="*{vin}" class="invalid-feedback text-danger"></small>
 
         </div>
@@ -79,12 +79,12 @@
             <div class="label-holder text-white textCol d-flex justify-content-center">
                 <label for="color" class="h4 mb-2">Цвят</label>
             </div>
-            <textarea type="text"
+            <input type="text"
                       class="form-control"
                       id="color"
                       name="color"
                       th:field="*{color}"
-            ></textarea>
+            >
 
         </div>
 

@@ -59,33 +59,33 @@ public class UserController {
     
     
     
-    @GetMapping("/users/register")
+    @GetMapping("/register")
     public String register(){
         return "register";
     }
     
-    @PostMapping("/users/register")
+    @PostMapping("/register")
     public String doRegister(@Valid RegisterDTO data,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
             redirectAttributes.addFlashAttribute("registerData", data);
-            return "redirect:/users/register";
+            return "redirect:/register";
         }
         
         if (!data.getPassword().equals(data.getConfirmPassword())) {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("passwordMismatch", true);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-            return "redirect:/users/register";
+            return "redirect:/register";
         }
         
         boolean success = userService.register(data);
         if (!success) {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("registrationFailed", true);
-            return "redirect:/users/register";
+            return "redirect:/register";
         }
         return "redirect:/users/login";
     }

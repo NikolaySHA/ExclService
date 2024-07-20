@@ -7,6 +7,7 @@ import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
 import com.ExclusiveService.util.ExclusiveUserDetails;
+import com.ExclusiveService.web.aop.WarnIfExecutionExceeds;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,6 @@ public class HomeController {
         }
         return "index";
     }
-    
     @GetMapping("/home")
     public String loggedIn(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails instanceof ExclusiveUserDetails exclusiveUserDetails) {
@@ -52,18 +52,18 @@ public class HomeController {
     
     @GetMapping("/about")
     public String aboutUs(){
-        return "about";
+        return "home-about";
     }
     @GetMapping("/gallery")
     public String gallery(){
-        return "gallery";
+        return "home-gallery";
     }
     @GetMapping("/services")
     public String services(){
-        return "services";
+        return "home-services";
     }
     @GetMapping("/contacts")
     public String contacts(){
-        return "contacts";
+        return "home-contacts";
     }
 }

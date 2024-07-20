@@ -28,4 +28,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     List<Appointment> findByUser_Email(String email);
     List<Appointment> findByUser_EmailAndCar_LicensePlate(String email, String licensePlate);
+    
+    List<Appointment> findByDate(LocalDate today);
 }
