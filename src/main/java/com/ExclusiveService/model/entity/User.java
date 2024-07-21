@@ -30,7 +30,7 @@ public class User {
     private List<Car> cars;
     @OneToMany(mappedBy = "user")
     private List<Appointment> appointments;
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

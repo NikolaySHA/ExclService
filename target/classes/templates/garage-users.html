@@ -64,7 +64,16 @@
                                 <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getName()}"></a></td>
                                 <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getEmail()}"></a></td>
                                 <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getPhoneNumber()}"></a></td>
-                                <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getRoles().getFirst().getRole()}"></a></td>
+                                <td>
+                                    <ul>
+                                       <span>
+                                            <span th:each="role, iterStat : ${user.roles}">
+                                                <span th:text="${role.getRole().name()}"></span>
+                                                <span th:if="${!iterStat.last}">, </span>
+                                            </span>
+                                        </span>
+                                    </ul>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

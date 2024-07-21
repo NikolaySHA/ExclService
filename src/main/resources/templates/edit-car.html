@@ -7,7 +7,7 @@
 <main>
     <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning">Промени автомобил</span></h1>
     <hr class="hr-3 w-25 bg-white"/>
-
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
           th:method="POST"
           th:action="@{/cars/edit/{id}(id=${id})}"
