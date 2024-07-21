@@ -79,7 +79,7 @@ public class AdminController {
         if (searchCriteria.getName() != null || searchCriteria.getEmail() != null || searchCriteria.getRole() != null) {
             users = userService.searchUsers(searchCriteria.getName(), searchCriteria.getEmail(), searchCriteria.getRole());
         } else {
-            users = userService.findAllUsers();
+            users = userService.findAllUsersWithRoles();
         }
         
         model.addAttribute("usersData", users);

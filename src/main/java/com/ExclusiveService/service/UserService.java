@@ -20,7 +20,7 @@ public interface UserService {
     boolean loggedUserHasRole(String role);
     
     
-    List<User> findAllUsers();
+    List<User> findAllUsersWithRoles();
     
     List<User> searchUsers(String name, String email, UserRolesEnum role);
     
