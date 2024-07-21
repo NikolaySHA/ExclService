@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
@@ -28,7 +27,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <div class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/services}" th:text="#{nav_bar_services}"></a>
@@ -52,7 +51,7 @@
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/users}">Клиенти</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav center-nav mx-auto d-flex justify-content-center">
                 <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.instagram.com/exclusiveservice.sofia/'}">
                     <i class="fa-brands fa-square-instagram"></i>
                 </a>
@@ -90,10 +89,10 @@
                     </a>
                 </li>
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
-                        <a class="nav-link text-light active h5 text-stroke" th:href="@{/users}">
-                            <i class="fa-solid fa-user"></i>
-                            <span class="button-text">Моят профил</span>
-                        </a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/users}">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="button-text">Моят профил</span>
+                    </a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
@@ -117,9 +116,9 @@
 
 </main>
 <footer class="footer bg-transparent py-2">
-        <div class="container-fluid text-center fixed-bottom">
-            <h1 class="text-center text-white mt-2 h4"><span class="badge badge-pill footer-badge">&copy;Exclusive Service 2024. All rights reserved.</span></h1>
-        </div>
+    <div class="container-fluid text-center fixed-bottom">
+        <h1 class="text-center text-white mt-2 h4"><span class="badge badge-pill footer-badge">&copy;Exclusive Service 2024. All rights reserved.</span></h1>
+    </div>
 
 
 

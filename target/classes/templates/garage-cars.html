@@ -52,13 +52,16 @@
                             </thead>
                             <tbody>
                             <tr th:each="car : ${carsData}">
-                                <td class="bg-warning" scope="row" style="width: 5%">
-                                    <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
-                                </td>
-                                <td th:text="${car.getLicensePlate()}"></td>
-                                <td th:text="${car.getMake()}"></td>
-                                <td th:text="${car.getModel()}"></td>
-                                <td th:text="${car.getOwner().getName()}"></td>
+                                <a th:href="@{/cars/{id}(id=${car.id})}" style="display: table-row; color: inherit; text-decoration: none;">
+                                    <td class="bg-warning" scope="row" style="width: 5%">
+                                        <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                    </td>
+                                    <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getLicensePlate()}"></a></td>
+                                    <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getMake()}"></a></td>
+                                    <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getModel()}"></a></td>
+                                    <td><a class="text-light" th:href="@{/users/{id}(id=${car.getOwner().id})}" th:text="${car.getOwner().getName()}"></a></td>
+
+                                </a>
                             </tr>
                             </tbody>
                         </table>

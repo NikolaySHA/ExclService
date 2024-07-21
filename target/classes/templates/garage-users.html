@@ -12,12 +12,12 @@
                 <div class="col-md-10">
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="licensePlate">Име</label>
-                            <input type="text" class="form-control" id="licensePlate" name="licensePlate" placeholder="Име" th:field="*{name}">
+                            <label for="name">Име</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Име" th:field="*{name}">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="make">Имейл</label>
-                            <input type="text" class="form-control" id="make" name="make" placeholder="Имейл" th:field="*{email}">
+                            <label for="email">Имейл</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Имейл" th:field="*{email}">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="Role">Роля</label>
@@ -58,15 +58,13 @@
                             </thead>
                             <tbody>
                             <tr th:each="user : ${usersData}">
-                                <a th:href="@{/users/{id}(id=${user.id})}" style="display: table-row; color: inherit; text-decoration: none;">
-                                    <td class="bg-warning" scope="row" style="width: 5%">
-                                        <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
-                                    </td>
-                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getName()}"></a></td>
-                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getEmail()}"></a></td>
-                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getPhoneNumber()}"></a></td>
-                                    <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getRoles().getFirst().getRole()}"></a></td>
-                                </a>
+                                <td class="bg-warning" scope="row" style="width: 5%">
+                                    <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                </td>
+                                <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getName()}"></a></td>
+                                <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getEmail()}"></a></td>
+                                <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getPhoneNumber()}"></a></td>
+                                <td><a class="text-light" th:href="@{/users/{id}(id=${user.id})}" th:text="${user.getRoles().getFirst().getRole()}"></a></td>
                             </tr>
                             </tbody>
                         </table>

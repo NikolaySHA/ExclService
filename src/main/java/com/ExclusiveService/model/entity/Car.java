@@ -25,7 +25,7 @@ public class Car {
     private String vin;
     @Column
     private String color;
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
     private List<Appointment> appointments;
     @ManyToOne
     private User owner;

@@ -1,7 +1,9 @@
 package com.ExclusiveService.service.impl;
 
 import com.ExclusiveService.model.dto.AddCarDataDTO;
+import com.ExclusiveService.model.dto.EditCarDTO;
 import com.ExclusiveService.model.entity.Car;
+import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.repo.CarRepository;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
@@ -62,5 +64,21 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<Car> searchCars(String licensePlate, String make, String customer) {
         return carRepository.searchCarsByFilter(licensePlate, make, customer);
+    }
+    
+    @Override
+    public void updateCar(Long id, EditCarDTO car) {
+        Optional<Car> toEdit = carRepository.findById(id);
+        if (toEdit.isEmpty()){
+            //TODO; Add message to custom error page and pass it
+            return;
+        }
+        Car editedCar = toEdit.get();
+        editedCar.setLicensePlate(car.getLicensePlate());
+        editedCar.setMake(car.getMake());
+        editedCar.setModel(car.getModel());
+        editedCar.setVin(car.getVin());
+        editedCar.setColor(car.getColor());
+        this.carRepository.save(editedCar);
     }
 }
