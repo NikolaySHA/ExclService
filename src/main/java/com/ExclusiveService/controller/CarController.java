@@ -9,6 +9,7 @@ import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,11 +28,13 @@ public class CarController {
     private final UserService userService;
     private final CarService carService;
     private final AppointmentService appointmentService;
+    private final ModelMapper modelMapper;
     
-    public CarController(UserService userService, CarService carService, AppointmentService appointmentService) {
+    public CarController(UserService userService, CarService carService, AppointmentService appointmentService, ModelMapper modelMapper) {
         this.userService = userService;
         this.carService = carService;
         this.appointmentService = appointmentService;
+        this.modelMapper = modelMapper;
     }
     
     @ModelAttribute("addCarData")
@@ -42,7 +45,7 @@ public class CarController {
     public ShowCarDTO showCarDTO(){
         return new ShowCarDTO();
     }
-    @ModelAttribute("editData")
+    @ModelAttribute("editCarData")
     public EditCarDTO editCarDTO(){
         return new EditCarDTO();
     }
@@ -77,10 +80,12 @@ public class CarController {
     @PostMapping("/cars/delete/{id}")
     public String deleteCar(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         Optional<Car> carOptional = carService.findById(id);
-        if (carOptional.isPresent()) {
+        if (carOptional.isEmpty()) {
+            redirectAttributes.addFlashAttribute("noSuchCarErrorMessage", true);
+            return "redirect:/error/contact-admin";
+        } else {
             Car car = carOptional.get();
             List<Appointment> appointments = car.getAppointments();
-            appointments.stream().count();
             if (!appointments.isEmpty()) {
                 redirectAttributes.addFlashAttribute("deleteCarErrorMessage", true);
                 return "redirect:/error/contact-admin";
@@ -88,11 +93,6 @@ public class CarController {
             carService.delete(car);
 //            TODO: send message to owner
             return "redirect:/";
-        } else {
-            // Handle case where car with given id is not found
-            // Redirect to an error page or handle accordingly
-            redirectAttributes.addFlashAttribute("noSuchCarErrorMessage", true);
-            return "redirect:/error/contact-admin";
         }
     }
     @GetMapping("/error/contact-admin")
@@ -100,11 +100,14 @@ public class CarController {
         return "error-contact-admin";
     }
     @GetMapping("/cars/{id}")
-    @Transactional
-    public String getCarById(@PathVariable("id") Long id, ShowCarDTO data, RedirectAttributes redirectAttributes, Model model) {
-        User user = userService.findLoggedUser();
-        Car car = carService.findById(id).get();
-        if (!car.getOwner().equals(user)){
+    public String viewCar(@PathVariable("id") Long id, ShowCarDTO data, RedirectAttributes redirectAttributes, Model model) {
+        Optional<Car> carOptional = carService.findById(id);
+        if (carOptional.isEmpty()){
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return "redirect:/error/contact-admin";
+        }
+        Car car = carOptional.get();
+        if (!car.getOwner().equals(userService.findLoggedUser())){
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
@@ -122,20 +125,27 @@ public class CarController {
     }
     
     @GetMapping("/cars/edit/{id}")
-    public String editUserForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
+    public String editCarForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
         User loggedUser = userService.findLoggedUser();
-        Car car = carService.findById(id).get();
+        Optional<Car> carOptional = carService.findById(id);
+        if (carOptional.isEmpty()){
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return "redirect:/error/contact-admin";
+        }
+        Car car = carOptional.get();
         if (!car.getOwner().equals(loggedUser)) {
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-                return "redirect:x/error/contact-admin";
+                return "redirect:/error/contact-admin";
             }
         }
-        model.addAttribute("carData", car);
+        EditCarDTO editCarDTO = modelMapper.map(car, EditCarDTO.class);
+        model.addAttribute("editCarData", editCarDTO);
         return "edit-car";
     }
     
     @PostMapping("/cars/edit/{id}")
+    @Transactional
     public String updateCar(@PathVariable("id") Long id,@Valid EditCarDTO car,
                              BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         User loggedUser = userService.findLoggedUser();
@@ -146,13 +156,16 @@ public class CarController {
             }
         }
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("editData", car);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editData", bindingResult);
-            redirectAttributes.addFlashAttribute("id", id);
+            redirectAttributes.addFlashAttribute("editCarData", car);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editCarData", bindingResult);
             return "redirect:/cars/edit/" + id;
         }
         
-        carService.updateCar(id, car);
+        boolean success = carService.updateCar(id, car);
+        if (!success) {
+            redirectAttributes.addFlashAttribute("editCarData", car);
+            return "redirect:/cars/edit/" + id;
+        }
         return "redirect:/cars/" + id;
     }
 }

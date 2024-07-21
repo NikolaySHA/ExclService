@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 public class ShowCarDTO {
-    private Long id;
     private String licensePlate;
     private String make;
     private String model;
@@ -20,7 +19,6 @@ public class ShowCarDTO {
     private String color;
     private User owner;
     private List<Appointment> appointments;
-    
     public ShowCarDTO() {
         this.appointments = new ArrayList<>();
     }

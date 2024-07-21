@@ -5,6 +5,7 @@
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
 <main>
+
     <div class="container bg-blur rounded mt-1 mb-4">
         <div class="row">
             <!-- Left Column -->
@@ -44,6 +45,7 @@
             </div>
             <!-- Right Column -->
             <div class="col-xl-8 d-flex flex-column">
+                <h2 class="text-center mt-2"><span class="badge badge-pill badge-warning">Профил</span></h2>
                 <div class="row mt-1 mb-2 flex-fill" th:if="!${userData.cars.isEmpty()}">
                     <div class="col-md-12 col-12 mt-1 mb-1">
                         <h3 class="mySticky bg-gray text-light mb-0 mt-2">Автомобили</h3>
@@ -102,7 +104,7 @@
                                         <td th:text="${appointment.car.licensePlate}">Рег. Номер</td>
                                         <td th:text="${appointment.paintDetails}">Детайли за боя</td>
                                         <td sec:authorize="hasRole('ROLE_ADMIN')">
-                                            <form th:method="POST" th:action="@{/delete-appointment/{id}(id=${appointment.id})}">
+                                            <form th:method="POST" th:action="@{/appointment/delete/{id}(id=${appointment.id})}">
                                                 <button class="bg-transparent border-0" type="submit">
                                                     <i class="fa-solid fa-trash-can text-yellow"></i>
                                                 </button>

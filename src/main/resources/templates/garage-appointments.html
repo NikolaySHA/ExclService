@@ -66,8 +66,10 @@
                                 <th></th>
                                 <th>Дата</th>
                                 <th>Автомобил</th>
-                                <th>Клиент</th>
+                                <th>Статус</th>
+                                <th>Начин на плащане</th>
                                 <th>Бр. детайли</th>
+                                <th>Клиент</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -75,10 +77,16 @@
                                 <td class="bg-warning" scope="row" style="width: 5%">
                                     <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                 </td>
-                                <td th:text="${appointment.getDate()}">Дата</td>
-                                <td th:text="'[' + ${appointment.getCar().getLicensePlate()} + ']' + ' ' + ${appointment.getCar().getMake()} + ' ' + ${appointment.getCar().getModel()}">Автомобил</td>
-                                <td th:text="${appointment.getUser().getName()}">Клиент</td>
-                                <td th:text="${appointment.getPaintDetails()}">Детайли за боя</td>
+                                <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getDate()}"></a></td>
+                                <td><a class="text-light" th:href="@{/cars/{id}(id=${appointment.car.id})}">[<span th:text="${appointment.car.getLicensePlate()}"></span>]
+                                    <span th:text="${appointment.car.getMake()}"></span>
+                                    <span th:text="${appointment.car.getModel()}"></span>
+                                    </a>
+                                </td>
+                                <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getStatus()}"></a></td>
+                                <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaymentMethod()}"></a></td>
+                                <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaintDetails()}"></a></td>
+                                <td><a class="text-light" th:href="@{/users/{id}(id=${appointment.getUser().id})}" th:text="${appointment.getUser().getName()}"></a></td>
                             </tr>
                             </tbody>
                         </table>

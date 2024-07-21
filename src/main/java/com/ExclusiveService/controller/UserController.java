@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 @Controller
 public class UserController {
     
@@ -104,19 +106,24 @@ public class UserController {
         return "redirect:/users/" + userService.findLoggedUser().getId();
     }
     @GetMapping("/users/{id}")
-    public String getUserById(@PathVariable("id") Long id, ShowUserDTO data, RedirectAttributes redirectAttributes, Model model) {
-        User user = userService.findById(id);
+    public String viewUser(@PathVariable("id") Long id, ShowUserDTO data, RedirectAttributes redirectAttributes, Model model) {
+        Optional<User> optionalUser = userService.findById(id);
+        if (optionalUser.isEmpty()) {
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return "redirect:/error/contact-admin";
+        }
         if (!userService.findLoggedUser().getId().equals(id)){
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
             }
         }
+        User user = optionalUser.get();
         data.setName(user.getName());
         data.setEmail(user.getEmail());
         data.setPhoneNumber(user.getPhoneNumber());
         data.setCars(carService.findCarsByUser(id));
-        data.setAppointments(appointmentService.getAppointments(userService.findById(id).getEmail()));
+        data.setAppointments(appointmentService.getAppointments(user.getEmail()));
         model.addAttribute("userData", data);
         return "user";
     }
@@ -124,41 +131,56 @@ public class UserController {
     @GetMapping("/users/edit/{id}")
     public String editUserForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
         User loggedUser = userService.findLoggedUser();
-        User user = userService.findById(id);
+        Optional<User> optionalUser = userService.findById(id);
+        if (optionalUser.isEmpty()) {
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return "redirect:/error/contact-admin";
+        }
         if (!loggedUser.getId().equals(id)) {
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
             }
         }
-        model.addAttribute("editData", user);
+        User user = optionalUser.get();
+        EditUserDTO editUserDTO = modelMapper.map(user, EditUserDTO.class);
+        model.addAttribute("editData", editUserDTO);
         return "edit-user";
     }
     
     @PostMapping("/users/edit/{id}")
-    public String updateUser(@PathVariable("id") Long id,@Valid EditUserDTO user,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        User loggedUser = userService.findLoggedUser();
-        if (!loggedUser.getId().equals(id)) {
+    public String updateUser(@PathVariable("id") Long id,
+                             @Valid EditUserDTO user,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+        
+        if (!userService.findLoggedUser().getId().equals(id)) {
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
             }
         }
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("editData", user);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editData", bindingResult);
-            redirectAttributes.addFlashAttribute("id", id);
+            redirectAttributes.addFlashAttribute("editData", user);
             return "redirect:/users/edit/" + id;
         }
         
-        userService.updateUser(id, user);
-        return "redirect:/users/" + id;
+        boolean success = userService.updateUser(id, user);
+        if (!success){
+            return "redirect:/users/edit/" + id;
+        }
+        return "redirect:/";
     }
     @PostMapping("/users/addAdmin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String addAdmin(@RequestParam("id") Long id) {
-        User user = userService.findById(id);
+    public String addAdmin(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        Optional<User> optionalUser = userService.findById(id);
+        if (optionalUser.isEmpty()) {
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return "redirect:/error/contact-admin";
+        }
+        User user = optionalUser.get();
         if (userService.isAdmin(user.getRoles())) {
             return "redirect:/users/" + id;
         }
@@ -168,11 +190,13 @@ public class UserController {
     
     @PostMapping("/users/removeAdmin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String removeAdmin(@RequestParam("id") Long id) {
-        User user = userService.findById(id);
-        if (!userService.isAdmin(user.getRoles())) {
-            return "redirect:/users/" + id;
+    public String removeAdmin(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        Optional<User> optionalUser = userService.findById(id);
+        if (optionalUser.isEmpty()) {
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return "redirect:/error/contact-admin";
         }
+        User user = optionalUser.get();
         userService.removeAdmin(id);
         return "redirect:/users/" + id;
     }

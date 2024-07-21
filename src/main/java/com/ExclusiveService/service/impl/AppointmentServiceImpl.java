@@ -1,7 +1,9 @@
 package com.ExclusiveService.service.impl;
 
 import com.ExclusiveService.model.dto.AddAppointmentDTO;
+import com.ExclusiveService.model.dto.EditAppointmentDTO;
 import com.ExclusiveService.model.entity.Appointment;
+import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.model.enums.Status;
 import com.ExclusiveService.repo.AppointmentRepository;
@@ -34,6 +36,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setUser(data.getCar().getOwner());
         appointment.setStatus(Status.SCHEDULED);
         appointment.setPaintDetails(data.getPaintDetails());
+        appointment.setComment(data.getComment());
         this.appointmentRepository.save(appointment);
         return true;
     }
@@ -91,5 +94,28 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void delete(Appointment appointment) {
         appointmentRepository.delete(appointment);
+    }
+    
+    @Override
+    public boolean updateAppointment(Long id, EditAppointmentDTO appointment) {
+        Optional<Appointment> toEdit = appointmentRepository.findById(id);
+        if (toEdit.isEmpty()){
+            return false;
+        }
+        Appointment editedAppointment = toEdit.get();
+        editedAppointment.setComment(appointment.getComment());
+        editedAppointment.setUser(appointment.getUser());
+        editedAppointment.setDate(appointment.getDate());
+        editedAppointment.setPaymentMethod(appointment.getPaymentMethod());
+        editedAppointment.setPaintDetails(appointment.getPaintDetails());
+        editedAppointment.setStatus(appointment.getStatus());
+        editedAppointment.setCar(appointment.getCar());
+        this.appointmentRepository.save(editedAppointment);
+        return true;
+    }
+    
+    @Override
+    public Optional<Appointment> findByIdInitializingUsersWithCars(Long id) {
+        return this.appointmentRepository.findByIdWithUserAndCars(id);
     }
 }

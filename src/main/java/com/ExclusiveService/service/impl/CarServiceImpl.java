@@ -43,7 +43,7 @@ public class CarServiceImpl implements CarService {
     
     @Override
     public List<Car> findCarsByUser(Long id) {
-        return this.carRepository.findByOwner_Email(userService.findById(id).getEmail());
+        return this.carRepository.findByOwner_Email(userService.findById(id).get().getEmail());
     }
     @Override
     public Optional<Car> findById(Long id) {
@@ -67,11 +67,10 @@ public class CarServiceImpl implements CarService {
     }
     
     @Override
-    public void updateCar(Long id, EditCarDTO car) {
+    public boolean updateCar(Long id, EditCarDTO car) {
         Optional<Car> toEdit = carRepository.findById(id);
         if (toEdit.isEmpty()){
-            //TODO; Add message to custom error page and pass it
-            return;
+            return false;
         }
         Car editedCar = toEdit.get();
         editedCar.setLicensePlate(car.getLicensePlate());
@@ -80,5 +79,6 @@ public class CarServiceImpl implements CarService {
         editedCar.setVin(car.getVin());
         editedCar.setColor(car.getColor());
         this.carRepository.save(editedCar);
+        return true;
     }
 }

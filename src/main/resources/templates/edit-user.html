@@ -16,7 +16,7 @@
     >
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="email" class="h4 mb-2">Имейл</label>
+                <label for="email" class="h4 mb-2">Имейл <span class="text-danger">*</span></label>
             </div>
             <input type="email"
                    class="form-control"
@@ -27,7 +27,7 @@
             <small th:errors="*{email}" class="invalid-feedback text-danger"></small>
 
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="name" class="h4 mb-2">Име</label>
+                <label for="name" class="h4 mb-2">Име <span class="text-danger">*</span></label>
             </div>
             <input type="text"
                    class="form-control"
@@ -35,10 +35,10 @@
                    name="name"
                    th:field="*{name}"
                    th:errorclass="'is-invalid alert-danger'"/>
-            <small th:errors="*{name}" class="invalid-feedback text-danger"></small>
+            <small th:errors="*{name}" class="invalid-feedback text-danger">NESTAWA</small>
 
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="phoneNumber" class="h4 mb-2">Телефон</label>
+                <label for="phoneNumber" class="h4 mb-2">Телефон <span class="text-danger">*</span></label>
             </div>
             <input type="number"
                    class="form-control"

@@ -7,6 +7,7 @@ import com.ExclusiveService.model.entity.UserRole;
 import com.ExclusiveService.model.enums.UserRolesEnum;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface UserService {
@@ -23,8 +24,8 @@ public interface UserService {
     
     List<User> searchUsers(String name, String email, UserRolesEnum role);
     
-    User findById(Long id);
-    void updateUser(Long id, EditUserDTO user);
+    Optional<User> findById(Long id);
+    boolean updateUser(Long id, EditUserDTO user);
     
     void addAdmin(Long userId);
     

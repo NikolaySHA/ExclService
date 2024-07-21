@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findLoggedUser() {
         String email = exclusiveUserDetailsService.getAuthentication().getName();
+        
         return userRepository.findByEmail(email).orElse(null);
     }
     
@@ -74,29 +75,28 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public User findById(Long id) {
-        return userRepository.findById(id).get();
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
     
     @Override
-    public void updateUser(Long id, EditUserDTO updatedUser) {
+    public boolean updateUser(Long id, EditUserDTO updatedUser) {
         Optional<User> toEdit = userRepository.findById(id);
         if (toEdit.isEmpty()){
-            //TODO; Add message to custom error page and pass it
-            return;
+            return false;
         }
         User user = toEdit.get();
         user.setName(updatedUser.getName());
         String email = updatedUser.getEmail();
         if (!user.getEmail().equals(email)){
             if (userRepository.findByEmail(email).isPresent()){
-                //TODO; Add message to custom error page and pass it
-                return;
+                return false;
             }
         }
         user.setEmail(email);
         user.setPhoneNumber(updatedUser.getPhoneNumber());
         userRepository.save(user);
+        return true;
     }
     
     @Override

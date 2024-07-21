@@ -20,5 +20,5 @@ public interface CarService {
     
     List<Car> searchCars(String licensePlate, String make, String customer);
     
-    void updateCar(Long id, EditCarDTO car);
+    boolean updateCar(Long id, EditCarDTO car);
 }

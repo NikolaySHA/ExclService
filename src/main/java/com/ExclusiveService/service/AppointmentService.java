@@ -1,6 +1,7 @@
 package com.ExclusiveService.service;
 
 import com.ExclusiveService.model.dto.AddAppointmentDTO;
+import com.ExclusiveService.model.dto.EditAppointmentDTO;
 import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.entity.User;
@@ -29,6 +30,9 @@ public interface AppointmentService {
     List<Appointment> searchAppointments(String date, String licensePlate, String make, String client, Status status);
     
     Optional<Appointment> findById(Long id);
+    Optional<Appointment> findByIdInitializingUsersWithCars(Long id);
     
     void delete(Appointment appointment);
+    
+    boolean updateAppointment(Long id, EditAppointmentDTO appointment);
 }

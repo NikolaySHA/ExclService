@@ -28,9 +28,9 @@
                                     <img class="mr-2 " src="/images/p911.png" alt="myCars" width="35px"
                                          height="35px">
                                 </td>
-                                <td th:text="${car.getMake()}">Марка</td>
-                                <td th:text="${car.getModel()}">Модел</td>
-                                <td th:text="${car.getLicensePlate()}">Рег. номер</td>
+                                <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getLicensePlate()}"></a></td>
+                                <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getMake()}"></a></td>
+                                <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getModel()}"></a></td>
                                 <td>
                                     <form th:method="POST"
                                           th:action="@{/cars/delete/{id}(id=${car.id})}">
