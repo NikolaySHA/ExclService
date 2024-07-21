@@ -15,10 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -108,7 +105,7 @@ public class UserController {
     }
     @GetMapping("/users/{id}")
     public String getUserById(@PathVariable("id") Long id, ShowUserDTO data, RedirectAttributes redirectAttributes, Model model) {
-        User user = userService.getUserById(id);
+        User user = userService.findById(id);
         if (!userService.findLoggedUser().getId().equals(id)){
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
@@ -119,7 +116,7 @@ public class UserController {
         data.setEmail(user.getEmail());
         data.setPhoneNumber(user.getPhoneNumber());
         data.setCars(carService.findCarsByUser(id));
-        data.setAppointments(appointmentService.getAppointments(userService.getUserById(id).getEmail()));
+        data.setAppointments(appointmentService.getAppointments(userService.findById(id).getEmail()));
         model.addAttribute("userData", data);
         return "user";
     }
@@ -127,7 +124,7 @@ public class UserController {
     @GetMapping("/users/edit/{id}")
     public String editUserForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
         User loggedUser = userService.findLoggedUser();
-        User user = userService.getUserById(id);
+        User user = userService.findById(id);
         if (!loggedUser.getId().equals(id)) {
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
@@ -156,6 +153,27 @@ public class UserController {
         }
         
         userService.updateUser(id, user);
+        return "redirect:/users/" + id;
+    }
+    @PostMapping("/users/addAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String addAdmin(@RequestParam("id") Long id) {
+        User user = userService.findById(id);
+        if (userService.isAdmin(user.getRoles())) {
+            return "redirect:/users/" + id;
+        }
+        userService.addAdmin(id);
+        return "redirect:/users/" + id;
+    }
+    
+    @PostMapping("/users/removeAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String removeAdmin(@RequestParam("id") Long id) {
+        User user = userService.findById(id);
+        if (!userService.isAdmin(user.getRoles())) {
+            return "redirect:/users/" + id;
+        }
+        userService.removeAdmin(id);
         return "redirect:/users/" + id;
     }
     

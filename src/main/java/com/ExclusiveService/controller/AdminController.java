@@ -18,8 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class AdminController {
     
     @WarnIfExecutionExceeds(threshold = 1000)
     @GetMapping("/garage/appointments")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
                            @ModelAttribute("searchCriteria") AppointmentSearchDTO searchCriteria) {
         model.addAttribute("statuses", Status.values());
@@ -55,7 +54,7 @@ public class AdminController {
     }
     @WarnIfExecutionExceeds(threshold = 1000)
     @GetMapping("/garage/cars")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
                                      @ModelAttribute("searchCriteria") CarSearchDTO searchCriteria) {
         List<Car> cars;
@@ -72,7 +71,7 @@ public class AdminController {
     }
     @WarnIfExecutionExceeds(threshold = 1000)
     @GetMapping("/garage/users")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String searchCustomers(@AuthenticationPrincipal UserDetails userDetails, Model model,
                                      @ModelAttribute("searchCriteria") UserSearchDTO searchCriteria) {
         model.addAttribute("userRoles", UserRolesEnum.values());
@@ -88,4 +87,5 @@ public class AdminController {
         
         return "garage-users";
     }
+   
 }

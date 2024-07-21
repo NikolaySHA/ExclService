@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public User getUserById(Long id) {
+    public User findById(Long id) {
         return userRepository.findById(id).get();
     }
     
@@ -97,4 +99,42 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
     
+    @Override
+    public void addAdmin(Long userId) {
+        User user = userRepository.findById(userId).get();
+        List<UserRole> roles = user.getRoles();
+        UserRole role = roleRepository.findByRole(UserRolesEnum.ADMIN);
+        if (roles.contains(role)){
+            return;
+        }
+        roles.add(role);
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
+    
+    @Override
+    public void removeAdmin(Long userId) {
+        User user = userRepository.findById(userId).get();
+        List<UserRole> roles = user.getRoles();
+        UserRole role = roleRepository.findByRole(UserRolesEnum.ADMIN);
+        
+        if (!roles.contains(role)){
+            return;
+        }
+        long count = userRepository.findAll().stream()
+                .filter(u -> u.getRoles().stream()
+                        .anyMatch(role1 -> role1.getRole().name().equals("ADMIN")))
+                .count();
+        if (count <2){
+            return;
+        }
+        roles.remove(role);
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
+    
+    @Override
+    public boolean isAdmin(List<UserRole> roles) {
+        return roles.stream().anyMatch(role -> role.getRole().name().equals("ADMIN"));
+    }
 }

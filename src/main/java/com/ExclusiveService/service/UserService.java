@@ -3,6 +3,7 @@ package com.ExclusiveService.service;
 import com.ExclusiveService.model.dto.EditUserDTO;
 import com.ExclusiveService.model.dto.RegisterDTO;
 import com.ExclusiveService.model.entity.User;
+import com.ExclusiveService.model.entity.UserRole;
 import com.ExclusiveService.model.enums.UserRolesEnum;
 
 import java.util.List;
@@ -22,7 +23,12 @@ public interface UserService {
     
     List<User> searchUsers(String name, String email, UserRolesEnum role);
     
-    User getUserById(Long id);
+    User findById(Long id);
     void updateUser(Long id, EditUserDTO user);
     
+    void addAdmin(Long userId);
+    
+    void removeAdmin(Long userId);
+    
+    boolean isAdmin(List<UserRole> roles);
 }

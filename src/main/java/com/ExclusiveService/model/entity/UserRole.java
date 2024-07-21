@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "roles")
 @Getter
@@ -22,4 +24,16 @@ public class UserRole {
         this.role = role;
     }
     
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        UserRole userRole = (UserRole) obj;
+        return Objects.equals(role, userRole.role);
+    }
 }

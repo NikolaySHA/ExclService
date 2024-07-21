@@ -2,7 +2,6 @@ package com.ExclusiveService.service.impl;
 
 import com.ExclusiveService.model.dto.AddCarDataDTO;
 import com.ExclusiveService.model.entity.Car;
-import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.repo.CarRepository;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
@@ -42,7 +41,7 @@ public class CarServiceImpl implements CarService {
     
     @Override
     public List<Car> findCarsByUser(Long id) {
-        return this.carRepository.findByOwner_Email(userService.getUserById(id).getEmail());
+        return this.carRepository.findByOwner_Email(userService.findById(id).getEmail());
     }
     @Override
     public Optional<Car> findById(Long id) {
