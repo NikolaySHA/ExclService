@@ -4,34 +4,22 @@ import com.ExclusiveService.model.dto.EditUserDTO;
 import com.ExclusiveService.model.dto.LoginDTO;
 import com.ExclusiveService.model.dto.RegisterDTO;
 import com.ExclusiveService.model.dto.ShowUserDTO;
-import com.ExclusiveService.model.entity.Appointment;
-import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.entity.User;
-import com.ExclusiveService.model.enums.UserRolesEnum;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
 import com.ExclusiveService.web.aop.WarnIfExecutionExceeds;
-import com.itextpdf.text.pdf.qrcode.Mode;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.model.IModel;
-
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -114,12 +102,15 @@ public class UserController {
         redirectAttributes.addFlashAttribute("showErrorMessage", true);
         return "redirect:/users/login";
     }
-
+    @GetMapping("/users")
+    public String transitPoint() {
+        return "redirect:/users/" + userService.findLoggedUser().getId();
+    }
     @GetMapping("/users/{id}")
     public String getUserById(@PathVariable("id") Long id, ShowUserDTO data, RedirectAttributes redirectAttributes, Model model) {
         User user = userService.getUserById(id);
         if (!userService.findLoggedUser().getId().equals(id)){
-            if (!userService.hasRole("ADMIN")){
+            if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
             }
@@ -134,17 +125,29 @@ public class UserController {
     }
     
     @GetMapping("/users/edit/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String editUserForm(@PathVariable("id") Long id, Model model) {
+    public String editUserForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
+        User loggedUser = userService.findLoggedUser();
         User user = userService.getUserById(id);
+        if (!loggedUser.getId().equals(id)) {
+            if (!userService.loggedUserHasRole("ADMIN")){
+                redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+                return "redirect:/error/contact-admin";
+            }
+        }
         model.addAttribute("editData", user);
         return "edit-user";
     }
     
     @PostMapping("/users/edit/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public String updateUser(@PathVariable("id") Long id,@Valid EditUserDTO user,
                              BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        User loggedUser = userService.findLoggedUser();
+        if (!loggedUser.getId().equals(id)) {
+            if (!userService.loggedUserHasRole("ADMIN")){
+                redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+                return "redirect:/error/contact-admin";
+            }
+        }
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("editData", user);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editData", bindingResult);

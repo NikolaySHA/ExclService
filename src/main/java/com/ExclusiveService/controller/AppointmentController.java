@@ -7,7 +7,6 @@ import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
-import com.ExclusiveService.service.impl.ExclusiveUserDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +45,7 @@ public class AppointmentController {
     @GetMapping("/add-appointment")
     public String addAppointment(Model model, RedirectAttributes redirectAttributes) {
         List<Car> carsData = new ArrayList<>();
-        if (!userService.hasRole("ADMIN")) {
+        if (!userService.loggedUserHasRole("ADMIN")) {
             carsData = carService.findCarsByUser(userService.findLoggedUser().getId());
         } else {
             carsData = carService.findAllCars();

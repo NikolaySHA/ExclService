@@ -15,7 +15,7 @@ public interface UserService {
     
     User findLoggedUser();
     
-    boolean hasRole(String admin);
+    boolean loggedUserHasRole(String role);
     
     
     List<User> findAllUsers();

@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public boolean hasRole(String role) {
+    public boolean loggedUserHasRole(String role) {
         UserDetails userDetails = (UserDetails) exclusiveUserDetailsService.getAuthentication().getPrincipal();
         return userDetails.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_" + role));
