@@ -56,15 +56,17 @@
                                 <td></td>
                                 <td>Дата</td>
                                 <td>Рег. номер</td>
+                                <td>Статус</td>
                                 <td>Бр. детайли</td>
                             </tr>
                             <tr th:each="appointment : ${appointmentsData}">
                                 <td class="bg-warning" scope="row" style="width: 5%">
                                     <img class="mr-2 " src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                 </td>
-                                <td th:text="${appointment.getDate()}">Дата</td>
-                                <td th:text="${appointment.getCar().getLicensePlate()}">Рег. Номер</td>
-                                <td th:text="${appointment.getPaintDetails()}">Детайли за боя</td>
+                                <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getDate()}"></a></td>
+                                <td><a class="text-light" th:href="@{/cars/{id}(id=${appointment.car.id})}" th:text="${appointment.car.getLicensePlate()}"></a></td>
+                                <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getStatus()}"></a></td>
+                                <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaintDetails()}"></a></td>
                                 </td>
                             </tr>
                         </table>

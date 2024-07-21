@@ -165,7 +165,7 @@ public class AppointmentController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editAppointmentData", bindingResult);
             return "redirect:/appointments/edit/" + id;
         }
-        
+        appointment.setUser(appointment.getCar().getOwner());
         boolean success = appointmentService.updateAppointment(id, appointment);
         if (!success) {
             redirectAttributes.addFlashAttribute("editAppointmentData", appointment);
