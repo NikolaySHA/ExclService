@@ -1,31 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Transfer Protocol</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons::head">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h2 class="card-title">ПРИЕМО-ПРЕДАВАТЕЛЕН ПРОТОКОЛ</h2>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <div class="container bg-light p-5 my-5 border rounded">
+        <div class="text-center mb-4">
+            <h3>ПРИЕМО-ПРЕДАВАТЕЛЕН ПРОТОКОЛ</h3>
         </div>
-        <div class="card-body">
-            <p>Днес, <span th:text="${protocol.date}"></span>, между Ексклузив Сервиз и
-                <span th:text="${protocol.appointment.client.name}"></span> се създаде следният протокол за предаване на
-                л.а. с регистрационен номер <span th:text="${protocol.appointment.car.licensePlate}"></span>, марка
-                <span th:text="${protocol.appointment.car.make}"></span>, модел
-                <span th:text="${protocol.appointment.car.model}"></span>, за извършване на ремонтна услуга.</p>
-
-            <p>Подпис на двете страни и дата:</p>
-            <p>____________________</p>
-            <p>Ексклузив Сервиз</p>
-            <p>____________________</p>
-            <p th:text="${protocol.appointment.client.name}"></p>
+        <div class="mb-4">
+            <p>Днес, <span th:text="${protocol.date}">22.7.2024 г.</span> в гр. София на основание сключен договор за извършване на автосервизни услуги между ЗАД "Асет Иншурънс" АД и "Евролинк Сервиз" ООД се подписва настоящия Приемо-предавателен протокол, във връзка със</p>
         </div>
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>щета №</td>
+                <td th:text="${protocol.damageNumber}">10021004545</td>
+                <td>от 2021г., за МПС</td>
+            </tr>
+            <tr>
+                <td>Марка:</td>
+                <td th:text="${protocol.make}">Марка</td>
+                <td>Модел:</td>
+                <td th:text="${protocol.model}">Модел</td>
+                <td>с Д.К. №</td>
+            </tr>
+            <tr>
+                <td>Шаси:</td>
+                <td colspan="2" th:text="${protocol.chassis}">Шаси</td>
+            </tr>
+            <tr>
+                <td colspan="5">Представител приел автомобила: ..................................................., ЕГН ........................, лична карта № ......................, изд. .....................г. От МВР .....................</td>
+            </tr>
+            <tr>
+                <td colspan="5">Собственика на горепосоченото МПС или неговият представител удостоверява с подписа си че:</td>
+            </tr>
+            <tr>
+                <td>Ремонта е извършен качествено и автомобила е приет без възражение</td>
+                <td><input type="checkbox" /></td>
+            </tr>
+            <tr>
+                <td>Има следните възражения относно извършения ремонт</td>
+                <td><input type="checkbox" /></td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    …............................................................................................................................................<br/>
+                    …............................................................................................................................................<br/>
+                    …............................................................................................................................................<br/>
+                    …............................................................................................................................................</td>
+            </tr>
+            <tr>
+                <td>Предал:</td>
+                <td>Приел:</td>
+            </tr>
+            <tr>
+                <td>Николай Шатов</td>
+                <td>Димитър Иванов</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-</div>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

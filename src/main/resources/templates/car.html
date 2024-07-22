@@ -58,7 +58,8 @@
                                     <th>Дата</th>
                                     <th>Рег. номер</th>
                                     <th>Бр. детайли</th>
-                                    <th>Премахни</th>
+                                    <th>Статус</th>
+                                    <th>Вид</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -66,16 +67,11 @@
                                     <td class="bg-warning" style="width: 5%">
                                         <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                     </td>
-                                    <td th:text="${appointment.date}">Дата</td>
-                                    <td th:text="${appointment.car.licensePlate}">Рег. Номер</td>
-                                    <td th:text="${appointment.paintDetails}">Детайли за боя</td>
-                                    <td sec:authorize="hasRole('ROLE_ADMIN')">
-                                        <form th:method="POST" th:action="@{/appointment/delete/{id}(id=${appointment.id})}">
-                                            <button class="bg-transparent border-0" type="submit">
-                                                <i class="fa-solid fa-trash-can text-yellow"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                                    <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getDate()}"></a></td>
+                                    <td <a class="text-light" th:href="@{/cars/{id}(id=${appointment.car.id})}" th:text="${appointment.car.licensePlate}"></a></td>
+                                    <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getStatus()}"></a></td>
+                                    <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaintDetails()}"></a>
+                                    <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaymentMethod()}"></a></td>
                                 </tr>
                                 </tbody>
                             </table>
