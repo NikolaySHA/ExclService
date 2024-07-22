@@ -1,6 +1,5 @@
 package com.ExclusiveService.service;
 
-import com.ExclusiveService.model.dto.EditCarDTO;
 import com.ExclusiveService.model.entity.Car;
 import com.ExclusiveService.model.dto.AddCarDataDTO;
 
@@ -20,5 +19,5 @@ public interface CarService {
     
     List<Car> searchCars(String licensePlate, String make, String customer);
     
-    boolean updateCar(Long id, EditCarDTO car);
+    boolean updateCar(Long id, AddCarDataDTO car);
 }

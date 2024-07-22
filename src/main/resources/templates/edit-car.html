@@ -16,7 +16,7 @@
     >
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="licensePlate" class="h4 mb-2">Регистрационнен номер</label>
+                <label for="licensePlate" class="h4 mb-2">Регистрационнен номер <span class="text-danger">*</span></label>
             </div>
             <input type="text"
                    class="form-control"
@@ -27,7 +27,7 @@
             <small th:errors="*{licensePlate}" class="invalid-feedback text-danger"></small>
 
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="make" class="h4 mb-2">Марка</label>
+                <label for="make" class="h4 mb-2">Марка <span class="text-danger">*</span></label>
             </div>
             <input type="text"
                    class="form-control"
@@ -38,7 +38,7 @@
             <small th:errors="*{make}" class="invalid-feedback text-danger"></small>
 
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="model" class="h4 mb-2">Модел</label>
+                <label for="model" class="h4 mb-2">Модел <span class="text-danger">*</span></label>
             </div>
             <input type="text"
                    class="form-control"

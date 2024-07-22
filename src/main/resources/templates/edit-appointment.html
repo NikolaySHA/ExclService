@@ -103,7 +103,6 @@
                    id="date"
                    name="date"
                    th:field="*{date}"
-                   th:value="${#temporals.format(editAppointmentData.date, 'yyyy-MM-dd')}"
                    th:errorclass="'is-invalid alert-danger'">
             <small th:errors="*{date}" class="invalid-feedback text-danger"></small>
         </div>

@@ -1,4 +1,4 @@
-package com.ExclusiveService.controller;
+package com.ExclusiveService.web.controller;
 
 import com.ExclusiveService.model.dto.AppointmentSearchDTO;
 import com.ExclusiveService.model.dto.CarSearchDTO;
@@ -34,7 +34,10 @@ public class AdminController {
         this.appointmentService = appointmentService;
         this.carService = carService;
     }
-    
+    @GetMapping("/error/contact-admin")
+    public String errorContactAdmin(){
+        return "error-contact-admin";
+    }
     @WarnIfExecutionExceeds(threshold = 1000)
     @GetMapping("/garage/appointments")
     @PreAuthorize("hasRole('ADMIN')")

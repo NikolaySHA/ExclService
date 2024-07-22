@@ -1,23 +1,19 @@
-package com.ExclusiveService.controller;
+package com.ExclusiveService.web.controller;
 
 
 import com.ExclusiveService.model.dto.AddAppointmentDTO;
 import com.ExclusiveService.model.dto.EditAppointmentDTO;
-import com.ExclusiveService.model.dto.EditCarDTO;
 import com.ExclusiveService.model.dto.ShowAppointmentDTO;
 import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
-import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.service.AppointmentService;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
-import com.ExclusiveService.util.ExclusiveUserDetails;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;

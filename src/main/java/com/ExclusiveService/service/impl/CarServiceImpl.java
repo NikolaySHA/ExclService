@@ -1,9 +1,7 @@
 package com.ExclusiveService.service.impl;
 
 import com.ExclusiveService.model.dto.AddCarDataDTO;
-import com.ExclusiveService.model.dto.EditCarDTO;
 import com.ExclusiveService.model.entity.Car;
-import com.ExclusiveService.model.entity.User;
 import com.ExclusiveService.repo.CarRepository;
 import com.ExclusiveService.service.CarService;
 import com.ExclusiveService.service.UserService;
@@ -67,7 +65,7 @@ public class CarServiceImpl implements CarService {
     }
     
     @Override
-    public boolean updateCar(Long id, EditCarDTO car) {
+    public boolean updateCar(Long id, AddCarDataDTO car) {
         Optional<Car> toEdit = carRepository.findById(id);
         if (toEdit.isEmpty()){
             return false;

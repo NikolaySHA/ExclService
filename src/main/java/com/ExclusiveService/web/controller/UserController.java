@@ -1,4 +1,4 @@
-package com.ExclusiveService.controller;
+package com.ExclusiveService.web.controller;
 
 import com.ExclusiveService.model.dto.EditUserDTO;
 import com.ExclusiveService.model.dto.LoginDTO;
@@ -152,7 +152,7 @@ public class UserController {
     public String updateUser(@PathVariable("id") Long id,
                              @Valid EditUserDTO user,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+                             RedirectAttributes redirectAttributes, Model model) {
         
         if (!userService.findLoggedUser().getId().equals(id)) {
             if (!userService.loggedUserHasRole("ADMIN")){
@@ -161,11 +161,10 @@ public class UserController {
             }
         }
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editData", bindingResult);
-            redirectAttributes.addFlashAttribute("editData", user);
-            return "redirect:/users/edit/" + id;
+            model.addAttribute("org.springframework.validation.BindingResult.editData", bindingResult);
+           model.addAttribute("editData", user);
+            return "edit-user";
         }
-        
         boolean success = userService.updateUser(id, user);
         if (!success){
             return "redirect:/users/edit/" + id;

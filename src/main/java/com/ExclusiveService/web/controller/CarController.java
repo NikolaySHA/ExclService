@@ -1,4 +1,4 @@
-package com.ExclusiveService.controller;
+package com.ExclusiveService.web.controller;
 
 import com.ExclusiveService.model.dto.*;
 import com.ExclusiveService.model.entity.Appointment;
@@ -44,10 +44,6 @@ public class CarController {
     @ModelAttribute("carData")
     public ShowCarDTO showCarDTO(){
         return new ShowCarDTO();
-    }
-    @ModelAttribute("editCarData")
-    public EditCarDTO editCarDTO(){
-        return new EditCarDTO();
     }
     
     
@@ -95,10 +91,7 @@ public class CarController {
             return "redirect:/";
         }
     }
-    @GetMapping("/error/contact-admin")
-    public String errorContactAdmin(){
-        return "error-contact-admin";
-    }
+    
     @GetMapping("/cars/{id}")
     public String viewCar(@PathVariable("id") Long id, ShowCarDTO data, RedirectAttributes redirectAttributes, Model model) {
         Optional<Car> carOptional = carService.findById(id);
@@ -126,28 +119,29 @@ public class CarController {
     
     @GetMapping("/cars/edit/{id}")
     public String editCarForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
-        User loggedUser = userService.findLoggedUser();
+        
         Optional<Car> carOptional = carService.findById(id);
         if (carOptional.isEmpty()){
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
         Car car = carOptional.get();
+        User loggedUser = userService.findLoggedUser();
         if (!car.getOwner().equals(loggedUser)) {
             if (!userService.loggedUserHasRole("ADMIN")){
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
             }
         }
-        EditCarDTO editCarDTO = modelMapper.map(car, EditCarDTO.class);
-        model.addAttribute("editCarData", editCarDTO);
+        AddCarDataDTO addCarDTO = modelMapper.map(car, AddCarDataDTO.class);
+        model.addAttribute("editCarData", addCarDTO);
         return "edit-car";
     }
     
     @PostMapping("/cars/edit/{id}")
     @Transactional
-    public String updateCar(@PathVariable("id") Long id,@Valid EditCarDTO car,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String updateCar(@PathVariable("id") Long id,@Valid AddCarDataDTO car,
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         User loggedUser = userService.findLoggedUser();
         if (!loggedUser.getId().equals(id)) {
             if (!userService.loggedUserHasRole("ADMIN")){
@@ -156,16 +150,18 @@ public class CarController {
             }
         }
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("editCarData", car);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editCarData", bindingResult);
-            return "redirect:/cars/edit/" + id;
+            model.addAttribute("editCarData", car);
+            model.addAttribute("org.springframework.validation.BindingResult.editCarData", bindingResult);
+            return "edit-car";
         }
         
         boolean success = carService.updateCar(id, car);
         if (!success) {
-            redirectAttributes.addFlashAttribute("editCarData", car);
-            return "redirect:/cars/edit/" + id;
+            model.addAttribute("editCarData", car);
+            return "edit-car" + id;
         }
         return "redirect:/cars/" + id;
     }
+    
+    
 }

@@ -1,4 +1,4 @@
-package com.ExclusiveService.controller;
+package com.ExclusiveService.web.controller;
 
 import com.ExclusiveService.model.entity.Appointment;
 import com.ExclusiveService.model.entity.Car;
