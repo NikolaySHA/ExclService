@@ -10,5 +10,6 @@ public class ExclusiveServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ExclusiveServiceApplication.class, args);
+        
     }
 }

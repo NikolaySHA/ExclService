@@ -24,8 +24,6 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     private final AppointmentService appointmentService;
     @Override
     public void run(String... args) throws Exception {
-        Appointment appointment = appointmentService.findById(Long.valueOf(5)).get();
-        appointmentService.updateAppointmentStatus(appointment, Status.COMPLETED);
         long count = this.roleRepository.count();
         if (count > 0) {
             return;

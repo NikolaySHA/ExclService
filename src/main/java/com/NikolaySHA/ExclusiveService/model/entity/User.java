@@ -23,7 +23,6 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String name;
-    
     @Column(nullable = false)
     private String phoneNumber;
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
@@ -50,6 +49,7 @@ public class User {
         this.name = name;
         this.appointments = new ArrayList<>();
         this.cars = new ArrayList<>();
+        this.roles = new ArrayList<>();
     }
     
 }

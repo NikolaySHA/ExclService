@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class ShowAppointmentDTO {
     private LocalDate date;
     private User user;
@@ -26,4 +26,7 @@ public class ShowAppointmentDTO {
     private String comment;
     private List<TransferProtocol> protocols;
     
+    public ShowAppointmentDTO() {
+        protocols = new ArrayList<>();
+    }
 }

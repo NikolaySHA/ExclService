@@ -39,8 +39,12 @@ public class Appointment {
     private String comment;
     @OneToMany(fetch = FetchType.EAGER)
     private List<TransferProtocol> protocols;
-    
+    @ElementCollection
+    @CollectionTable(name = "appointment_expenses", joinColumns = @JoinColumn(name = "appointment_id"))
+    @Column(name = "expense_id")
+    private List<Long> expensesList;
     public Appointment() {
         this.protocols = new ArrayList<>();
+        this.expensesList = new ArrayList<>();
     }
 }
