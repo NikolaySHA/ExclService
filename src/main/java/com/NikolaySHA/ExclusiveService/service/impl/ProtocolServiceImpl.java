@@ -1,24 +1,17 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
 
-import com.NikolaySHA.ExclusiveService.model.dto.AddAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.ProtocolDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.TransferProtocol;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.ProtocolRepository;
+import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.ProtocolService;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,27 +21,34 @@ import java.util.stream.Collectors;
 public class ProtocolServiceImpl implements ProtocolService {
     private final ProtocolRepository protocolRepository;
     private final ModelMapper modelMapper;
+    private final AppointmentService appointmentService;
     
-    public ProtocolServiceImpl(ProtocolRepository protocolRepository, ModelMapper modelMapper) {
+    public ProtocolServiceImpl(ProtocolRepository protocolRepository, ModelMapper modelMapper, AppointmentService appointmentService) {
         this.protocolRepository = protocolRepository;
         this.modelMapper = modelMapper;
+        this.appointmentService = appointmentService;
     }
     @Override
+    @Transactional
     public void createTransferProtocol(Appointment data) {
-      TransferProtocol transferProtocol = new TransferProtocol();
-      transferProtocol.setDate(data.getDate());
-      transferProtocol.setMake(data.getCar().getMake());
-      transferProtocol.setModel(data.getCar().getModel());
-      transferProtocol.setLicensePlate(data.getCar().getLicensePlate());
-      transferProtocol.setCustomerName(data.getUser().getName());
-      if (data.getStatus().equals(Status.IN_PROGRESS)) {
-          transferProtocol.setFinished(false);
-      }else {
-          transferProtocol.setFinished(true);
-      }
-      protocolRepository.save(transferProtocol);
+        TransferProtocol transferProtocol = new TransferProtocol();
+        transferProtocol.setDate(data.getDate());
+        transferProtocol.setMake(data.getCar().getMake());
+        transferProtocol.setModel(data.getCar().getModel());
+        transferProtocol.setLicensePlate(data.getCar().getLicensePlate());
+        transferProtocol.setCustomerName(data.getUser().getName());
+        if (data.getStatus().equals(Status.IN_PROGRESS)) {
+            transferProtocol.setFinished(false);
+        } else {
+            transferProtocol.setFinished(true);
+        }
+        protocolRepository.save(transferProtocol);
+        
+        List<TransferProtocol> protocols = data.getProtocols();
+        protocols.add(transferProtocol);
+        data.setProtocols(protocols);
+        appointmentService.save(data);
     }
-    
     @Override
     public ProtocolDTO getTransferProtocolById(Long id) {
         return protocolRepository.findById(id)

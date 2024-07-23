@@ -11,7 +11,7 @@
     <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
           th:method="POST"
           th:action="@{/users/edit/{id}(id=${id})}"
-          th:object="${editData}"
+          th:object="${editUserData}"
           style="padding: 20px;"
     >
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

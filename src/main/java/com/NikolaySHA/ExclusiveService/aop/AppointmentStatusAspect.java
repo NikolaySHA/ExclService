@@ -1,13 +1,12 @@
-package com.NikolaySHA.ExclusiveService.web.aop;
+package com.NikolaySHA.ExclusiveService.aop;
 
 import com.NikolaySHA.ExclusiveService.model.dto.AddAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.ProtocolService;
-import org.aspectj.lang.ProceedingJoinPoint;
+import jakarta.transaction.Transactional;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
@@ -25,14 +24,12 @@ public class AppointmentStatusAspect {
         this.appointmentService = appointmentService;
     }
     
-    @Around("execution(* com.NikolaySHA.ExclusiveService.service.AppointmentService.updateAppointmentStatus(..)) && args(appointment, newStatus)")
-    public Object aroundUpdateAppointmentStatus(ProceedingJoinPoint joinPoint, Appointment appointment, Status newStatus) throws Throwable {
-      
-        Object result = joinPoint.proceed();
-        if (newStatus.equals(Status.IN_PROGRESS)|| newStatus.equals(Status.COMPLETED)) {
+    @After("execution(* com.NikolaySHA.ExclusiveService.service.AppointmentService.updateAppointmentStatus(..)) && args(appointment, newStatus)")
+    @Transactional
+    public void afterUpdateAppointmentStatus(Appointment appointment, Status newStatus) {
+        if (newStatus.equals(Status.IN_PROGRESS) || newStatus.equals(Status.COMPLETED)) {
             Optional<Appointment> updatedAppointment = appointmentService.findById(appointment.getId());
-            protocolService.createTransferProtocol(updatedAppointment.get());
+            updatedAppointment.ifPresent(protocolService::createTransferProtocol);
         }
-        return result;
     }
 }

@@ -26,7 +26,7 @@ public class User {
     
     @Column(nullable = false)
     private String phoneNumber;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Car> cars;
     @OneToMany(mappedBy = "user")
     private List<Appointment> appointments;

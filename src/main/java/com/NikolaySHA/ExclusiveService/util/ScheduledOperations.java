@@ -5,10 +5,11 @@ import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
-
+@Component
 public class ScheduledOperations {
     private final AppointmentService appointmentService;
     
@@ -16,7 +17,7 @@ public class ScheduledOperations {
         this.appointmentService = appointmentService;
     }
     
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0 * * 1-5")
     @Transactional
     public void updateAppointmentStatusAtMidnight() {
         LocalDate today = LocalDate.now();

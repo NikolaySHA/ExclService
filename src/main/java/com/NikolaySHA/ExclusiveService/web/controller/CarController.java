@@ -120,47 +120,43 @@ public class CarController {
     
     @GetMapping("/cars/edit/{id}")
     public String editCarForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
-        
         Optional<Car> carOptional = carService.findById(id);
-        if (carOptional.isEmpty()){
+        if (carOptional.isEmpty()) {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
         Car car = carOptional.get();
         User loggedUser = userService.findLoggedUser();
         if (!car.getOwner().equals(loggedUser)) {
-            if (!userService.loggedUserHasRole("ADMIN")){
+            if (!userService.loggedUserHasRole("ADMIN")) {
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
             }
         }
         AddCarDataDTO addCarDTO = modelMapper.map(car, AddCarDataDTO.class);
-        model.addAttribute("editCarData", addCarDTO);
+        if (!model.containsAttribute("editCarData")) {
+            model.addAttribute("editCarData", addCarDTO);
+        }
         return "edit-car";
     }
     
+    
     @PostMapping("/cars/edit/{id}")
     @Transactional
-    public String updateCar(@PathVariable("id") Long id,@Valid AddCarDataDTO car,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String updateCar(@PathVariable("id") Long id, @Valid AddCarDataDTO car, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         User loggedUser = userService.findLoggedUser();
         if (!loggedUser.getId().equals(id)) {
-            if (!userService.loggedUserHasRole("ADMIN")){
+            if (!userService.loggedUserHasRole("ADMIN")) {
                 redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
                 return "redirect:/error/contact-admin";
             }
         }
         if (bindingResult.hasErrors()) {
-            model.addAttribute("editCarData", car);
-            model.addAttribute("org.springframework.validation.BindingResult.editCarData", bindingResult);
-            return "edit-car";
+            redirectAttributes.addFlashAttribute("editCarData", car);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editCarData", bindingResult);
+            return "redirect:/cars/edit/" + id;
         }
-        
-        boolean success = carService.updateCar(id, car);
-        if (!success) {
-            model.addAttribute("editCarData", car);
-            return "edit-car" + id;
-        }
+        carService.updateCar(id, car);
         return "redirect:/cars/" + id;
     }
     

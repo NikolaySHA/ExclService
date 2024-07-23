@@ -8,7 +8,7 @@ import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import com.NikolaySHA.ExclusiveService.web.aop.WarnIfExecutionExceeds;
+import com.NikolaySHA.ExclusiveService.aop.WarnIfExecutionExceeds;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,14 +44,6 @@ public class UserController {
     @ModelAttribute("loginData")
     public LoginDTO loginDTO(){
         return new LoginDTO();
-    }
-    @ModelAttribute("userData")
-    public ShowUserDTO showUserDTO(){
-        return new ShowUserDTO();
-    }
-    @ModelAttribute("editData")
-    public EditUserDTO editUserDTO(){
-        return new EditUserDTO();
     }
     
     
@@ -96,7 +88,6 @@ public class UserController {
     @GetMapping("/users/login-error")
     public String viewLoginError(@Valid LoginDTO data,
                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("loginData", data);
         redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
         redirectAttributes.addFlashAttribute("showErrorMessage", true);
         return "redirect:/users/login";
@@ -144,7 +135,7 @@ public class UserController {
         }
         User user = optionalUser.get();
         EditUserDTO editUserDTO = modelMapper.map(user, EditUserDTO.class);
-        model.addAttribute("editData", editUserDTO);
+        model.addAttribute("editUserData", editUserDTO);
         return "edit-user";
     }
     
@@ -161,8 +152,8 @@ public class UserController {
             }
         }
         if (bindingResult.hasErrors()) {
-            model.addAttribute("org.springframework.validation.BindingResult.editData", bindingResult);
-           model.addAttribute("editData", user);
+            model.addAttribute("org.springframework.validation.BindingResult.editUserData", bindingResult);
+            model.addAttribute("editUserData", user);
             return "edit-user";
         }
         boolean success = userService.updateUser(id, user);

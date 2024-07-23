@@ -19,5 +19,5 @@ public interface CarService {
     
     List<Car> searchCars(String licensePlate, String make, String customer);
     
-    boolean updateCar(Long id, AddCarDataDTO car);
+    void updateCar(Long id, AddCarDataDTO car);
 }

@@ -25,7 +25,7 @@
                         th:field="*{car}"
                         th:errorclass="'is-invalid alert-danger'">
                     <option value="">Изберете автомобил</option>
-                    <option th:each="car : ${editAppointmentData.getUser().getCars()}"
+                    <option th:each="car : ${editAppointmentData.user.getCars()}"
                             th:value="${car.getId()}"
                             th:text="${car.getLicensePlate()}">
                     </option>
@@ -52,18 +52,15 @@
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="status" class="h4 mb-2">Статус<span class="text-danger">*</span></label>
             </div>
-            <select class="browser-default custom-select"
-                    id="status"
-                    name="status"
-                    th:field="*{status}"
-                    th:errorclass="'is-invalid alert-danger'"
-            >
-                <option value="">Изберете статус</option>
-                <option value="SCHEDULED">Насрочен ремонт</option>
-                <option value="PENDING">Очаква приемане</option>
-                <option value="IN_PROGRESS">В ремонт</option>
-                <option value="COMPLETED">Завършен</option>
+            <select id="status" name="status" class="form-control" th:field="*{status}">
+                <option value="" selected>Избери...</option>
+                <option th:each="statusOption : ${statuses}"
+                        th:value="${statusOption.name()}"
+                        th:text="${statusOption.name()}">
+                    Статус
+                </option>
             </select>
+
             <small th:errors="*{status}" class="invalid-feedback text-danger"></small>
         </div>
             <div class="form-group">

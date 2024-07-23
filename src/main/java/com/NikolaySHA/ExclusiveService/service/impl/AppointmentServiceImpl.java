@@ -90,15 +90,19 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
         Appointment editedAppointment = toEdit.get();
         editedAppointment.setComment(appointment.getComment());
-        editedAppointment.setUser(appointment.getUser());
         editedAppointment.setDate(appointment.getDate());
         editedAppointment.setPaymentMethod(appointment.getPaymentMethod());
         editedAppointment.setPaintDetails(appointment.getPaintDetails());
         this.updateAppointmentStatus(editedAppointment, appointment.getStatus());
-        editedAppointment.setCar(appointment.getCar());
         this.appointmentRepository.save(editedAppointment);
         return true;
     }
+    
+    @Override
+    public void save(Appointment data) {
+        appointmentRepository.save(data);
+    }
+    
     @Override
     public Optional<Appointment> findByIdInitializingUsersWithCars(Long id) {
         return this.appointmentRepository.findByIdWithUserAndCars(id);

@@ -28,10 +28,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
                                        @Param("status") Status status);
 
     List<Appointment> findByUser_Email(String email);
-    List<Appointment> findByUser_EmailAndCar_LicensePlate(String email, String licensePlate);
     
     List<Appointment> findByDate(LocalDate today);
-    @Query("SELECT a FROM Appointment a JOIN FETCH a.user u JOIN FETCH u.cars WHERE a.id = :id")
+    @Query("SELECT a FROM Appointment a JOIN FETCH a.user u LEFT JOIN FETCH u.cars WHERE a.id = :id")
     Optional<Appointment> findByIdWithUserAndCars(@Param("id") Long id);
-
+    
+    
 }

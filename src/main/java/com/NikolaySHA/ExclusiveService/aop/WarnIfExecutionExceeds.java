@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.web.aop;
+package com.NikolaySHA.ExclusiveService.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

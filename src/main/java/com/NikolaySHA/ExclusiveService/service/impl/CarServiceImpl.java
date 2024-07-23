@@ -65,10 +65,10 @@ public class CarServiceImpl implements CarService {
     }
     
     @Override
-    public boolean updateCar(Long id, AddCarDataDTO car) {
+    public void updateCar(Long id, AddCarDataDTO car) {
         Optional<Car> toEdit = carRepository.findById(id);
         if (toEdit.isEmpty()){
-            return false;
+            return;
         }
         Car editedCar = toEdit.get();
         editedCar.setLicensePlate(car.getLicensePlate());
@@ -77,6 +77,5 @@ public class CarServiceImpl implements CarService {
         editedCar.setVin(car.getVin());
         editedCar.setColor(car.getColor());
         this.carRepository.save(editedCar);
-        return true;
     }
 }

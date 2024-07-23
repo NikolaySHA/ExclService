@@ -24,7 +24,6 @@ public class AddAppointmentDTO {
     private Integer paintDetails;
     @NotNull(message = "{error_message_not_null}")
     private PaymentMethod paymentMethod;
-    private User user;
     private String comment;
     
 }

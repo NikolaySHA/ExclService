@@ -31,4 +31,6 @@ public interface AppointmentService {
     List<Appointment> findByDate(LocalDate today);
     
     void saveAll(List<Appointment> appointments);
+    
+    void save(Appointment data);
 }

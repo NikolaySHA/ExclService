@@ -37,7 +37,7 @@ public class Appointment {
     private Status status;
     @Column(columnDefinition = "TEXT")
     private String comment;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<TransferProtocol> protocols;
     
     public Appointment() {
