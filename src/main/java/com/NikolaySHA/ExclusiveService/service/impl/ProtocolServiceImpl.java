@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,14 +38,13 @@ public class ProtocolServiceImpl implements ProtocolService {
         transferProtocol.setModel(data.getCar().getModel());
         transferProtocol.setLicensePlate(data.getCar().getLicensePlate());
         transferProtocol.setCustomerName(data.getUser().getName());
-        if (data.getStatus().equals(Status.IN_PROGRESS)) {
+        if (data.getStatus().equals(Status.COMPLETED)) {
             transferProtocol.setFinished(false);
         } else {
             transferProtocol.setFinished(true);
         }
         protocolRepository.save(transferProtocol);
-        
-        List<TransferProtocol> protocols = data.getProtocols();
+        List<TransferProtocol> protocols = new ArrayList<>(data.getProtocols());
         protocols.add(transferProtocol);
         data.setProtocols(protocols);
         appointmentService.save(data);
@@ -76,4 +76,5 @@ public class ProtocolServiceImpl implements ProtocolService {
     public void deleteProtocol(Long id) {
         protocolRepository.delete(protocolRepository.findById(id).get());
     }
+    
 }

@@ -2,7 +2,9 @@ package com.NikolaySHA.ExclusiveService.service.impl;
 
 import com.NikolaySHA.ExclusiveService.model.dto.AddAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.EditAppointmentDTO;
-import com.NikolaySHA.ExclusiveService.model.entity.*;
+import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
+import com.NikolaySHA.ExclusiveService.model.entity.Car;
+import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.PaymentMethod;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.AppointmentRepository;
@@ -13,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,21 +24,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@WithMockUser(
-        username = "mad@max.com",
-        roles = {"ADMIN", "CUSTOMER"}
-)
 class AppointmentServiceImplTest {
     
     @InjectMocks
     private AppointmentServiceImpl appointmentService;
-    
     @Mock
     private AppointmentRepository appointmentRepository;
-    
     @Mock
     private UserService userService;
-    
     private AddAppointmentDTO addAppointmentDTO;
     private EditAppointmentDTO editAppointmentDTO;
     private Appointment testAppointment;
@@ -45,9 +39,8 @@ class AppointmentServiceImplTest {
     
     @BeforeEach
     void setUp() {
-        User testUser = new User();
+        testUser = new User();
         testUser.setEmail("test@example.com");
-        
         testAppointment = new Appointment();
         testAppointment.setId(1L);
         testAppointment.setUser(testUser);
@@ -58,6 +51,8 @@ class AppointmentServiceImplTest {
         addAppointmentDTO.setDate(LocalDate.now());
         addAppointmentDTO.setPaymentMethod(PaymentMethod.ASSIGMENT_LETTER);
         addAppointmentDTO.setCar(new Car());
+        addAppointmentDTO.setPaintDetails(10);
+        addAppointmentDTO.setComment("Test Comment");
         
         editAppointmentDTO = new EditAppointmentDTO();
         editAppointmentDTO.setDate(LocalDate.now().plusDays(1));
@@ -65,16 +60,16 @@ class AppointmentServiceImplTest {
         editAppointmentDTO.setStatus(Status.COMPLETED);
     }
     
-//    @Test
-//    void testCreate() {
-//       when(userService.findLoggedUser()).thenReturn(testUser);
-//
-//        boolean result = appointmentService.create(addAppointmentDTO);
-//
-//        assertTrue(result);
-//        verify(appointmentRepository, times(1)).save(any(Appointment.class));
-//    }
-//
+    @Test
+    void testCreate() {
+        when(userService.findLoggedUser()).thenReturn(testUser);
+        
+        boolean result = appointmentService.create(addAppointmentDTO);
+        
+        assertTrue(result);
+        verify(appointmentRepository, times(1)).save(any(Appointment.class));
+    }
+    
     @Test
     void testGetAppointmentsByUserEmail() {
         when(appointmentRepository.findByUser_Email("test@example.com")).thenReturn(List.of(testAppointment));
@@ -100,8 +95,6 @@ class AppointmentServiceImplTest {
         assertEquals(testAppointment.getStatus(), result.get(0).getStatus());
         assertEquals(testAppointment.getPaintDetails(), result.get(0).getPaintDetails());
         assertEquals(testAppointment.getPaymentMethod(), result.get(0).getPaymentMethod());
-   
-   
     }
     
     @Test
@@ -151,16 +144,16 @@ class AppointmentServiceImplTest {
         verify(appointmentRepository, times(1)).delete(testAppointment);
     }
     
-//    @Test
-//    void testUpdateAppointment() {
-//        when(appointmentRepository.findById(1L)).thenReturn(Optional.of(testAppointment));
-//
-//        boolean result = appointmentService.updateAppointment(1L, editAppointmentDTO);
-//
-//        assertTrue(result);
-//        verify(appointmentRepository, times(1)).save(testAppointment);
-//    }
-//
+    @Test
+    void testUpdateAppointment() {
+        when(appointmentRepository.findById(1L)).thenReturn(Optional.of(testAppointment));
+        
+        boolean result = appointmentService.updateAppointment(1L, editAppointmentDTO);
+        
+        assertTrue(result);
+        verify(appointmentRepository, times(1)).save(testAppointment);
+    }
+    
     @Test
     void testSave() {
         appointmentService.save(testAppointment);

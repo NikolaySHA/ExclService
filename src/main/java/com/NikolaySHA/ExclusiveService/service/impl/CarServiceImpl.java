@@ -30,7 +30,7 @@ public class CarServiceImpl implements CarService {
         car.setLicensePlate(data.getLicensePlate());
         car.setColor(data.getColor());
         String vin = data.getVin();
-        if (vin.equals("")) {
+        if (vin.isEmpty()) {
             vin = null;
         }
         car.setVin(vin);

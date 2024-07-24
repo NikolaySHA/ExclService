@@ -125,6 +125,7 @@ public class AppointmentController {
     
     @GetMapping("/appointments/edit/{id}")
     public String editAppointmentForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
+        
         Optional<Appointment> appointmentOptional = appointmentService.findByIdInitializingUsersWithCars(id);
         model.addAttribute("statuses", Status.values());
         if (appointmentOptional.isEmpty()){
@@ -139,6 +140,7 @@ public class AppointmentController {
             }
         }
         EditAppointmentDTO editAppointmentDTO = modelMapper.map(appointment, EditAppointmentDTO.class);
+        
         if (!model.containsAttribute("editAppointmentData")) {
             model.addAttribute("editAppointmentData", editAppointmentDTO);
         }

@@ -89,11 +89,32 @@ public class AppointmentServiceImpl implements AppointmentService {
             return false;
         }
         Appointment editedAppointment = toEdit.get();
-        editedAppointment.setComment(appointment.getComment());
-        editedAppointment.setDate(appointment.getDate());
-        editedAppointment.setPaymentMethod(appointment.getPaymentMethod());
-        editedAppointment.setPaintDetails(appointment.getPaintDetails());
+        if (appointment.getComment() != null && !appointment.getComment().equals(editedAppointment.getComment())){
+            editedAppointment.setComment(appointment.getComment());
+        }
+        if (appointment.getDate() != null && !appointment.getDate().equals(editedAppointment.getDate())){
+            editedAppointment.setDate(appointment.getDate());
+        }
+        if (appointment.getUser() != null && !appointment.getUser().equals(editedAppointment.getUser())){
+            editedAppointment.setUser(appointment.getUser());
+        }
+        if (appointment.getPaintDetails() != null && !appointment.getPaintDetails().equals(editedAppointment.getPaintDetails())){
+            editedAppointment.setPaintDetails(appointment.getPaintDetails());
+        }
+        if (appointment.getPaymentMethod() != null && !appointment.getPaymentMethod().equals(editedAppointment.getPaymentMethod())){
+            editedAppointment.setPaymentMethod(appointment.getPaymentMethod());
+        }
+        if (appointment.getCar() != null && !appointment.getCar().equals(editedAppointment.getCar())){
+            editedAppointment.setCar(appointment.getCar());
+        }
+   
+        
+        
+        
         this.updateAppointmentStatus(editedAppointment, appointment.getStatus());
+       
+       
+       
         this.appointmentRepository.save(editedAppointment);
         return true;
     }

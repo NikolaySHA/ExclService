@@ -8,7 +8,7 @@ class  ExclusiveServiceApplicationTests {
 
     @Test
     void contextLoads() {
-    
+
     }
 
 }
