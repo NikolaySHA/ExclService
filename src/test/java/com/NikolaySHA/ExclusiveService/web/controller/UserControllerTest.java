@@ -4,6 +4,7 @@
 //import com.NikolaySHA.ExclusiveService.model.dto.RegisterDTO;
 //import com.NikolaySHA.ExclusiveService.model.dto.ShowUserDTO;
 //import com.NikolaySHA.ExclusiveService.model.entity.User;
+//import com.NikolaySHA.ExclusiveService.repo.UserRepository;
 //import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 //import com.NikolaySHA.ExclusiveService.service.CarService;
 //import com.NikolaySHA.ExclusiveService.service.UserService;
@@ -15,6 +16,8 @@
 //import org.mockito.Mock;
 //import org.mockito.junit.jupiter.MockitoExtension;
 //import org.modelmapper.ModelMapper;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.web.servlet.MockMvc;
 //import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 //import org.springframework.validation.BindingResult;
@@ -25,10 +28,12 @@
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 //
-//@ExtendWith(MockitoExtension.class)
+//@SpringBootTest
 //class UserControllerTest {
 //
-//    @InjectMocks
+//    @Autowired
+//    private UserRepository userRepository;
+//
 //    private UserController userController;
 //
 //    @Mock
