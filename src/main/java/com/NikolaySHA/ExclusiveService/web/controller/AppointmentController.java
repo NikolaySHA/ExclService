@@ -50,12 +50,7 @@ public class AppointmentController {
     
     @GetMapping("/add-appointment")
     public String addAppointment(Model model, RedirectAttributes redirectAttributes) {
-        List<Car> carsData = new ArrayList<>();
-        if (!userService.loggedUserHasRole("ADMIN")) {
-            carsData = carService.findCarsByUser(userService.findLoggedUser().getId());
-        } else {
-            carsData = carService.findAllCars();
-        }
+        List<Car> carsData = getCarList();
         if (carsData.isEmpty()){
             redirectAttributes.addFlashAttribute("showErrorMessage", true);
             return "redirect:/add-car";
@@ -63,6 +58,8 @@ public class AppointmentController {
         model.addAttribute("carsData", carsData);
         return "appointment-add";
     }
+    
+  
     
     @PostMapping("/add-appointment")
     public String doAddAppointment(
@@ -124,9 +121,11 @@ public class AppointmentController {
     }
     
     @GetMapping("/appointments/edit/{id}")
+    @Transactional
     public String editAppointmentForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
-        
+        List<Car> carsData = getCarList();
         Optional<Appointment> appointmentOptional = appointmentService.findByIdInitializingUsersWithCars(id);
+        model.addAttribute("carsData", carsData);
         model.addAttribute("statuses", Status.values());
         if (appointmentOptional.isEmpty()){
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
@@ -165,5 +164,14 @@ public class AppointmentController {
             return "edit-appointment";
         }
         return "redirect:/appointments/" + id;
+    }
+    private List<Car> getCarList() {
+        List<Car> carsData;
+        if (!userService.loggedUserHasRole("ADMIN")) {
+            carsData = carService.findCarsByUser(userService.findLoggedUser().getId());
+        } else {
+            carsData = carService.findAllCars();
+        }
+        return carsData;
     }
 }

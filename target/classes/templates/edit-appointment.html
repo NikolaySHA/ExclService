@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning">Промени назначен ремонт</span></h1>
+    <hr class="hr-3 w-25 bg-white"/>
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+    <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
+          th:method="POST"
+          th:action="@{/appointments/edit/{id}(id=${id})}"
+          th:object="${editAppointmentData}"
+          style="padding: 20px;"
+    >
+            <div class="form-group">
+                <div class="text-white label-holder d-flex justify-content-center">
+                    <label for="car" class="h4 mb-2">Автомобил <span class="text-danger">*</span></label>
+                </div>
+                <select class="browser-default custom-select"
+                        id="car"
+                        name="car"
+                        th:field="*{car}"
+                        th:errorclass="'is-invalid alert-danger'">
+                    <option value="">Изберете автомобил</option>
+                    <option th:each="car : ${carsData}"
+                            th:value="${car.getId()}"
+                            th:text="${car.getLicensePlate()}">
+                    </option>
+                </select>
+                <small th:errors="*{car}" class="invalid-feedback text-danger"></small>
+            </div>
+            <div class="form-group">
+                <div class="text-white label-holder d-flex justify-content-center">
+                    <label for="paymentMethod" class="h4 mb-2">Метод на плащане <span class="text-danger">*</span></label>
+                </div>
+                <select class="browser-default custom-select"
+                        id="paymentMethod"
+                        name="paymentMethod"
+                        th:field="*{paymentMethod}"
+                        th:errorclass="'is-invalid alert-danger'">
+                    <option value="">Изберете начин за плащане</option>
+                    <option value="ASSIGMENT_LETTER">Възлагателно писмо / само за АСЕТ ИНШЪРАНС</option>
+                    <option value="ANOTHER_INSURER_CLAIM">Щета по каско / по съгласувана Фактура</option>
+                    <option value="PRIVATE_ORDER">Частна поръчка</option>
+                </select>
+                <small th:errors="*{paymentMethod}" class="invalid-feedback text-danger"></small>
+            </div>
+        <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="status" class="h4 mb-2">Статус<span class="text-danger">*</span></label>
+            </div>
+            <select id="status" name="status" class="form-control" th:field="*{status}">
+                <option value="" selected>Избери...</option>
+                <option th:each="statusOption : ${statuses}"
+                        th:value="${statusOption.name()}"
+                        th:text="${statusOption.name()}">
+                    Статус
+                </option>
+            </select>
+
+            <small th:errors="*{status}" class="invalid-feedback text-danger"></small>
+        </div>
+            <div class="form-group">
+                <div class="text-white label-holder d-flex justify-content-center">
+                    <label for="paintDetails" class="h4 mb-2">Детайли за боя <span class="text-danger">*</span></label>
+                </div>
+                <select class="browser-default custom-select"
+                        id="paintDetails"
+                        name="paintDetails"
+                        th:field="*{paintDetails}"
+                        th:errorclass="'is-invalid alert-danger'"
+                >
+                    <option value="">Изберете брой детайли за боядисване</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">Цялостно боядисване</option>
+                </select>
+
+                <small th:errors="*{paintDetails}" class="invalid-feedback text-danger"></small>
+            </div>
+        <div class="form-group">
+            <div class="text-white label-holder d-flex justify-content-center">
+                <label for="date" class="h4 mb-2">Дата на записване <span class="text-danger">*</span></label>
+            </div>
+            <input type="date"
+                   class="form-control"
+                   id="date"
+                   name="date"
+                   th:field="*{date}"
+                   th:errorclass="'is-invalid alert-danger'">
+            <small th:errors="*{date}" class="invalid-feedback text-danger"></small>
+        </div>
+            <div class="form-group">
+                <div class="text-white label-holder d-flex justify-content-center">
+                    <label for="comment" class="h4 mb-2">Коментар</label>
+                </div>
+                <textarea class="form-control"
+                          id="comment"
+                          name="comment"
+                          rows="4"
+                          th:field="*{comment}"></textarea>
+            </div>
+
+
+
+            <div class="button-holder d-flex justify-content-center">
+                <button type="submit" class="btn btn-warning  mb-3">Запази</button>
+            </div>
+
+    </form>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

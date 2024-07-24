@@ -162,9 +162,9 @@ public class UserController {
         }
         return "redirect:/";
     }
-    @PostMapping("/users/addAdmin")
+    @PostMapping("/users/add-admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String addAdmin(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+    public String addAdmin(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         Optional<User> optionalUser = userService.findById(id);
         if (optionalUser.isEmpty()) {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
@@ -175,7 +175,7 @@ public class UserController {
             return "redirect:/users/" + id;
         }
         userService.addAdmin(id);
-        return "redirect:/users/" + id;
+        return "redirect:/users/" + id; // Redirects to the user's page after adding admin role
     }
     
     @PostMapping("/users/removeAdmin")

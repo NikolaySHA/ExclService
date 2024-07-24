@@ -12,7 +12,7 @@
           th:method="POST"
           th:action="@{/add-car}"
         th:object="${addCarData}">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
         <div class="alert alert-danger text-center" th:if="${showErrorMessageExistingCar}">
             <a class="close" data-dismiss="alert" aria-label="close"></a>
             Автомобил с такъв номер съществува!
