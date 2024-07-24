@@ -33,10 +33,6 @@
                                 <label class="text-yellow">Начин на плащане</label>
                                 <p class="text-white mb-1" th:text="${showAppointmentData.paymentMethod.name()}"></p>
                             </div>
-<!--                            <div th:if="${!#strings.isEmpty(showAppointmentData.paintDetails)}">-->
-<!--                                <label class="text-yellow">Цвят</label>-->
-<!--                                <p class="text-white mb-1" th:text="${showAppointmentData.paintDetails}"></p>-->
-<!--                            </div>-->
 
                             <div class="d-flex flex-column align-items-center">
                                 <form th:action="@{/appointments/edit/{id}(id=${id})}" th:method="GET">
@@ -44,12 +40,11 @@
                                         Промени
                                     </button>
                                 </form>
-                                <form th:action="@{/appointments/delete/{id}(id=${id})}"th:method="POST">
+                                <form th:action="@{/appointments/delete/{id}(id=${id})}" th:method="POST">
                                     <button class="btn btn-danger btn-sm mb-2" style="width: 150px;" type="submit">
                                         Изтрии
                                     </button>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -58,12 +53,58 @@
             <!-- Right Column -->
             <div class="col-xl-8 d-flex flex-column">
                 <h2 class="text-center mt-2"><span class="badge badge-pill badge-warning">Ремонт</span></h2>
-                <div th:if="${!#strings.isEmpty(showAppointmentData.comment)}">
-                    <h4 class="text-white">Коментар</h4>
-                    <div class="card flex-fill">
-                        <p class="text-white mb-1" th:text="${showAppointmentData.comment}"  style="height: 25vh; overflow: auto"></p>
+
+                <!-- Expenses Table -->
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h4 class="mySticky bg-gray text-light mb-0 mt-2">Разходи</h4>
+                        <div class="bg-dark rounded" style="height: 25vh; overflow: auto">
+                            <table class="table table-striped table-dark">
+                                <thead>
+                                <tr>
+                                    <th>Име</th>
+                                    <th>Цена</th>
+                                    <th sec:authorize="hasRole('ROLE_ADMIN')">Действия</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="expense : ${expenses}">
+                                    <td th:text="${expense.name}"></td>
+                                    <td th:text="${expense.price}"></td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <form th:method="POST" th:action="@{/expenses/delete/{id}(id=${expense.id})}">
+                                            <button class="bg-transparent border-0" type="submit">
+                                                <i class="fa-solid fa-trash-can text-yellow"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <div class="text-center mt-3">
+                                    <h4 class="text-light">Добави разход</h4>
+                                    <form id="addExpenseForm"
+                                          th:action="@{/expenses}"
+                                          th:method="POST">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="expenseName" class="text-light">Име</label>
+                                                <input type="text" id="expenseName" name="name" class="form-control" placeholder="Въведете име" required>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="expensePrice" class="text-light">Цена</label>
+                                                <input type="number" id="expensePrice" name="price" class="form-control" placeholder="Въведете цена" step="0.01" required>
+                                            </div>
+                                            <div class="form-group col-md-4 d-flex align-items-end">
+                                                <button type="submit" class="btn btn-success btn-block">Добави разход</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row mt-1 mb-2 flex-fill" th:if="!${showAppointmentData.car.appointments.isEmpty()}">
                     <div class="col-md-12 col-12 mt-1 mb-1">
                         <h4 class="mySticky bg-gray text-light mb-0 mt-2">Ремонти</h4>
@@ -72,7 +113,6 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-
                                     <th>Дата</th>
                                     <th>Статус</th>
                                     <th>Бр. детайли</th>
@@ -108,9 +148,9 @@
 </main>
 <footer th:replace="~{fragments/commons::footer}"></footer>
 
-<!-- Include necessary scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>

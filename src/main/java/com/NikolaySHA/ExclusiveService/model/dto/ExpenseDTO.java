@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ExpenseDTO {
+    
     private String name;
     private double price;
+    private long appointmentId;
     
 }

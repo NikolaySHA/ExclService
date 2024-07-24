@@ -11,8 +11,8 @@ public class RestConfig {
     public RestClient genericRestClient(){
         return RestClient.create();
     }
-    @Bean("usersRestClient")
-    public RestClient usersRestClient(ExpensesApiConfig expensesApiConfig) {
+    @Bean("expensesRestClient")
+    public RestClient expensesRestClient(ExpensesApiConfig expensesApiConfig) {
         return RestClient
                 .builder()
                 .baseUrl(expensesApiConfig.getBaseUrl())

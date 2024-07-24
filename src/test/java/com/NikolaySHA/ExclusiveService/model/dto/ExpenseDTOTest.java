@@ -6,18 +6,18 @@ import org.junit.jupiter.api.Test;
 public class ExpenseDTOTest {
     @Test
     void testDefaultConstructor() {
-        ExpenseDTO expenseDTO = new ExpenseDTO();
-        Assertions.assertNull(expenseDTO.getName());
-        Assertions.assertEquals (0.0, expenseDTO.getPrice());
+        ExpenseDTO expenseOutDTO = new ExpenseDTO();
+        Assertions.assertNull(expenseOutDTO.getName());
+        Assertions.assertEquals (0.0, expenseOutDTO.getPrice());
     }
     
     @Test
     void testGettersAndSetters() {
-        ExpenseDTO expenseDTO = new ExpenseDTO();
-        expenseDTO.setName("Test Expense");
-        expenseDTO.setPrice(100.0);
+        ExpenseDTO expenseOutDTO = new ExpenseDTO();
+        expenseOutDTO.setName("Test Expense");
+        expenseOutDTO.setPrice(100.0);
         
-        Assertions.assertEquals("Test Expense", expenseDTO.getName());
-        Assertions.assertEquals(100.0, expenseDTO.getPrice());
+        Assertions.assertEquals("Test Expense", expenseOutDTO.getName());
+        Assertions.assertEquals(100.0, expenseOutDTO.getPrice());
     }
 }

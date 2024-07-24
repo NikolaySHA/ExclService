@@ -1,6 +1,5 @@
 package com.NikolaySHA.ExclusiveService.model.entity;
 
-import com.NikolaySHA.ExclusiveService.model.dto.ExpenseDTO;
 import com.NikolaySHA.ExclusiveService.model.enums.PaymentMethod;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import org.junit.jupiter.api.Assertions;
