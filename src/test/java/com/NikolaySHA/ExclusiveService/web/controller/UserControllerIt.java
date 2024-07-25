@@ -1,39 +1,36 @@
-//package com.NikolaySHA.ExclusiveService.web.controller;
-//
-//import com.NikolaySHA.ExclusiveService.model.dto.EditUserDTO;
-//import com.NikolaySHA.ExclusiveService.model.dto.RegisterDTO;
-//import com.NikolaySHA.ExclusiveService.model.dto.ShowUserDTO;
-//import com.NikolaySHA.ExclusiveService.model.entity.User;
-//import com.NikolaySHA.ExclusiveService.repo.UserRepository;
-//import com.NikolaySHA.ExclusiveService.service.AppointmentService;
-//import com.NikolaySHA.ExclusiveService.service.CarService;
-//import com.NikolaySHA.ExclusiveService.service.UserService;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.modelmapper.ModelMapper;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//import org.springframework.validation.BindingResult;
-//
-//import java.util.Optional;
-//
-//import static org.mockito.Mockito.*;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//
-//@SpringBootTest
-//class UserControllerTest {
-//
+package com.NikolaySHA.ExclusiveService.web.controller;
+
+import com.NikolaySHA.ExclusiveService.model.dto.EditUserDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.RegisterDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.ShowUserDTO;
+import com.NikolaySHA.ExclusiveService.model.entity.User;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.validation.BindingResult;
+
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class UserControllerIt {
+    @Autowired
+    private MockMvc mockMvc;
+    
+    
 //    @Autowired
 //    private UserRepository userRepository;
-//
 //    private UserController userController;
 //
 //    @Mock
@@ -47,14 +44,12 @@
 //
 //    @Mock
 //    private ModelMapper modelMapper;
-//
-//    private MockMvc mockMvc;
-//
+
 //    @BeforeEach
 //    void setUp() {
 //        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 //    }
-//
+
 //    @Test
 //    void testRegisterPage() throws Exception {
 //        mockMvc.perform(get("/register"))
@@ -65,7 +60,6 @@
 //    @Test
 //    void testDoRegister_Success() throws Exception {
 //        RegisterDTO registerDTO = new RegisterDTO();
-//        // Set fields on registerDTO as needed
 //
 //        when(userService.register(any(RegisterDTO.class))).thenReturn(true);
 //
@@ -160,4 +154,4 @@
 //                .andExpect(status().is3xxRedirection())
 //                .andExpect(redirectedUrl("/users/" + userId));
 //    }
-//}
+}

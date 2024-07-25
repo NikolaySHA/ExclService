@@ -5,7 +5,7 @@ import com.NikolaySHA.ExclusiveService.model.dto.ExpenseDTO;
 import java.util.List;
 
 public interface ExpenseService {
-    void createExpense(ExpenseDTO expenseOutDTO, Long id);
+    void createExpense(ExpenseDTO expenseOutDTO);
     
     void deleteExpense(Long id);
     

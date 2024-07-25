@@ -1,6 +1,6 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
-import com.NikolaySHA.ExclusiveService.model.dto.AddCarDataDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.CarDataDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.repo.CarRepository;
 import com.NikolaySHA.ExclusiveService.service.CarService;
@@ -19,7 +19,7 @@ public class CarServiceImpl implements CarService {
     
     
     @Override
-    public boolean addCar(AddCarDataDTO data) {
+    public boolean addCar(CarDataDTO data) {
         Optional<Car> optionalCar = carRepository.findByLicensePlate(data.getLicensePlate());
         if (optionalCar.isPresent()){
             return false;
@@ -65,7 +65,7 @@ public class CarServiceImpl implements CarService {
     }
     
     @Override
-    public void updateCar(Long id, AddCarDataDTO car) {
+    public void updateCar(Long id, CarDataDTO car) {
         Optional<Car> toEdit = carRepository.findById(id);
         if (toEdit.isEmpty()){
             return;

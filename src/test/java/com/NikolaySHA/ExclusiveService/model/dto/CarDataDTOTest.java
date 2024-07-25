@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AddCarDataDTOTest {
+class CarDataDTOTest {
     
-    private AddCarDataDTO dto;
+    private CarDataDTO dto;
     
     @BeforeEach
     void setUp() {
-        dto = new AddCarDataDTO();
+        dto = new CarDataDTO();
     }
     @Test
     void testDefaultConstructor(){

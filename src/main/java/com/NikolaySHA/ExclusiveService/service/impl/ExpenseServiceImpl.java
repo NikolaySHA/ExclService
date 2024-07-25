@@ -19,11 +19,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
     
     @Override
-    public void createExpense(ExpenseDTO expenseOutDTO, Long id) {
-        expenseOutDTO.setAppointmentId(id);
+    public void createExpense(ExpenseDTO expenseOutDTO) {
         expense
                 .post()
-                .uri("/offers")
+                .uri("/expenses")
                 .body(expenseOutDTO)
                 .retrieve();
     }
@@ -37,7 +36,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseDTO getExpenseById(Long id) {
         return expense
                 .get()
-                .uri("/offers/{id}", id)
+                .uri("/expenses/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(ExpenseDTO.class);
@@ -47,7 +46,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<ExpenseDTO> getAllExpenses() {
         return expense
                 .get()
-                .uri("/offers")
+                .uri("/expenses")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>(){});

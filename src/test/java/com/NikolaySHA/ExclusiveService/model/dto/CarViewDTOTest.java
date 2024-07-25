@@ -9,17 +9,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShowCarDTOTest {
-    private ShowCarDTO dto;
+class CarViewDTOTest {
+    private CarViewDTO dto;
     
     @BeforeEach
     void setUp() {
-        dto = new ShowCarDTO();
+        dto = new CarViewDTO();
     }
     
     @Test
     void testDefaultConstructor() {
-        ShowCarDTO dto2 = new ShowCarDTO();
+        CarViewDTO dto2 = new CarViewDTO();
         assertNull(dto2.getLicensePlate());
         assertNull(dto2.getMake());
         assertNull(dto2.getModel());
@@ -62,7 +62,7 @@ class ShowCarDTOTest {
     
     @Test
     void testAppointmentsInitialization() {
-        ShowCarDTO dto2 = new ShowCarDTO();
+        CarViewDTO dto2 = new CarViewDTO();
         assertNotNull(dto2.getAppointments());
         assertTrue(dto2.getAppointments().isEmpty());
     }

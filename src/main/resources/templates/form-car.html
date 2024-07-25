@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/commons::head"></head>
 <body>
 <header th:replace="fragments/commons::nav"></header>
 <main>
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning">Промени автомобил</span></h1>
+    <h1 class="text-center mt-2">
+        <span class="badge badge-pill badge-warning" th:text="${isEdit ? 'Промени автомобил' : 'Добави автомобил'}"></span>
+    </h1>
     <hr class="hr-3 w-25 bg-white"/>
     <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
           th:method="POST"
-          th:action="@{/cars/edit/{id}(id=${id})}"
-          th:object="${editCarData}"
-          style="padding: 20px;"
-    >
+          th:action="@{${isEdit} ? '/cars/edit/' + ${id} : '/cars/add'}"
+          th:object="${carData}"
+          style="padding: 20px;">
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
                 <label for="licensePlate" class="h4 mb-2">Регистрационнен номер <span class="text-danger">*</span></label>
@@ -68,10 +68,9 @@
                    th:field="*{color}"
                    th:errorclass="'is-invalid alert-danger'"/>
             <small th:errors="*{color}" class="invalid-feedback text-danger"></small>
-
         </div>
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning mb-3">Запази</button>
+            <button type="submit" class="btn btn-warning mb-3" th:text="${isEdit ? 'Запази' : 'Добави автомобил'}"></button>
         </div>
     </form>
 </main>

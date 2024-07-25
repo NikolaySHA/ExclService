@@ -94,6 +94,9 @@
                                                 <label for="expensePrice" class="text-light">Цена</label>
                                                 <input type="number" id="expensePrice" name="price" class="form-control" placeholder="Въведете цена" step="0.01" required>
                                             </div>
+                                            <div class="form-group col-md-4">
+                                                <input type="hidden" id="appointmentId" name="appointmentId" th:value="${id}">
+                                            </div>
                                             <div class="form-group col-md-4 d-flex align-items-end">
                                                 <button type="submit" class="btn btn-success btn-block">Добави разход</button>
                                             </div>
@@ -117,7 +120,6 @@
                                     <th>Статус</th>
                                     <th>Бр. детайли</th>
                                     <th>Начин на плащане</th>
-                                    <th sec:authorize="hasRole('ROLE_ADMIN')">Премахни</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -129,13 +131,6 @@
                                     <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getStatus()}"></a></td>
                                     <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaintDetails()}"></a></td>
                                     <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaymentMethod()}"></a></td>
-                                    <td sec:authorize="hasRole('ROLE_ADMIN')">
-                                        <form th:method="POST" th:action="@{/appointments/delete/{id}(id=${appointment.id})}">
-                                            <button class="bg-transparent border-0" type="submit">
-                                                <i class="fa-solid fa-trash-can text-yellow"></i>
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

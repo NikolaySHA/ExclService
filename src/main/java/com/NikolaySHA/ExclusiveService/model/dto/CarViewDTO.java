@@ -10,7 +10,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ShowCarDTO {
+public class CarViewDTO {
+    private String id;
     private String licensePlate;
     private String make;
     private String model;
@@ -18,7 +19,7 @@ public class ShowCarDTO {
     private String color;
     private User owner;
     private List<Appointment> appointments;
-    public ShowCarDTO() {
+    public CarViewDTO() {
         this.appointments = new ArrayList<>();
     }
 }

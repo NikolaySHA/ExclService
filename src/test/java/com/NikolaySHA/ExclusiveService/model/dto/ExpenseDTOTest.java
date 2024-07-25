@@ -16,8 +16,10 @@ public class ExpenseDTOTest {
         ExpenseDTO expenseOutDTO = new ExpenseDTO();
         expenseOutDTO.setName("Test Expense");
         expenseOutDTO.setPrice(100.0);
+        expenseOutDTO.setAppointmentId(1);
         
         Assertions.assertEquals("Test Expense", expenseOutDTO.getName());
         Assertions.assertEquals(100.0, expenseOutDTO.getPrice());
+        Assertions.assertEquals(1, expenseOutDTO.getAppointmentId());
     }
 }

@@ -1,12 +1,10 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
-import com.NikolaySHA.ExclusiveService.model.dto.AddCarDataDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.CarDataDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.repo.CarRepository;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,12 +33,12 @@ class CarServiceImplTest {
     @Test
     void testAddCarWithEmptyVin() {
         // Given
-        AddCarDataDTO addCarDataDTO = new AddCarDataDTO();
-        addCarDataDTO.setMake("Toyota");
-        addCarDataDTO.setModel("Corolla");
-        addCarDataDTO.setLicensePlate("XYZ123");
-        addCarDataDTO.setColor("Blue");
-        addCarDataDTO.setVin(""); // Empty VIN
+        CarDataDTO carDataDTO = new CarDataDTO();
+        carDataDTO.setMake("Toyota");
+        carDataDTO.setModel("Corolla");
+        carDataDTO.setLicensePlate("XYZ123");
+        carDataDTO.setColor("Blue");
+        carDataDTO.setVin(""); // Empty VIN
         
         // Mock UserService to return a dummy user
         when(userService.findLoggedUser()).thenReturn(new User());
@@ -50,7 +48,7 @@ class CarServiceImplTest {
         when(carRepository.save(any(Car.class))).thenAnswer(invocation -> invocation.getArgument(0));
         
         // When
-        boolean result = carService.addCar(addCarDataDTO);
+        boolean result = carService.addCar(carDataDTO);
         
         // Then
         assertTrue(result);
@@ -60,13 +58,13 @@ class CarServiceImplTest {
     }
     @Test
     void testVinIsNullOnEmptyString(){
-        AddCarDataDTO data = new AddCarDataDTO();
+        CarDataDTO data = new CarDataDTO();
         
         assertNull(data.getVin());
     }
     @Test
     void testAddCar_AlreadyExists() {
-        AddCarDataDTO data = new AddCarDataDTO();
+        CarDataDTO data = new CarDataDTO();
         data.setLicensePlate("CB6666BC");
         
         when(carRepository.findByLicensePlate(data.getLicensePlate())).thenReturn(Optional.of(new Car()));
@@ -141,7 +139,7 @@ class CarServiceImplTest {
     @Test
     void testUpdateCar_Success() {
         Long carId = 1L;
-        AddCarDataDTO updateData = new AddCarDataDTO();
+        CarDataDTO updateData = new CarDataDTO();
         updateData.setLicensePlate("CB6666BC");
         updateData.setMake("AUDI");
         updateData.setModel("RSˆ");
@@ -164,7 +162,7 @@ class CarServiceImplTest {
     @Test
     void testUpdateCar_NotFound() {
         Long carId = 1L;
-        AddCarDataDTO updateData = new AddCarDataDTO();
+        CarDataDTO updateData = new CarDataDTO();
         
         when(carRepository.findById(carId)).thenReturn(Optional.empty());
         

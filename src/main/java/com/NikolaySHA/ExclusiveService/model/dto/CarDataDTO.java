@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddCarDataDTO {
+public class CarDataDTO {
     
     @NotBlank(message = "{error_message_not_null}")
     @Size(min = 5, max = 12, message = "{error_message_size_number_plate}")

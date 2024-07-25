@@ -1,14 +1,14 @@
 package com.NikolaySHA.ExclusiveService.service;
 
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
-import com.NikolaySHA.ExclusiveService.model.dto.AddCarDataDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.CarDataDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CarService {
     
-    boolean addCar(AddCarDataDTO data);
+    boolean addCar(CarDataDTO data);
     List<Car> findCarsByUser(Long id);
     
     Optional<Car> findById(Long id);
@@ -19,5 +19,5 @@ public interface CarService {
     
     List<Car> searchCars(String licensePlate, String make, String customer);
     
-    void updateCar(Long id, AddCarDataDTO car);
+    void updateCar(Long id, CarDataDTO car);
 }

@@ -13,18 +13,18 @@
                     <div class="card-body text-center">
                         <img src="/images/p911.png" alt="Car" class="rounded-circle p-1 bg-transparent" width="200px" height="100px">
                         <div class="mt-3">
-                            <h4 th:text="${carData.licensePlate}"></h4>
+                            <h4 th:text="${carViewData.licensePlate}"></h4>
                             <label class="text-yellow">Марка</label>
-                            <p class="text-white mb-1" th:text="${carData.make}"></p>
+                            <p class="text-white mb-1" th:text="${carViewData.make}"></p>
                             <label class="text-yellow">Модел</label>
-                            <p class="text-white mb-1" th:text="${carData.model}"></p>
-                            <div th:if="${!#strings.isEmpty(carData.vin)}">
+                            <p class="text-white mb-1" th:text="${carViewData.model}"></p>
+                            <div th:if="${!#strings.isEmpty(carViewData.vin)}">
                                 <label class="text-yellow">Рама</label>
-                                <p class="text-white mb-1" th:text="${carData.vin}"></p>
+                                <p class="text-white mb-1" th:text="${carViewData.vin}"></p>
                             </div>
-                            <div th:if="${!#strings.isEmpty(carData.color)}">
+                            <div th:if="${!#strings.isEmpty(carViewData.color)}">
                                 <label class="text-yellow">Цвят</label>
-                                <p class="text-white mb-1" th:text="${carData.color}"></p>
+                                <p class="text-white mb-1" th:text="${carViewData.color}"></p>
                             </div>
 
                             <div class="d-flex flex-column align-items-center">
@@ -47,7 +47,7 @@
             <!-- Right Column -->
             <div class="col-xl-8 d-flex flex-column">
                 <h2 class="text-center mt-2"><span class="badge badge-pill badge-warning">Автомобил</span></h2>
-                <div class="row mt-1 mb-2 flex-fill" th:if="!${carData.appointments.isEmpty()}">
+                <div class="row mt-1 mb-2 flex-fill" th:if="!${carViewData.appointments.isEmpty()}">
                     <div class="col-md-12 col-12 mt-1 mb-1">
                         <h3 class="mySticky bg-gray text-light mb-0 mt-2">Ремонти</h3>
                         <div class="bg-dark rounded" style="height: 45vh; overflow: auto">
@@ -63,12 +63,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="appointment : ${carData.appointments}">
+                                <tr th:each="appointment : ${carViewData.appointments}">
                                     <td class="bg-warning" style="width: 5%">
                                         <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                     </td>
                                     <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getDate()}"></a></td>
-                                    <td <a class="text-light" th:href="@{/cars/{id}(id=${appointment.car.id})}" th:text="${appointment.car.licensePlate}"></a></td>
+                                    <td><a class="text-light" th:href="@{/cars/{id}(id=${appointment.car.id})}" th:text="${appointment.car.licensePlate}"></a></td>
                                     <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getStatus()}"></a></td>
                                     <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaintDetails()}"></a>
                                     <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getPaymentMethod()}"></a></td>

@@ -8,27 +8,24 @@
 <header th:replace="~{fragments/commons::nav}"></header>
 <main>
     <div class="jumbotron container bg-blur rounded mt-5 ">
-        <div th:if="${deleteCarErrorMessage}">
+        <div>
             <img src="https://hips.hearstapps.com/hmg-prod/images/check-engine-light-icon-1616189100.jpg?crop=1.00xw:0.891xh;0,0.0295xh&resize=980:*" width="200rem" height="160rem">
-            <p class="lead">Посочения автомобил има записан час за ремонт и не може да бъде изтрит</p>
-            <hr class="my-4">
-            <p>Моля, свържете се с администратора на системата за отстраняване на проблема.</p>
-            <p class="lead">
-                <a th:href="@{/contacts}" class="contact-link text-warning">свържете с нас</a>
-            </p>
-        </div>
-        <div th:if="${noSuchCarErrorMessage}">
-            <img src="https://hips.hearstapps.com/hmg-prod/images/check-engine-light-icon-1616189100.jpg?crop=1.00xw:0.891xh;0,0.0295xh&resize=980:*" width="200rem" height="160rem">
-            <p class="lead">Няма такъв автомобил в базата данни</p>
-            <hr class="my-4">
-            <p>Моля, свържете се с администратора на системата за отстраняване на проблема.</p>
-            <p class="lead">
-                <a th:href="@{/contacts}" class="contact-link text-warning">свържете с нас</a>
-            </p>
-        </div>
-        <div th:if="${notFoundErrorMessage}">
-            <img src="https://hips.hearstapps.com/hmg-prod/images/check-engine-light-icon-1616189100.jpg?crop=1.00xw:0.891xh;0,0.0295xh&resize=980:*" width="200rem" height="160rem">
-            <p class="lead">Страницата която търсите не е достъпна</p>
+
+            <div th:if="${deleteCarErrorMessage}">
+                <p class="lead">Посочения автомобил има записан час за ремонт и не може да бъде изтрит</p>
+            </div>
+            <div th:if="${noSuchCarErrorMessage}">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/check-engine-light-icon-1616189100.jpg?crop=1.00xw:0.891xh;0,0.0295xh&resize=980:*" width="200rem" height="160rem">
+                <p class="lead">Няма такъв автомобил в базата данни</p>
+            </div>
+            <div th:if="${notFoundErrorMessage}">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/check-engine-light-icon-1616189100.jpg?crop=1.00xw:0.891xh;0,0.0295xh&resize=980:*" width="200rem" height="160rem">
+                <p class="lead">Страницата която търсите не е достъпна</p>
+            </div>
+            <div th:if="${noPrivilegeMessage}">
+                <img src="https://hips.hearstapps.com/hmg-prod/images/check-engine-light-icon-1616189100.jpg?crop=1.00xw:0.891xh;0,0.0295xh&resize=980:*" width="200rem" height="160rem">
+                <p class="lead">Нямате права за извършване на избраната операция</p>
+            </div>
             <hr class="my-4">
             <p>Моля, свържете се с администратора на системата за отстраняване на проблема.</p>
             <p class="lead">
