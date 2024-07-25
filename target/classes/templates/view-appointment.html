@@ -72,27 +72,29 @@
                                     <td th:text="${expense.name}"></td>
                                     <td th:text="${expense.price}"></td>
                                     <td sec:authorize="hasRole('ROLE_ADMIN')">
-                                        <form th:method="POST" th:action="@{/expenses/delete/{id}(id=${expense.id})}">
+                                        <form th:method="POST" th:action="@{/expenses/delete/{id}(id=${id})}">
                                             <button class="bg-transparent border-0" type="submit">
                                                 <i class="fa-solid fa-trash-can text-yellow"></i>
                                             </button>
                                         </form>
                                     </td>
                                 </tr>
-                                </tbody>
-                                <div class="text-center mt-3">
+                                <tr>
                                     <h4 class="text-light">Добави разход</h4>
                                     <form id="addExpenseForm"
-                                          th:action="@{/expenses}"
+                                          th:action="@{/expenses/}"
                                           th:method="POST">
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label for="expenseName" class="text-light">Име</label>
                                                 <input type="text" id="expenseName" name="name" class="form-control" placeholder="Въведете име" required>
                                             </div>
-                                            <div class="form-group col-md-4">
+                                            <div class="form-group col-md-4"
+                                            >
                                                 <label for="expensePrice" class="text-light">Цена</label>
                                                 <input type="number" id="expensePrice" name="price" class="form-control" placeholder="Въведете цена" step="0.01" required>
+<!--                                                th:errorclass="'is-invalid alert-danger'"-->
+<!--                                                <small th:errors="*{price}" class="invalid-feedback text-danger"></small>-->
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <input type="hidden" id="appointmentId" name="appointmentId" th:value="${id}">
@@ -102,7 +104,10 @@
                                             </div>
                                         </div>
                                     </form>
-                                </div>
+                                </tr>
+                                </tbody>
+
+
                             </table>
                         </div>
                     </div>

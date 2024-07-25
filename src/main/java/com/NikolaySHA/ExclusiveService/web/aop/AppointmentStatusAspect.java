@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.aop;
+package com.NikolaySHA.ExclusiveService.web.aop;
 
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
@@ -29,6 +29,7 @@ public class AppointmentStatusAspect {
         if (newStatus.equals(Status.IN_PROGRESS) || newStatus.equals(Status.COMPLETED)) {
             Optional<Appointment> updatedAppointment = appointmentService.findById(appointment.getId());
             updatedAppointment.ifPresent(protocolService::createTransferProtocol);
+            System.out.println();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.aop;
+package com.NikolaySHA.ExclusiveService.web.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -17,7 +17,7 @@ public class MonitoringAspect {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringAspect.class);
     
-    @Around("com.NikolaySHA.ExclusiveService.aop.Pointcuts.onWarnIfExecutionTimeExceeds()")
+    @Around("com.NikolaySHA.ExclusiveService.web.aop.Pointcuts.onWarnIfExecutionTimeExceeds()")
     Object monitorExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
         WarnIfExecutionExceeds annotation = getAnnotation(pjp);
         long threshold = annotation.threshold();

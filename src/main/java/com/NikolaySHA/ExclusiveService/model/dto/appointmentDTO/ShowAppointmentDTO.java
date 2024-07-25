@@ -17,7 +17,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class ShowAppointmentDTO {
     private LocalDate date;
     private User user;
@@ -28,4 +27,7 @@ public class ShowAppointmentDTO {
     private String comment;
     private List<TransferProtocol> protocols;
     
+    public ShowAppointmentDTO() {
+        this.protocols = new ArrayList<>();
+    }
 }

@@ -32,6 +32,6 @@ public class ProtocolController {
         TransferProtocol protocol = protocolOptional.get();
         data = modelMapper.map(protocol, ProtocolDTO.class);
         model.addAttribute("protocolData", data);
-        return "transfer-protocol";
+        return "view-transfer-protocol";
     }
 }

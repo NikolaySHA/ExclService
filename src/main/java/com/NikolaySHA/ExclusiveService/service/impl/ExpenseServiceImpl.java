@@ -51,4 +51,13 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .retrieve()
                 .body(new ParameterizedTypeReference<>(){});
     }
+    @Override
+    public List<ExpenseDTO> getAllExpensesByAppointmentId(Long id) {
+        return expense
+                .get()
+                .uri("/expenses/appointment/{id}", id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>(){});
+    }
 }

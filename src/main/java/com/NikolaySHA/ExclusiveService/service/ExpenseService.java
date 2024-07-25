@@ -12,4 +12,5 @@ public interface ExpenseService {
     ExpenseDTO getExpenseById(Long id);
     
     List<ExpenseDTO> getAllExpenses();
+    List<ExpenseDTO> getAllExpensesByAppointmentId(Long id);
 }

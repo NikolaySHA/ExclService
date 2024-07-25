@@ -1,6 +1,6 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
-import com.NikolaySHA.ExclusiveService.aop.WarnIfExecutionExceeds;
+import com.NikolaySHA.ExclusiveService.web.aop.WarnIfExecutionExceeds;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserLoginDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;

@@ -27,7 +27,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     @Override
     public boolean create(AddAppointmentDTO data) {
-        User user = userService.findLoggedUser();
+        User user = data.getCar().getOwner();
         Appointment appointment = modelMapper.map(data, Appointment.class);
         appointment.setUser(data.getCar().getOwner());
         appointment.setStatus(Status.SCHEDULED);

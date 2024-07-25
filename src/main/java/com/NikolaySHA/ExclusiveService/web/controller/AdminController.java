@@ -11,7 +11,7 @@ import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import com.NikolaySHA.ExclusiveService.aop.WarnIfExecutionExceeds;
+import com.NikolaySHA.ExclusiveService.web.aop.WarnIfExecutionExceeds;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

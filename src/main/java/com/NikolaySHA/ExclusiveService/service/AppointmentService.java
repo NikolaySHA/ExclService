@@ -11,26 +11,16 @@ import java.util.Optional;
 
 public interface AppointmentService {
     
-    
-    
     boolean create(AddAppointmentDTO data);
-    
     List<Appointment> getAppointmentsByUserEmail(String email);
-    
     List<Appointment> getAllAppointments();
     void updateAppointmentStatus(Appointment appointment, Status status);
     List<Appointment> searchAppointments(String date, String licensePlate, String make, String client, Status status);
-    
     Optional<Appointment> findById(Long id);
     Optional<Appointment> findByIdInitializingUsersWithCars(Long id);
-    
     void delete(Appointment appointment);
-    
     boolean updateAppointment(Long id, EditAppointmentDTO appointment);
-    
     List<Appointment> findByDate(LocalDate today);
-    
     void saveAll(List<Appointment> appointments);
-    
     void save(Appointment data);
 }

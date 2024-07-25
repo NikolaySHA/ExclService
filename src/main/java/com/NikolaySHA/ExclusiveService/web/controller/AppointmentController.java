@@ -1,6 +1,7 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
 
+import com.NikolaySHA.ExclusiveService.model.dto.ExpenseDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.AddAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.EditAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.ShowAppointmentDTO;
@@ -10,6 +11,7 @@ import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
+import com.NikolaySHA.ExclusiveService.service.ExpenseService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -31,11 +33,14 @@ public class AppointmentController {
     private final CarService carService;
     private final UserService userService;
     private final ModelMapper modelMapper;
-    public AppointmentController(AppointmentService appointmentService, CarService carService, UserService userService, ModelMapper modelMapper) {
+    private final ExpenseService expenseService;
+    
+    public AppointmentController(AppointmentService appointmentService, CarService carService, UserService userService, ModelMapper modelMapper, ExpenseService expenseService) {
         this.appointmentService = appointmentService;
         this.carService = carService;
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.expenseService = expenseService;
     }
     @ModelAttribute("appointmentData")
     public AddAppointmentDTO addAppointmentDTO(){
@@ -104,8 +109,10 @@ public class AppointmentController {
                 return "redirect:/error/contact-admin";
             }
         }
+        List<ExpenseDTO> expensesList = expenseService.getAllExpensesByAppointmentId(id);
         ShowAppointmentDTO data = modelMapper.map(appointment, ShowAppointmentDTO.class);
         model.addAttribute("showAppointmentData", data);
+        model.addAttribute("expenses", expensesList);
         return "view-appointment";
     }
     

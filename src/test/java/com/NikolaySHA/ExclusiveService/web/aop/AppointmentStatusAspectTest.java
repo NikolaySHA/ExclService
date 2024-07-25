@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.aop;
+package com.NikolaySHA.ExclusiveService.web.aop;
 
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
@@ -39,46 +39,39 @@ public class AppointmentStatusAspectTest {
     
     @Test
     public void testAfterUpdateAppointmentStatus_withInProgress() {
-        // Mock the behavior of appointmentService.findById
+        
         when(appointmentService.findById(appointment.getId())).thenReturn(Optional.of(appointment));
-        
-        // Call the method to be tested
+
         appointmentStatusAspect.afterUpdateAppointmentStatus(appointment, Status.IN_PROGRESS);
-        
-        // Verify that createTransferProtocol was called
+ 
         verify(protocolService, times(1)).createTransferProtocol(appointment);
     }
     
     @Test
     public void testAfterUpdateAppointmentStatus_withCompleted() {
-        // Mock the behavior of appointmentService.findById
+
         when(appointmentService.findById(appointment.getId())).thenReturn(Optional.of(appointment));
         
-        // Call the method to be tested
         appointmentStatusAspect.afterUpdateAppointmentStatus(appointment, Status.COMPLETED);
         
-        // Verify that createTransferProtocol was called
         verify(protocolService, times(1)).createTransferProtocol(appointment);
     }
     
     @Test
     public void testAfterUpdateAppointmentStatus_withOtherStatus() {
-        // Call the method to be tested
+        
         appointmentStatusAspect.afterUpdateAppointmentStatus(appointment, Status.SCHEDULED);
         
-        // Verify that createTransferProtocol was not called
         verify(protocolService, times(0)).createTransferProtocol(any(Appointment.class));
     }
     
     @Test
     public void testAfterUpdateAppointmentStatus_withNonExistentAppointment() {
-        // Mock the behavior of appointmentService.findById
+        
         when(appointmentService.findById(appointment.getId())).thenReturn(Optional.empty());
         
-        // Call the method to be tested
         appointmentStatusAspect.afterUpdateAppointmentStatus(appointment, Status.IN_PROGRESS);
         
-        // Verify that createTransferProtocol was not called
         verify(protocolService, times(0)).createTransferProtocol(any(Appointment.class));
     }
 }

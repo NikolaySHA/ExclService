@@ -32,12 +32,8 @@ public class ProtocolServiceImpl implements ProtocolService {
     @Override
     @Transactional
     public void createTransferProtocol(Appointment data) {
-        TransferProtocol transferProtocol = new TransferProtocol();
-        transferProtocol.setDate(data.getDate());
-        transferProtocol.setMake(data.getCar().getMake());
-        transferProtocol.setModel(data.getCar().getModel());
-        transferProtocol.setLicensePlate(data.getCar().getLicensePlate());
-        transferProtocol.setCustomerName(data.getUser().getName());
+        
+        TransferProtocol transferProtocol = modelMapper.map(data, TransferProtocol.class);
         if (data.getStatus().equals(Status.COMPLETED)) {
             transferProtocol.setFinished(false);
         } else {
@@ -48,6 +44,7 @@ public class ProtocolServiceImpl implements ProtocolService {
         protocols.add(transferProtocol);
         data.setProtocols(protocols);
         appointmentService.save(data);
+//        TODO: Generate pdf and send it to printer;
     }
     @Override
     public ProtocolDTO getTransferProtocolById(Long id) {

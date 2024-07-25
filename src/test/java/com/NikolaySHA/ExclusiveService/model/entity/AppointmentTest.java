@@ -58,8 +58,6 @@ public class AppointmentTest {
         Assertions.assertNotNull(appointment.getProtocols());
         Assertions.assertEquals(1, appointment.getProtocols().size());
         Assertions.assertEquals(protocol, appointment.getProtocols().get(0));
-        assertNotNull(appointment.getExpensesList());
-        assertEquals(0, appointment.getExpensesList().size());
     }
     
     @Test
@@ -120,25 +118,7 @@ public class AppointmentTest {
         Assertions.assertTrue(appointment.getProtocols().contains(newProtocol));
     }
     
-    @Test
-    void testAddExpense() {
-        Long newExpense = 400L;
-        appointment.getExpensesList().add(newExpense);
-        Assertions.assertTrue(appointment.getExpensesList().contains(newExpense));
-    }
+ 
     
-    @Test
-    void testInitializeExpensesList() {
-        Assertions.assertNotNull(appointment.getExpensesList());
-        Assertions.assertEquals(0, appointment.getExpensesList().size());
-    }
-    @Test
-    void testSetExpensesList() {
-        Assertions.assertEquals(0, appointment.getExpensesList().size());
-        List<Long> expenses = new ArrayList<>();
-        expenses.add(1L);
-        appointment.setExpensesList(expenses);
-        Assertions.assertEquals(1, appointment.getExpensesList().size());
-        Assertions.assertEquals(1L, appointment.getExpensesList().get(0));
-    }
+
 }
