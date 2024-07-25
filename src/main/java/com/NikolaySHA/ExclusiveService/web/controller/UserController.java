@@ -1,15 +1,12 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
-import com.NikolaySHA.ExclusiveService.model.dto.EditUserDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.LoginDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.RegisterDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.ShowUserDTO;
-import com.NikolaySHA.ExclusiveService.model.entity.User;
-import com.NikolaySHA.ExclusiveService.service.AppointmentService;
-import com.NikolaySHA.ExclusiveService.service.CarService;
-import com.NikolaySHA.ExclusiveService.service.UserService;
 import com.NikolaySHA.ExclusiveService.aop.WarnIfExecutionExceeds;
+import com.NikolaySHA.ExclusiveService.model.dto.*;
+import com.NikolaySHA.ExclusiveService.model.entity.Car;
+import com.NikolaySHA.ExclusiveService.model.entity.User;
+import com.NikolaySHA.ExclusiveService.service.UserService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,27 +15,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
+;import java.util.Optional;
 
+@AllArgsConstructor
 @Controller
+@RequestMapping("/users")
 public class UserController {
     
     private final UserService userService;
-    private final AppointmentService appointmentService;
-    private final CarService carService;
+    
     private final ModelMapper modelMapper;
     
-    
-    public UserController(UserService userService, AppointmentService appointmentService, CarService carService, ModelMapper modelMapper) {
-        this.userService = userService;
-        
-        this.appointmentService = appointmentService;
-        this.carService = carService;
-        this.modelMapper = modelMapper;
-    }
-    
-    @ModelAttribute("registerData")
-    public RegisterDTO registerDTO(){
+    @ModelAttribute("userData")
+    public RegisterDTO userDTO() {
         return new RegisterDTO();
     }
     @ModelAttribute("loginData")
@@ -46,100 +35,69 @@ public class UserController {
         return new LoginDTO();
     }
     
-    
-    @GetMapping("/register")
-    public String register(){
-        return "register";
-    }
-    @WarnIfExecutionExceeds(threshold = 1500)
-    @PostMapping("/register")
-    public String doRegister(@Valid RegisterDTO data,
-                             BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) throws InterruptedException {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-            redirectAttributes.addFlashAttribute("registerData", data);
-            return "redirect:/register";
-        }
-        
-        if (!data.getPassword().equals(data.getConfirmPassword())) {
-            redirectAttributes.addFlashAttribute("registerData", data);
-            redirectAttributes.addFlashAttribute("passwordMismatch", true);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-            return "redirect:/register";
-        }
-        
-        boolean success = userService.register(data);
-        if (!success) {
-            redirectAttributes.addFlashAttribute("registerData", data);
-            redirectAttributes.addFlashAttribute("registrationFailed", true);
-            return "redirect:/register";
-        }
-        redirectAttributes.addFlashAttribute("successfulRegistration", true);
-        return "redirect:/users/login";
-    }
-    @GetMapping("/users/login")
+    @GetMapping("/login")
     public String viewLogin() {
         if (userService.findLoggedUser() != null) {
             return "redirect:/home";
         }
         return "login";
     }
-    @GetMapping("/users/login-error")
-    public String viewLoginError(@Valid LoginDTO data,
-                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
-        redirectAttributes.addFlashAttribute("showErrorMessage", true);
-        return "redirect:/users/login";
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("isEdit", false);
+        return "form-user";
     }
-    @GetMapping("/users")
-    public String transitPoint() {
-        return "redirect:/users/" + userService.findLoggedUser().getId();
+    @WarnIfExecutionExceeds(threshold = 1500)
+    @PostMapping("/register")
+    public String doRegisterUser(@Valid @ModelAttribute("userData") RegisterDTO data, BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
+        
+        if (!data.getPassword().equals(data.getConfirmPassword())) {
+            redirectAttributes.addFlashAttribute("passwordMismatch", true);
+            return "redirect:/users/register";
+        }
+        if (bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("userData", data);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userData", bindingResult);
+            return "redirect:/users/register";
+        }
+        if (!userService.register(data)) {
+            redirectAttributes.addFlashAttribute("registrationFailed", true);
+            return "redirect:/users/register";
+            }
+        return "redirect:/";
     }
-    @GetMapping("/users/{id}")
-    public String viewUser(@PathVariable("id") Long id, ShowUserDTO data, RedirectAttributes redirectAttributes, Model model) {
-        Optional<User> optionalUser = userService.findById(id);
-        if (optionalUser.isEmpty()) {
+    @GetMapping("/{id}")
+    public String viewUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
+        
+        Optional<User> userOptional = userService.findById(id);
+        if (userOptional.isEmpty()){
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
-        if (!userService.findLoggedUser().getId().equals(id)){
-            if (!userService.loggedUserHasRole("ADMIN")){
-                redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-                return "redirect:/error/contact-admin";
-            }
+        User user = userOptional.get();
+        if (!user.getId().equals(userService.findLoggedUser().getId()) && !userService.loggedUserHasRole("ADMIN")) {
+            redirectAttributes.addFlashAttribute("noPrivilegeMessage", true);
+            return "redirect:/error/contact-admin";
         }
-        User user = optionalUser.get();
-        data.setName(user.getName());
-        data.setEmail(user.getEmail());
-        data.setPhoneNumber(user.getPhoneNumber());
-        data.setCars(carService.findCarsByUser(id));
-        data.setAppointments(appointmentService.getAppointmentsByUserEmail(user.getEmail()));
-        model.addAttribute("userData", data);
-        return "user";
+        ShowUserDTO data = modelMapper.map(user, ShowUserDTO.class);
+        model.addAttribute("userViewData", data);
+        model.addAttribute("id", id);
+        return "view-user";
     }
-    
-    @GetMapping("/users/edit/{id}")
-    public String editUserForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
-        User loggedUser = userService.findLoggedUser();
-        Optional<User> optionalUser = userService.findById(id);
-        if (optionalUser.isEmpty()) {
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        Optional<User> user = userService.findById(id);
+        if (user.isEmpty()) {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
-        if (!loggedUser.getId().equals(id)) {
-            if (!userService.loggedUserHasRole("ADMIN")){
-                redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-                return "redirect:/error/contact-admin";
-            }
-        }
-        User user = optionalUser.get();
-        EditUserDTO editUserDTO = modelMapper.map(user, EditUserDTO.class);
-        model.addAttribute("editUserData", editUserDTO);
-        return "edit-user";
+        model.addAttribute("userData", user);
+        model.addAttribute("id", id);
+        model.addAttribute("isEdit", true);
+        return "form-user";
     }
-    
-    @PostMapping("/users/edit/{id}")
+    @PostMapping("/edit/{id}")
     public String updateUser(@PathVariable("id") Long id,
                              @Valid EditUserDTO user,
                              BindingResult bindingResult,
@@ -152,9 +110,10 @@ public class UserController {
             }
         }
         if (bindingResult.hasErrors()) {
-            model.addAttribute("org.springframework.validation.BindingResult.editUserData", bindingResult);
-            model.addAttribute("editUserData", user);
-            return "edit-user";
+            model.addAttribute("userData", user);
+            model.addAttribute("org.springframework.validation.BindingResult.userData", bindingResult);
+            model.addAttribute("isEdit", true);
+            return "form-user";
         }
         boolean success = userService.updateUser(id, user);
         if (!success){
@@ -190,5 +149,5 @@ public class UserController {
         userService.removeAdmin(id);
         return "redirect:/users/" + id;
     }
-    
+   
 }

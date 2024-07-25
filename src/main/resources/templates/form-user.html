@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/commons::head"></head>
+<body>
+<header th:replace="fragments/commons::nav"></header>
+<main>
+    <h1 class="text-center mt-2">
+        <span class="badge badge-pill badge-warning" th:text="${isEdit} ? 'Промени профил' : 'Регистрация'"></span>
+    </h1>
+    <hr class="hr-3 w-25 bg-white"/>
+
+    <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
+          style="padding: 20px;"
+          th:action="@{${isEdit} ? '/users/edit/' + ${id} : '/users/register'}"
+          th:method="POST"
+          th:object="${userData}">
+        <div class="form-group">
+            <div>
+                <div class="label-holder text-white d-flex justify-content-center">
+                    <label for="email" class="h4 mb-2">Имейл <span class="text-danger">*</span></label>
+                </div>
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       name="email"
+                       th:field="*{email}"
+                       th:errorclass="'is-invalid alert-danger'"/>
+                <small th:errors="*{email}" class="invalid-feedback text-danger"></small>
+            </div>
+            <div>
+                <div class="label-holder text-white d-flex justify-content-center">
+                    <label for="name" class="h4 mb-2">Име <span class="text-danger">*</span></label>
+                </div>
+                <input type="text"
+                       class="form-control"
+                       id="name"
+                       name="name"
+                       th:field="*{name}"
+                       th:errorclass="'is-invalid alert-danger'"/>
+                <small th:errors="*{name}" class="invalid-feedback text-danger"></small>
+            </div>
+            <div>
+                <div class="label-holder text-white d-flex justify-content-center">
+                    <label for="phoneNumber" class="h4 mb-2">Телефон <span class="text-danger">*</span></label>
+                </div>
+                <input type="number"
+                       class="form-control"
+                       id="phoneNumber"
+                       name="phoneNumber"
+                       th:field="*{phoneNumber}"
+                       th:errorclass="'is-invalid alert-danger'"/>
+                <small th:errors="*{phoneNumber}" class="invalid-feedback text-danger"></small>
+            </div>
+            <div th:if="${!isEdit}">
+                <div class="label-holder text-white d-flex justify-content-center">
+                    <label for="password" class="h4 mb-2">Парола</label>
+                </div>
+                <input type="password"
+                       class="form-control"
+                       id="password"
+                       name="password"
+                       th:field="*{password}"
+                       th:errorclass="'is-invalid alert-danger'"/>
+                <small th:errors="*{password}" class="invalid-feedback text-danger"></small>
+
+                <div class="label-holder text-white d-flex justify-content-center">
+                    <label for="confirmPassword" class="h4 mb-2">Повтори парола</label>
+                </div>
+                <input type="password"
+                       class="form-control"
+                       id="confirmPassword"
+                       name="confirmPassword"
+                       th:field="*{confirmPassword}"
+                       th:errorclass="'is-invalid alert-danger'"/>
+                <small th:errors="*{confirmPassword}" class="invalid-feedback text-danger"></small>
+
+                <div class="alert alert-danger" th:if="${passwordMismatch}">
+                    Паролите не съвпадат!
+                </div>
+                <div class="alert alert-danger" th:if="${registrationFailed}">
+                    Посочения имейл е регистриран!
+                </div>
+            </div>
+        </div>
+        <div class="button-holder d-flex justify-content-center">
+            <button type="submit" class="btn btn-warning mb-3" th:text="${isEdit} ? 'Запази' : 'Регистрирай ме'"></button>
+        </div>
+    </form>
+    <div th:if="${!isEdit}" class="text-center mt-3">
+        <p class="text-white">Ако вече сте регистриран потребител, можете да <a href="#" th:href="@{/users/login}" class="text-yellow">влезете тук</a></p>
+    </div>
+</main>
+<footer th:replace="fragments/commons::footer"></footer>
+</body>
+</html>

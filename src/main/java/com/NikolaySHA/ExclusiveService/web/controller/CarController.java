@@ -44,7 +44,6 @@ public class CarController {
     public String viewCar(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
         
         Optional<Car> car = carService.findById(id);
-        
         if (car.isEmpty()){
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
@@ -53,10 +52,8 @@ public class CarController {
             redirectAttributes.addFlashAttribute("noPrivilegeMessage", true);
             return "redirect:/error/contact-admin";
         }
-        
         CarViewDTO data = modelMapper.map(car, CarViewDTO.class);
         model.addAttribute("carViewData", data);
-        
         return "view-car";
     }
     @GetMapping("/add")
