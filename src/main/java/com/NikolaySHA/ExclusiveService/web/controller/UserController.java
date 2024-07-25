@@ -44,6 +44,11 @@ public class UserController {
         }
         return "login";
     }
+    @GetMapping("/login-error")
+    public String viewLoginError(Model model) {
+        model.addAttribute("showErrorMessage", true);
+        return "login";
+    }
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("isEdit", false);
@@ -67,7 +72,8 @@ public class UserController {
             redirectAttributes.addFlashAttribute("registrationFailed", true);
             return "redirect:/users/register";
             }
-        return "redirect:/";
+        redirectAttributes.addFlashAttribute("successfulRegistration", true);
+        return "redirect:/users/login";
     }
     @GetMapping("/{id}")
     public String viewUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {

@@ -61,10 +61,8 @@
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.facebook.com/eurolinkservice/'}">
                         <i class="fa-brands fa-square-facebook"></i>
                     </a>
-
                 </ul>
             </ul>
-
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/appointments/add}">
@@ -92,26 +90,33 @@
                     </a>
                 </li>
                 <li class="nav-item active" sec:authorize="isAuthenticated()">
-                        <a class="nav-link text-light active h5 text-stroke" th:href="@{/users}">
+                        <a class="nav-link text-light active h5 text-stroke" th:href="@{/}">
                             <i class="fa-solid fa-user"></i>
                             <span class="button-text">Моят профил</span>
                         </a>
                 </li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
-<!--                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
                         <button type="submit" class="nav-link text-light active h5 text-stroke bg-transparent border-0"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </form>
                 </li>
-                <li class="nav-item align-content-lg-center">
-                    <form th:method="get" for="lang">
-                        <select id="lang" name="lang" onchange="this.form.submit()">
-                            <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
-                            <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
-                        </select>
-                    </form>
-                </li>
+                <div th:if="${#locale.toString().equals('en')}">
+                    <a href="?lang=bg" class="nav-link">
+                        <div class="flag-container">
+                            <img src="/images/bg_flag.svg" alt="Bulgarian" class="rounded-flag">
+                        </div>
+                    </a>
+                </div>
+                <div th:if="${#locale.toString().equals('bg')}">
+                    <a href="?lang=en" class="nav-link">
+                        <div class="flag-container">
+                            <img src="/images/uk_flag.svg" alt="English" class="rounded-flag">
+                        </div>
+                    </a>
+                </div>
             </ul>
+
+
         </div>
     </nav>
 </header>
