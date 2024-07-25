@@ -1,16 +1,17 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.userDTO;
 
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserLoginDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LoginDTOTest {
-    private LoginDTO dto;
+class UserLoginDTOTest {
+    private UserLoginDTO dto;
     
     @BeforeEach
     void setUp() {
-        dto = new LoginDTO();
+        dto = new UserLoginDTO();
     }
     
     @Test

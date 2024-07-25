@@ -1,5 +1,6 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.carDTO;
 
+import com.NikolaySHA.ExclusiveService.model.dto.carDTO.CarSearchDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

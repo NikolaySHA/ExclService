@@ -1,16 +1,15 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
-import com.NikolaySHA.ExclusiveService.model.dto.AddAppointmentDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.EditAppointmentDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.AddAppointmentDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.EditAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.AppointmentRepository;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,18 +23,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     private final AppointmentRepository appointmentRepository;
     private final UserService userService;
+    private final ModelMapper modelMapper;
     
     @Override
     public boolean create(AddAppointmentDTO data) {
         User user = userService.findLoggedUser();
-        Appointment appointment = new Appointment();
-        appointment.setPaymentMethod(data.getPaymentMethod());
-        appointment.setDate(data.getDate());
-        appointment.setCar(data.getCar());
+        Appointment appointment = modelMapper.map(data, Appointment.class);
         appointment.setUser(data.getCar().getOwner());
         appointment.setStatus(Status.SCHEDULED);
-        appointment.setPaintDetails(data.getPaintDetails());
-        appointment.setComment(data.getComment());
         this.appointmentRepository.save(appointment);
         return true;
     }
@@ -107,13 +102,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (appointment.getCar() != null && !appointment.getCar().equals(editedAppointment.getCar())){
             editedAppointment.setCar(appointment.getCar());
         }
-   
-        
-        
-        
-        this.updateAppointmentStatus(editedAppointment, appointment.getStatus());
-       
-       
+        if (appointment.getStatus() != null && !appointment.getStatus().equals(editedAppointment.getStatus())){
+            updateAppointmentStatus(editedAppointment, appointment.getStatus());
+        }
        
         this.appointmentRepository.save(editedAppointment);
         return true;

@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.carDTO;
 
 
 import jakarta.validation.constraints.NotBlank;

@@ -1,6 +1,5 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO;
 
-import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.TransferProtocol;
 import com.NikolaySHA.ExclusiveService.model.entity.User;

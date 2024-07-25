@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.userDTO;
 
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
-public class ShowUserDTO {
+public class UserViewDTO {
     private Long id;
     private String name;
     private String email;
@@ -17,7 +17,7 @@ public class ShowUserDTO {
     private List<Car> cars;
     private List<Appointment> appointments;
     
-    public ShowUserDTO() {
+    public UserViewDTO() {
         this.cars = new ArrayList<>();
         this.appointments = new ArrayList<>();
     }

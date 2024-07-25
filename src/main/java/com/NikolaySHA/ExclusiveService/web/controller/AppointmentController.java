@@ -1,11 +1,12 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
 
-import com.NikolaySHA.ExclusiveService.model.dto.AddAppointmentDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.EditAppointmentDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.ShowAppointmentDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.AddAppointmentDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.EditAppointmentDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.ShowAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
+import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
@@ -16,17 +17,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/appointments")
 public class AppointmentController {
     
     private final AppointmentService appointmentService;
@@ -39,63 +37,60 @@ public class AppointmentController {
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
-    
     @ModelAttribute("appointmentData")
     public AddAppointmentDTO addAppointmentDTO(){
         return new AddAppointmentDTO();
     }
-//    @ModelAttribute("editAppointmentData")
-//    public EditAppointmentDTO editAppointmentDTO(){ return new EditAppointmentDTO(); }
-    
-    
-    @GetMapping("/add-appointment")
+    @ModelAttribute("statuses")
+    public List<Status> statuses(){
+        return List.of(Status.values());
+    }
+    @ModelAttribute("carsData")
+    public List<Car> cars(){
+        return getCarList();
+    }
+    @ModelAttribute("users")
+    public List<User> users(){
+        return userService.findAll();
+    }
+
+    @GetMapping("/add")
     public String addAppointment(Model model, RedirectAttributes redirectAttributes) {
         List<Car> carsData = getCarList();
         if (carsData.isEmpty()){
             redirectAttributes.addFlashAttribute("showErrorMessage", true);
             return "redirect:/add-car";
         }
+        model.addAttribute("isEdit", false);
         model.addAttribute("carsData", carsData);
-        return "appointment-add";
+        return "form-appointment";
     }
     
   
     
-    @PostMapping("/add-appointment")
+    @PostMapping("/add")
     public String doAddAppointment(
             @Valid AddAppointmentDTO data,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes){
-        
+        if (userService.findLoggedUser() == null) {
+            return "redirect:/";
+        }
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("appointmentData", data);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.appointmentData", bindingResult);
-            
-            return "redirect:/add-appointment";
+            return "redirect:/appointments/add";
         }
         boolean success = appointmentService.create(data);
         
         if (!success) {
             redirectAttributes.addFlashAttribute("appointmentData", data);
-            return "redirect:/add-appointment";
+            return "redirect:/appointments/add";
         }
         return "redirect:/home";
     }
-    @PostMapping("/appointments/delete/{id}")
-    public String deleteAppointment(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        
-        Optional<Appointment> appointmentOptional = appointmentService.findById(id);
-        if (appointmentOptional.isEmpty()) {
-            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-            return "redirect:/error/contact-admin";
-        } else {
-            Appointment appointment = appointmentOptional.get();
-            appointmentService.delete(appointment);
-//          TODO: send message to owner
-            return "redirect:/";
-        }
-    }
-    @GetMapping("/appointments/{id}")
+    
+    @GetMapping("/{id}")
     public String viewAppointment(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
         Optional<Appointment> optional = appointmentService.findById(id);
         if (optional.isEmpty()){
@@ -109,24 +104,18 @@ public class AppointmentController {
                 return "redirect:/error/contact-admin";
             }
         }
-        ShowAppointmentDTO data = new ShowAppointmentDTO();
-        data.setUser(appointment.getUser());
-        data.setCar(appointment.getCar());
-        data.setDate(appointment.getDate());
-        data.setComment(appointment.getComment());
-        data.setPaintDetails(appointment.getPaintDetails());
-        data.setPaymentMethod(appointment.getPaymentMethod());
+        ShowAppointmentDTO data = modelMapper.map(appointment, ShowAppointmentDTO.class);
         model.addAttribute("showAppointmentData", data);
-        return "appointment";
+        return "view-appointment";
     }
     
-    @GetMapping("/appointments/edit/{id}")
+    @GetMapping("/edit/{id}")
     @Transactional
     public String editAppointmentForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
-        List<Car> carsData = getCarList();
+        
+        model.addAttribute("isEdit", true);
         Optional<Appointment> appointmentOptional = appointmentService.findByIdInitializingUsersWithCars(id);
-        model.addAttribute("carsData", carsData);
-        model.addAttribute("statuses", Status.values());
+       
         if (appointmentOptional.isEmpty()){
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
@@ -138,30 +127,31 @@ public class AppointmentController {
                 return "redirect:/error/contact-admin";
             }
         }
-        EditAppointmentDTO editAppointmentDTO = modelMapper.map(appointment, EditAppointmentDTO.class);
+        EditAppointmentDTO appointmentDTO = modelMapper.map(appointment, EditAppointmentDTO.class);
+        model.addAttribute("id", id);
+        model.addAttribute("appointmentData", appointmentDTO);
         
-        if (!model.containsAttribute("editAppointmentData")) {
-            model.addAttribute("editAppointmentData", editAppointmentDTO);
-        }
-        return "edit-appointment";
+        return "form-appointment";
     }
     
-    @PostMapping("/appointments/edit/{id}")
+    @PostMapping("/edit/{id}")
     @Transactional
     public String updateAppointment(@PathVariable("id") Long id, @Valid EditAppointmentDTO appointment,
-                                    BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                                    BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         if (!userService.loggedUserHasRole("ADMIN")){
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("editAppointmentData", appointment);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editAppointmentData", bindingResult);
-            return "redirect:/appointments/edit/" + id;
+            model.addAttribute("appointmentData", appointment);
+            model.addAttribute("org.springframework.validation.BindingResult.appointmentData", bindingResult);
+            model.addAttribute("id", id);
+            model.addAttribute("isEdit", true);
+            return "form-appointment";
         }
         boolean success = appointmentService.updateAppointment(id, appointment);
         if (!success) {
-            return "edit-appointment";
+            return "form-appointment";
         }
         return "redirect:/appointments/" + id;
     }
@@ -173,5 +163,19 @@ public class AppointmentController {
             carsData = carService.findAllCars();
         }
         return carsData;
+    }
+    @PostMapping("/delete/{id}")
+    public String deleteAppointment(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        
+        Optional<Appointment> appointmentOptional = appointmentService.findById(id);
+        if (appointmentOptional.isEmpty()) {
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return "redirect:/error/contact-admin";
+        } else {
+            Appointment appointment = appointmentOptional.get();
+            appointmentService.delete(appointment);
+//          TODO: send message to owner
+            return "redirect:/";
+        }
     }
 }

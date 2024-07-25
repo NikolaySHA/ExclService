@@ -1,5 +1,6 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.carDTO;
 
+import com.NikolaySHA.ExclusiveService.model.dto.carDTO.CarViewDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import org.junit.jupiter.api.BeforeEach;

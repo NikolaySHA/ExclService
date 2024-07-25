@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO;
 
 
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
@@ -15,6 +15,6 @@ public class AppointmentSearchDTO {
     private String make;
     private String customer;
     private Status status;
-    private boolean unread;
+   
 
 }

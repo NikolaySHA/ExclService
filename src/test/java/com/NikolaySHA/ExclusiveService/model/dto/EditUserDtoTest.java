@@ -1,16 +1,17 @@
 package com.NikolaySHA.ExclusiveService.model.dto;
 
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EditUserDTOTest {
-    private EditUserDTO dto;
+class UserEditDTOTest {
+    private UserEditDTO dto;
     
     @BeforeEach
     void setUp() {
-        dto = new EditUserDTO();
+        dto = new UserEditDTO();
     }
     
     @Test

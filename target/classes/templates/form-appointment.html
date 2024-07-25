@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/commons::head"></head>
 <body>
 <header th:replace="fragments/commons::nav"></header>
 <main>
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning">Запазване на час</span></h1>
+    <h1 class="text-center mt-2">
+        <span class="badge badge-pill badge-warning" th:text="${isEdit ? 'Промени назначен ремонт' : 'Запазване на час'}"></span>
+    </h1>
     <hr class="hr-3 w-25 bg-white"/>
 
-    <form class="mx-auto w-25 bg-blur rounded"
+    <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
           th:method="POST"
-          th:action="@{/add-appointment}"
-          th:object="${appointmentData}">
-
+          th:action="@{${isEdit} ? '/appointments/edit/' + ${id} : '/appointments/add'}"
+          th:object="${appointmentData}"
+          style="padding: 20px;">
+        <div class="form-group" th:if="${isEdit}">
+            <input type="hidden" th:field="*{user.id}" />
+        </div>
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="car" class="h4 mb-2">Автомобил <span class="text-danger">*</span></label>
@@ -30,6 +35,7 @@
             </select>
             <small th:errors="*{car}" class="invalid-feedback text-danger"></small>
         </div>
+
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="paymentMethod" class="h4 mb-2">Метод на плащане <span class="text-danger">*</span></label>
@@ -46,6 +52,23 @@
             </select>
             <small th:errors="*{paymentMethod}" class="invalid-feedback text-danger"></small>
         </div>
+        <div th:if="${isEdit}">
+            <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="text-white label-holder d-flex justify-content-center">
+                    <label for="status" class="h4 mb-2">Статус<span class="text-danger">*</span></label>
+                </div>
+                <select id="status" name="status" class="form-control" th:field="*{status}">
+                    <option value="">Изберте статус</option>
+                    <option th:each="statusOption : ${statuses}"
+                            th:value="${statusOption.name()}"
+                            th:text="${statusOption.name()}">
+                        Статус
+                    </option>
+                </select>
+                <small th:errors="${appointmentData.status}" class="invalid-feedback text-danger"></small>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="paintDetails" class="h4 mb-2">Детайли за боя <span class="text-danger">*</span></label>
@@ -54,8 +77,7 @@
                     id="paintDetails"
                     name="paintDetails"
                     th:field="*{paintDetails}"
-                    th:errorclass="'is-invalid alert-danger'"
-            >
+                    th:errorclass="'is-invalid alert-danger'">
                 <option value="">Изберете брой детайли за боядисване</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -71,9 +93,9 @@
                 <option value="12">12</option>
                 <option value="13">Цялостно боядисване</option>
             </select>
-
             <small th:errors="*{paintDetails}" class="invalid-feedback text-danger"></small>
         </div>
+
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="date" class="h4 mb-2">Дата на записване <span class="text-danger">*</span></label>
@@ -86,6 +108,7 @@
                    th:errorclass="'is-invalid alert-danger'">
             <small th:errors="*{date}" class="invalid-feedback text-danger"></small>
         </div>
+
         <div class="form-group">
             <div class="text-white label-holder d-flex justify-content-center">
                 <label for="comment" class="h4 mb-2">Коментар</label>
@@ -96,16 +119,12 @@
                       rows="4"
                       th:field="*{comment}"></textarea>
         </div>
-
-
-
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning  mb-3" value="Register">Запази</button>
+            <button type="submit" class="btn btn-warning  mb-3" th:text="${isEdit ? 'Запази промени' : 'Запази'}"
+            </button>
         </div>
-
     </form>
 </main>
-<footer th:replace="~{fragments/commons::footer}"></footer>
-
+<footer th:replace="fragments/commons::footer"></footer>
 </body>
 </html>

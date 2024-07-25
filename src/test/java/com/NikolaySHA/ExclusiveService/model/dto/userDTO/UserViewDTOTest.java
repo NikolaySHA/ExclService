@@ -1,5 +1,6 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.userDTO;
 
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserViewDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,15 +10,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ShowUserDTOTest {
-    private ShowUserDTO dto;
+class UserViewDTOTest {
+    private UserViewDTO dto;
     @BeforeEach
     void setUp(){
-        dto = new ShowUserDTO();
+        dto = new UserViewDTO();
     }
     @Test
     void testDefaultConstructor() {
-        ShowUserDTO dto2 = new ShowUserDTO();
+        UserViewDTO dto2 = new UserViewDTO();
         assertNull(dto2.getId());
         assertNull(dto2.getName());
         assertNull(dto2.getEmail());

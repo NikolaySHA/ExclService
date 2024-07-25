@@ -1,6 +1,5 @@
 package com.NikolaySHA.ExclusiveService.aop;
 
-import com.NikolaySHA.ExclusiveService.model.dto.AddAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;

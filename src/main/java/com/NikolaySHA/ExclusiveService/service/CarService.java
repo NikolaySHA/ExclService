@@ -1,7 +1,7 @@
 package com.NikolaySHA.ExclusiveService.service;
 
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
-import com.NikolaySHA.ExclusiveService.model.dto.CarDataDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.carDTO.CarDataDTO;
 
 import java.util.List;
 import java.util.Optional;

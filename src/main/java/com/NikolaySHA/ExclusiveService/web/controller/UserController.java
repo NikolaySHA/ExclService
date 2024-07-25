@@ -1,8 +1,10 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
 import com.NikolaySHA.ExclusiveService.aop.WarnIfExecutionExceeds;
-import com.NikolaySHA.ExclusiveService.model.dto.*;
-import com.NikolaySHA.ExclusiveService.model.entity.Car;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserLoginDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserViewDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.service.UserService;
 import jakarta.validation.Valid;
@@ -27,12 +29,12 @@ public class UserController {
     private final ModelMapper modelMapper;
     
     @ModelAttribute("userData")
-    public RegisterDTO userDTO() {
-        return new RegisterDTO();
+    public UserRegisterDTO userDTO() {
+        return new UserRegisterDTO();
     }
     @ModelAttribute("loginData")
-    public LoginDTO loginDTO(){
-        return new LoginDTO();
+    public UserLoginDTO loginDTO(){
+        return new UserLoginDTO();
     }
     
     @GetMapping("/login")
@@ -49,8 +51,8 @@ public class UserController {
     }
     @WarnIfExecutionExceeds(threshold = 1500)
     @PostMapping("/register")
-    public String doRegisterUser(@Valid @ModelAttribute("userData") RegisterDTO data, BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
+    public String doRegisterUser(@Valid @ModelAttribute("userData") UserRegisterDTO data, BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes) {
         
         if (!data.getPassword().equals(data.getConfirmPassword())) {
             redirectAttributes.addFlashAttribute("passwordMismatch", true);
@@ -80,7 +82,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("noPrivilegeMessage", true);
             return "redirect:/error/contact-admin";
         }
-        ShowUserDTO data = modelMapper.map(user, ShowUserDTO.class);
+        UserViewDTO data = modelMapper.map(user, UserViewDTO.class);
         model.addAttribute("userViewData", data);
         model.addAttribute("id", id);
         return "view-user";
@@ -99,7 +101,7 @@ public class UserController {
     }
     @PostMapping("/edit/{id}")
     public String updateUser(@PathVariable("id") Long id,
-                             @Valid EditUserDTO user,
+                             @Valid UserEditDTO user,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes, Model model) {
         

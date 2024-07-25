@@ -1,7 +1,7 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
-import com.NikolaySHA.ExclusiveService.model.dto.CarDataDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.CarViewDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.carDTO.CarDataDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.carDTO.CarViewDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
@@ -114,6 +114,7 @@ public class CarController {
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("carData", car);
+            model.addAttribute("org.springframework.validation.BindingResult.carData", bindingResult);
             model.addAttribute("id", id);
             model.addAttribute("isEdit", true);
             return "form-car";

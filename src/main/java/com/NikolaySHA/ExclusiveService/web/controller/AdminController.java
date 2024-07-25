@@ -1,8 +1,8 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
-import com.NikolaySHA.ExclusiveService.model.dto.AppointmentSearchDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.CarSearchDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.UserSearchDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.AppointmentSearchDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.carDTO.CarSearchDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserSearchDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.User;

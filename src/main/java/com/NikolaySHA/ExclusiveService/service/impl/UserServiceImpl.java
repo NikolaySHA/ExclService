@@ -1,7 +1,7 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
-import com.NikolaySHA.ExclusiveService.model.dto.EditUserDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.RegisterDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.UserRole;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     
     @Override
-    public boolean register(RegisterDTO data) {
+    public boolean register(UserRegisterDTO data) {
         Optional<User> optionalUser = userRepository.findByEmail(data.getEmail());
         if (optionalUser.isPresent()){
             return false;
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public boolean updateUser(Long id, EditUserDTO updatedUser) {
+    public boolean updateUser(Long id, UserEditDTO updatedUser) {
         Optional<User> toEdit = userRepository.findById(id);
         if (toEdit.isEmpty()){
             return false;
@@ -135,5 +135,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isAdmin(List<UserRole> roles) {
         return roles.stream().anyMatch(role -> role.getRole().name().equals("ADMIN"));
+    }
+    
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

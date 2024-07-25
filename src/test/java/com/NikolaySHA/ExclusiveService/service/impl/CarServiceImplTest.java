@@ -1,6 +1,6 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
-import com.NikolaySHA.ExclusiveService.model.dto.CarDataDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.carDTO.CarDataDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.repo.CarRepository;

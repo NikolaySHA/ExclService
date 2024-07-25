@@ -1,5 +1,6 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.userDTO;
 
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserSearchDTO;
 import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

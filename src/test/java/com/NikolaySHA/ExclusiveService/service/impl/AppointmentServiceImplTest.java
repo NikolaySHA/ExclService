@@ -1,7 +1,7 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
-import com.NikolaySHA.ExclusiveService.model.dto.AddAppointmentDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.EditAppointmentDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.AddAppointmentDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.EditAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.User;

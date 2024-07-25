@@ -1,7 +1,7 @@
 package com.NikolaySHA.ExclusiveService.service;
 
-import com.NikolaySHA.ExclusiveService.model.dto.EditUserDTO;
-import com.NikolaySHA.ExclusiveService.model.dto.RegisterDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.entity.UserRole;
 import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserService {
    
     
-    boolean register(RegisterDTO data);
+    boolean register(UserRegisterDTO data);
     
     User findLoggedUser();
     
@@ -25,11 +25,13 @@ public interface UserService {
     List<User> searchUsers(String name, String email, UserRolesEnum role);
     
     Optional<User> findById(Long id);
-    boolean updateUser(Long id, EditUserDTO user);
+    boolean updateUser(Long id, UserEditDTO user);
     
     void addAdmin(Long userId);
     
     void removeAdmin(Long userId);
     
     boolean isAdmin(List<UserRole> roles);
+    
+    List<User> findAll();
 }
