@@ -17,7 +17,7 @@
         <div class="form-group">
             <div>
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="email" class="h4 mb-2"><span th:text="#{email}"></span><span class="text-danger">*</span></label>
+                    <label for="email" class="h4 mb-2"><span th:text="#{email}"></span><span class="text-danger"> *</span></label>
                 </div>
                 <input type="email"
                        class="form-control"
@@ -29,7 +29,7 @@
             </div>
             <div>
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="name" class="h4 mb-2"><span th:text="#{name}"></span><span class="text-danger">*</span></label>
+                    <label for="name" class="h4 mb-2"><span th:text="#{name}"></span><span class="text-danger"> *</span></label>
                 </div>
                 <input type="text"
                        class="form-control"
@@ -41,7 +41,7 @@
             </div>
             <div>
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="phoneNumber" class="h4 mb-2"><span th:text="#{phone}"></span><span class="text-danger">*</span></label>
+                    <label for="phoneNumber" class="h4 mb-2"><span th:text="#{phone}"></span><span class="text-danger"> *</span></label>
                 </div>
                 <input type="number"
                        class="form-control"
@@ -53,7 +53,7 @@
             </div>
             <div th:if="${!isEdit}">
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="password" class="h4 mb-2"><span th:text="#{password}"></span><span class="text-danger">*</span></label>
+                    <label for="password" class="h4 mb-2"><span th:text="#{password}"></span><span class="text-danger"> *</span></label>
                 </div>
                 <input type="password"
                        class="form-control"
@@ -64,7 +64,7 @@
                 <small th:errors="*{password}" class="invalid-feedback text-danger"></small>
 
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="confirmPassword" class="h4 mb-2"><span th:text="#{confirm_password}"></span><span class="text-danger">*</span></label>
+                    <label for="confirmPassword" class="h4 mb-2"><span th:text="#{confirm_password}"></span><span class="text-danger"> *</span></label>
                 </div>
                 <input type="password"
                        class="form-control"

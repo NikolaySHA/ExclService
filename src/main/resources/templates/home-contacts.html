@@ -13,8 +13,8 @@
                         <div class="row align-items-lg-center justify-content-center h-100">
                             <div class="col-11 col-xl-10">
                                 <div class="contact-info-wrapper py-4 py-xl-5">
-                                    <h2 class="h1 mb-3 text-light">Форма за контакт</h2>
-                                    <p class="lead fs-4 text-light opacity-75 mb-4 mb-xxl-5">We're always on the lookout to work with new clients. If you're interested in working with us, please get in touch in one of the following ways.</p>
+                                    <h2 class="h1 mb-3 text-light" th:text="#{contact-form-heading}"></h2>
+                                    <p class="lead fs-4 text-light opacity-75 mb-4 mb-xxl-5" th:text="#{contact-info}"></p>
                                     <div class="d-flex mb-4 mb-xxl-5">
                                         <div class="me-4 text-primary">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-geo" viewBox="0 0 16 16">
@@ -22,9 +22,9 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <h4 class="mb-3 text-light text-left">Адрес</h4>
+                                            <h4 class="mb-3 text-light text-left" th:text="#{contact-address}"></h4>
                                             <a  th:href="@{'https://maps.app.goo.gl/cFwKBYrQBYPQYKCKA'}">
-                                                <address class="link-light link-opacity-75 link-opacity-100-hover text-yellow">бул. Проф. Цветан Лазаров 113, Дружба 2, София, България</address>
+                                                <address class="link-light link-opacity-75 link-opacity-100-hover text-yellow"  th:text="#{contact-address-info}"></address>
                                             </a>
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <h4 class="mb-3 text-light text-left">Телефон</h4>
+                                                    <h4 class="mb-3 text-light text-left" th:text="#{phone}"></h4>
                                                     <p class="mb-0">
                                                         <a class="link-light link-opacity-75 link-opacity-100-hover text-yellow" th:href="'tel:+359894646769'">+359 894 646 769</a>
                                                     </p>
@@ -53,7 +53,7 @@
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <h4 class="mb-3 text-light">Електронна поща</h4>
+                                                    <h4 class="mb-3 text-light" th:text="#{email}"></h4>
                                                     <p class="mb-0">
                                                         <a class="link-light link-opacity-75 link-opacity-100-hover text-yellow" href="mailto:exclautoservice@gmail.com">exclautoservice@gmail.com</a>
                                                     </p>
@@ -69,10 +69,10 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <h4 class="mb-3 text-light">Работно Време</h4>
+                                            <h4 class="mb-3 text-light" th:text="#{contact-working-hours}"></h4>
                                             <div class="d-flex mb-1">
-                                                <p class="text-light fw-bold mb-0 me-5">Пон - Пт   </p>
-                                                <p class="text-light opacity-75 mb-0">9:00 - 17:30</p>
+                                                <p class="text-light fw-bold mb-0 me-5" th:text="#{contact-working-days}"></p>
+                                                <p class="text-light opacity-75 mb-0">  9:00 - 17:30</p>
                                             </div>
                                         </div>
                                     </div>
@@ -86,11 +86,11 @@
                                 <form action="#!">
                                     <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
                                         <div class="col-12">
-                                            <label for="fullname" class="form-label">Full Name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="fullname" name="fullname" value="" required>
+                                            <label for="name" class="form-label"><span th:text="#{name}"></span><span class="text-danger"> *</span></label>
+                                            <input type="text" class="form-control" id="name" name="name" value="" required>
                                         </div>
                                         <div class="col-12 col-md-6">
-                                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                            <label for="email" class="form-label"><span th:text="#{email}"></span><span class="text-danger"> *</span></label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
-                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <label for="phone" class="form-label" th:text="#{phone}"></label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
@@ -112,16 +112,16 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                                            <label for="subject" class="form-label"><span th:text="#{contact-subject}"></span><span class="text-danger"> *</span></label>
                                             <input type="text" class="form-control" id="subject" name="subject" value="" required>
                                         </div>
                                         <div class="col-12">
-                                            <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
+                                            <label for="message" class="form-label"><span th:text="#{contact-message}"></span><span class="text-danger"> *</span></label>
                                             <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
                                         </div>
                                         <div class="col-12">
                                             <label for="message" class="form-label"></label>
-                                            <button class="btn-warning btn-lg" type="submit">Send Message</button>
+                                            <button class="btn-warning btn-lg" type="submit" th:text="#{contact-send-message}"></button>
                                         </div>
                                     </div>
                                 </form>
