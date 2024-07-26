@@ -5,7 +5,7 @@
 <header th:replace="fragments/commons::nav"></header>
 <main>
     <h1 class="text-center mt-2">
-        <span class="badge badge-pill badge-warning" th:text="${isEdit} ? 'Промени профил' : 'Регистрация'"></span>
+        <span class="badge badge-pill badge-warning" th:text="${isEdit} ? 'Промени профил' : #{register}"></span>
     </h1>
     <hr class="hr-3 w-25 bg-white"/>
 
@@ -17,7 +17,7 @@
         <div class="form-group">
             <div>
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="email" class="h4 mb-2">Имейл <span class="text-danger">*</span></label>
+                    <label for="email" class="h4 mb-2"><span th:text="#{email}"></span><span class="text-danger">*</span></label>
                 </div>
                 <input type="email"
                        class="form-control"
@@ -29,7 +29,7 @@
             </div>
             <div>
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="name" class="h4 mb-2">Име <span class="text-danger">*</span></label>
+                    <label for="name" class="h4 mb-2"><span th:text="#{name}"></span><span class="text-danger">*</span></label>
                 </div>
                 <input type="text"
                        class="form-control"
@@ -41,7 +41,7 @@
             </div>
             <div>
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="phoneNumber" class="h4 mb-2">Телефон <span class="text-danger">*</span></label>
+                    <label for="phoneNumber" class="h4 mb-2"><span th:text="#{phone}"></span><span class="text-danger">*</span></label>
                 </div>
                 <input type="number"
                        class="form-control"
@@ -53,7 +53,7 @@
             </div>
             <div th:if="${!isEdit}">
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="password" class="h4 mb-2">Парола</label>
+                    <label for="password" class="h4 mb-2"><span th:text="#{password}"></span><span class="text-danger">*</span></label>
                 </div>
                 <input type="password"
                        class="form-control"
@@ -64,7 +64,7 @@
                 <small th:errors="*{password}" class="invalid-feedback text-danger"></small>
 
                 <div class="label-holder text-white d-flex justify-content-center">
-                    <label for="confirmPassword" class="h4 mb-2">Повтори парола</label>
+                    <label for="confirmPassword" class="h4 mb-2"><span th:text="#{confirm_password}"></span><span class="text-danger">*</span></label>
                 </div>
                 <input type="password"
                        class="form-control"
@@ -75,19 +75,20 @@
                 <small th:errors="*{confirmPassword}" class="invalid-feedback text-danger"></small>
 
                 <div class="alert alert-danger" th:if="${passwordMismatch}">
-                    Паролите не съвпадат!
+                    <span th:text="#{password_miss-match}"></span>
+
                 </div>
                 <div class="alert alert-danger" th:if="${registrationFailed}">
-                    Посочения имейл е регистриран!
+                    <span th:text="#{registration_failed}"></span>
                 </div>
             </div>
         </div>
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning mb-3" th:text="${isEdit} ? 'Запази' : 'Регистрирай ме'"></button>
+            <button type="submit" class="btn btn-warning mb-3" th:text="${isEdit} ? 'Запази' : #{register_btn}"></button>
         </div>
     </form>
     <div th:if="${!isEdit}" class="text-center mt-3">
-        <p class="text-white">Ако вече сте регистриран потребител, можете да <a href="#" th:href="@{/users/login}" class="text-yellow">влезете тук</a></p>
+        <p class="text-white"><span  th:text="#{if_you_are_registered}"></span><a th:href="@{/users/login}" class="text-yellow"> <span th:text="#{sign_in}"></span></a></p>
     </div>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>

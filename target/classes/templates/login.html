@@ -5,7 +5,7 @@
 <body>
 <header th:replace="fragments/commons::nav"></header>
 <main>
-    <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning">Вход</span></h1>
+    <h1 class="text-center mt-2"><span class="badge badge-pill badge-warning" th:text="#{nav_bar_login}"></span></h1>
     <hr class="hr-3 w-25 bg-white"/>
     <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
           th:action="@{/users/login}"
@@ -22,7 +22,7 @@
                 <div th:text="#{success_registration_message}"></div>
             </div>
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="email" class="h4 mb-2">Имейл</label>
+                <label for="email" class="h4 mb-2" th:text="#{email}"></label>
             </div>
             <input type="text"
                    class="form-control"
@@ -34,7 +34,7 @@
 
         <div class="form-group">
             <div class="label-holder text-white d-flex justify-content-center">
-                <label for="password" class="h4 mb-2">Парола</label>
+                <label for="password" class="h4 mb-2" th:text="#{password}"></label>
             </div>
             <input type="password"
                    class="form-control"
@@ -45,11 +45,11 @@
         </div>
 
         <div class="button-holder d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning mb-3">Влез</button>
+            <button type="submit" class="btn btn-warning mb-3" th:text="#{login_btn}"></button>
         </div>
     </form>
     <div class="text-center mt-3">
-        <p class="text-white">Ако нямате профил, можете да се <a href="#" th:href="@{/users/register}" class="text-yellow">регистрирате тук</a>.</p>
+        <p class="text-white"><span th:text="#{login_message} + ' '"> </span><a href="#" th:href="@{/users/register}" class="text-yellow"><span th:text="#{login_link}"></span></a></p>
     </div>
 </main>
 <footer th:replace="fragments/commons::footer"></footer>

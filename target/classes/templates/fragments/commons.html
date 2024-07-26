@@ -15,8 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/8c77968f69.js" crossorigin="anonymous"></script>
-    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -108,14 +109,16 @@
                         </button>
                     </form>
                 </li>
-                <li th:if="${#locale.toString().equals('en')}">
+<!--                th:if="${#locale.toString().equals('en')}"-->
+                <li >
                     <a href="?lang=bg" class="nav-link">
                         <div class="flag-container">
                             <img src="/images/bg_flag.svg" alt="Bulgarian" class="rounded-flag">
                         </div>
                     </a>
                 </li>
-                <li th:if="${#locale.toString().equals('bg')}">
+<!--                th:if="${#locale.toString().equals('bg')}"-->
+                <li >
                     <a href="?lang=en" class="nav-link">
                         <div class="flag-container">
                             <img src="/images/uk_flag.svg" alt="English" class="rounded-flag">

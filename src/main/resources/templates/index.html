@@ -7,18 +7,17 @@
 <header th:replace="~{fragments/commons::nav}"></header>
 <main>
     <div class="container bg-blur rounded mt-5 ">
-        <h1>Добре дошли в <strong class="text-yellow">Ексклузив Сервиз ООД.</strong></h1>
+        <h1 th:text="#{home_welcome_message}"></h1>
         <hr class="my-3 bg-white w-50"/>
 
-        <p class="h4">
-            Ексклузив Сервиз ООД - доверен сервиз на Асет Иншуранс. Боядисва вашите автомобили и се грижи за добрия им външен вид.</p>
+        <p class="h4" th:text="#{home_paragraph_message}"></p>
         <hr class="my-3 bg-white w-75"/>
 
         <h3>
-            <a class="text-light text-yellow" th:href="@{/users/login}">Влез</a>
-            ако имаш акаунт или се
-            <a class="text-light text-yellow" th:href="@{/users/register}">регистрирай</a>
-            сега и запази час.
+            <a class="text-light text-yellow" th:href="@{/users/login}" th:text="#{nav_bar_login}"></a>
+            <span th:text="#{home_paragraph_2_message}"></span>
+            <a class="text-light text-yellow" th:href="@{/users/register}" th:text="#{home_paragraph_register_message}"></a>
+            <span  th:text="#{home_paragraph_3_message}">
         </h3>
     </div>
 </main>
