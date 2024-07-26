@@ -32,6 +32,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByDate(LocalDate today);
     @Query("SELECT a FROM Appointment a JOIN FETCH a.user u LEFT JOIN FETCH u.cars WHERE a.id = :id")
     Optional<Appointment> findByIdWithUserAndCars(@Param("id") Long id);
-    
+    @Query("SELECT COALESCE(SUM(a.paintDetails), 0) FROM Appointment a WHERE a.date BETWEEN :startOfWeek AND :endOfWeek")
+    int findTotalDetailsForWeek(@Param("startOfWeek") LocalDate startOfWeek, @Param("endOfWeek") LocalDate endOfWeek);
     
 }

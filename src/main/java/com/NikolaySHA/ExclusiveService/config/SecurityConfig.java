@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -24,7 +25,7 @@ public class SecurityConfig {
                                 // Permit all static resources
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // Permit access to specific paths for all users
-                                .requestMatchers("/", "/users/login", "/users/register", "/gallery","/users/login-error", "/contacts", "/services", "/about").permitAll()
+                                .requestMatchers("/", "/users/login", "/users/register", "/gallery","/users/login-error", "/contacts", "/services", "/about",  "/js/**", "/css/**").permitAll()
                                 .requestMatchers("/protocols", "/garage/cars", "/garage/appointments","/garage/users").hasRole("ADMIN")
                                 // All other requests need to be authenticated
                                 .anyRequest().authenticated()

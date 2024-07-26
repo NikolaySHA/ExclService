@@ -15,6 +15,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/8c77968f69.js" crossorigin="anonymous"></script>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -23,19 +25,19 @@
         <a class="navbar-brand text-white" th:href="@{/}">
             <img class="mx-auto" src="/images/Logo.jpg" alt="Exclusive Service" width="120" height="60">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        <button class="navbar-toggler" type="button-toggle" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <div class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/services}" th:text="#{nav_bar_services}"></a>
-                </div>
-                <div class="nav-item">
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/about}" th:text="#{nav_bar_about_us}"></a>
-                </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/gallery}" th:text="#{nav_bar_gallery}"></a>
                 </li>
@@ -51,17 +53,21 @@
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/users}">Клиенти</a>
                 </li>
-                <ul class="navbar-nav center-nav ml-auto" sec:authorize="!hasRole('ROLE_ADMIN')">
+                <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://maps.app.goo.gl/cFwKBYrQBYPQYKCKA'}">
                         <i class="fa-solid fa-map"></i>
                     </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.instagram.com/exclusiveservice.sofia/'}">
                         <i class="fa-brands fa-square-instagram"></i>
                     </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://www.facebook.com/eurolinkservice/'}">
                         <i class="fa-brands fa-square-facebook"></i>
                     </a>
-                </ul>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -77,46 +83,46 @@
                     </a>
                 </li>
 
-                <li class="nav-item active" sec:authorize="!isAuthenticated()">
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/users/login}">
                         <i class="fa-solid fa-right-to-bracket"></i>
                         <span class="button-text" th:text="#{nav_bar_login}"></span>
                     </a>
                 </li>
-                <li class="nav-item active" sec:authorize="!isAuthenticated()">
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{/users/register}">
                         <i class="fa-solid fa-user"></i>
                         <span class="button-text" th:text="#{nav_bar_register}"></span>
                     </a>
                 </li>
-                <li class="nav-item active" sec:authorize="isAuthenticated()">
-                        <a class="nav-link text-light active h5 text-stroke" th:href="@{/}">
-                            <i class="fa-solid fa-user"></i>
-                            <span class="button-text">Моят профил</span>
-                        </a>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/}">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="button-text">Моят профил</span>
+                    </a>
                 </li>
-                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
-                        <button type="submit" class="nav-link text-light active h5 text-stroke bg-transparent border-0"><i class="fa-solid fa-right-from-bracket"></i></button>
+                        <button type="submit" class="nav-link text-light active h5 text-stroke bg-transparent border-0">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
                     </form>
                 </li>
-                <div th:if="${#locale.toString().equals('en')}">
+                <li th:if="${#locale.toString().equals('en')}">
                     <a href="?lang=bg" class="nav-link">
                         <div class="flag-container">
                             <img src="/images/bg_flag.svg" alt="Bulgarian" class="rounded-flag">
                         </div>
                     </a>
-                </div>
-                <div th:if="${#locale.toString().equals('bg')}">
+                </li>
+                <li th:if="${#locale.toString().equals('bg')}">
                     <a href="?lang=en" class="nav-link">
                         <div class="flag-container">
                             <img src="/images/uk_flag.svg" alt="English" class="rounded-flag">
                         </div>
                     </a>
-                </div>
+                </li>
             </ul>
-
-
         </div>
     </nav>
 </header>
@@ -124,12 +130,11 @@
 
 </main>
 <footer class="footer bg-transparent py-2">
-        <div class="container-fluid text-center fixed-bottom">
-            <h1 class="text-center text-white mt-2 h4"><span class="badge badge-pill footer-badge">&copy;Exclusive Service 2024. All rights reserved.</span></h1>
-        </div>
-
-
-
+    <div class="container-fluid text-center fixed-bottom">
+        <h1 class="text-center text-white mt-2 h4">
+            <span class="badge badge-pill footer-badge">&copy;Exclusive Service 2024. All rights reserved.</span>
+        </h1>
+    </div>
 </footer>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>

@@ -3,8 +3,6 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/commons::head}">
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
@@ -78,7 +76,7 @@
                                     <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                 </td>
                                 <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getDate()}"></a></td>
-                                <td><a class="text-light" th:href="@{/cars/{id}(id=${appointment.car.id})}">[<span th:text="${appointment.car.getLicensePlate()}"></span>]
+                                <td><a class="text-light" th:href="@{/appoinments/{id}(id=${appointment.id})}">[<span th:text="${appointment.car.getLicensePlate()}"></span>]
                                     <span th:text="${appointment.car.getMake()}"></span>
                                     <span th:text="${appointment.car.getModel()}"></span>
                                     </a>

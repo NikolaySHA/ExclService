@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CarViewDTO {
-    private String id;
+    private long id;
     private String licensePlate;
     private String make;
     private String model;
