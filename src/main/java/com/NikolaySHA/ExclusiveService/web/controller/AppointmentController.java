@@ -1,7 +1,6 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
-
-import com.NikolaySHA.ExclusiveService.model.dto.ExpenseDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.ExpenseInDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.AddAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.EditAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.ShowAppointmentDTO;
@@ -22,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,27 +42,31 @@ public class AppointmentController {
         this.modelMapper = modelMapper;
         this.expenseService = expenseService;
     }
+    
     @ModelAttribute("appointmentData")
-    public AddAppointmentDTO addAppointmentDTO(){
+    public AddAppointmentDTO addAppointmentDTO() {
         return new AddAppointmentDTO();
     }
+    
     @ModelAttribute("statuses")
-    public List<Status> statuses(){
+    public List<Status> statuses() {
         return List.of(Status.values());
     }
+    
     @ModelAttribute("carsData")
-    public List<Car> cars(){
+    public List<Car> cars() {
         return getCarList();
     }
+    
     @ModelAttribute("users")
-    public List<User> users(){
+    public List<User> users() {
         return userService.findAll();
     }
-
+    
     @GetMapping("/add")
     public String addAppointment(Model model, RedirectAttributes redirectAttributes) {
         List<Car> carsData = getCarList();
-        if (carsData.isEmpty()){
+        if (carsData.isEmpty()) {
             redirectAttributes.addFlashAttribute("showErrorMessage", true);
             return "redirect:/add-car";
         }
@@ -71,13 +75,8 @@ public class AppointmentController {
         return "form-appointment";
     }
     
-  
-    
     @PostMapping("/add")
-    public String doAddAppointment(
-            @Valid AddAppointmentDTO data,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes){
+    public String doAddAppointment(@Valid AddAppointmentDTO data, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (userService.findLoggedUser() == null) {
             return "redirect:/";
         }
@@ -97,55 +96,34 @@ public class AppointmentController {
     
     @GetMapping("/{id}")
     public String viewAppointment(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
-        Optional<Appointment> optional = appointmentService.findById(id);
-        if (optional.isEmpty()){
-            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-            return "redirect:/error/contact-admin";
-        }
-        Appointment appointment = optional.get();
-        if (!appointment.getUser().equals(userService.findLoggedUser())){
-            if (!userService.loggedUserHasRole("ADMIN")){
-                redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-                return "redirect:/error/contact-admin";
-            }
-        }
-        List<ExpenseDTO> expensesList = expenseService.getAllExpensesByAppointmentId(id);
+        Appointment appointment = getValidatedAppointment(id, redirectAttributes);
+        if (appointment == null) return "redirect:/error/contact-admin";
+        List<ExpenseInDTO> expensesList = expenseService.GetExpensesForAppointment(id);
         ShowAppointmentDTO data = modelMapper.map(appointment, ShowAppointmentDTO.class);
+        double totalExpenses = expenseService.getTotalExpensesForAppointment(id);
         model.addAttribute("showAppointmentData", data);
         model.addAttribute("expenses", expensesList);
+        model.addAttribute("totalExpenses", totalExpenses);
         return "view-appointment";
     }
     
     @GetMapping("/edit/{id}")
     @Transactional
     public String editAppointmentForm(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
-        
         model.addAttribute("isEdit", true);
-        Optional<Appointment> appointmentOptional = appointmentService.findByIdInitializingUsersWithCars(id);
-       
-        if (appointmentOptional.isEmpty()){
-            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-            return "redirect:/error/contact-admin";
-        }
-        Appointment appointment = appointmentOptional.get();
-        if (!appointment.getUser().equals(userService.findLoggedUser())) {
-            if (!userService.loggedUserHasRole("ADMIN")){
-                redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-                return "redirect:/error/contact-admin";
-            }
-        }
+        Appointment appointment = getValidatedAppointment(id, redirectAttributes);
+        if (appointment == null) return "redirect:/error/contact-admin";
+        
         EditAppointmentDTO appointmentDTO = modelMapper.map(appointment, EditAppointmentDTO.class);
         model.addAttribute("id", id);
         model.addAttribute("appointmentData", appointmentDTO);
-        
         return "form-appointment";
     }
     
     @PostMapping("/edit/{id}")
     @Transactional
-    public String updateAppointment(@PathVariable("id") Long id, @Valid EditAppointmentDTO appointment,
-                                    BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        if (!userService.loggedUserHasRole("ADMIN")){
+    public String updateAppointment(@PathVariable("id") Long id, @Valid EditAppointmentDTO appointment, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if (!userService.loggedUserHasRole("ADMIN")) {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
@@ -162,6 +140,30 @@ public class AppointmentController {
         }
         return "redirect:/appointments/" + id;
     }
+    
+    @PostMapping("/delete/{id}")
+    public String deleteAppointment(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        Appointment appointment = getValidatedAppointment(id, redirectAttributes);
+        if (appointment == null) return "redirect:/error/contact-admin";
+        
+        appointmentService.delete(appointment);
+        return "redirect:/";
+    }
+    
+    private Appointment getValidatedAppointment(Long id, RedirectAttributes redirectAttributes) {
+        Optional<Appointment> appointmentOptional = appointmentService.findById(id);
+        if (appointmentOptional.isEmpty()) {
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return null;
+        }
+        Appointment appointment = appointmentOptional.get();
+        if (!appointment.getUser().equals(userService.findLoggedUser()) && !userService.loggedUserHasRole("ADMIN")) {
+            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
+            return null;
+        }
+        return appointment;
+    }
+    
     private List<Car> getCarList() {
         List<Car> carsData;
         if (!userService.loggedUserHasRole("ADMIN")) {
@@ -170,19 +172,5 @@ public class AppointmentController {
             carsData = carService.findAllCars();
         }
         return carsData;
-    }
-    @PostMapping("/delete/{id}")
-    public String deleteAppointment(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        
-        Optional<Appointment> appointmentOptional = appointmentService.findById(id);
-        if (appointmentOptional.isEmpty()) {
-            redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
-            return "redirect:/error/contact-admin";
-        } else {
-            Appointment appointment = appointmentOptional.get();
-            appointmentService.delete(appointment);
-//          TODO: send message to owner
-            return "redirect:/";
-        }
     }
 }

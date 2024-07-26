@@ -3,17 +3,17 @@ package com.NikolaySHA.ExclusiveService.model.dto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ExpenseDTOTest {
+public class ExpenseOutDTOTest {
     @Test
     void testDefaultConstructor() {
-        ExpenseDTO expenseOutDTO = new ExpenseDTO();
+        ExpenseOutDTO expenseOutDTO = new ExpenseOutDTO();
         Assertions.assertNull(expenseOutDTO.getName());
         Assertions.assertEquals (0.0, expenseOutDTO.getPrice());
     }
     
     @Test
     void testGettersAndSetters() {
-        ExpenseDTO expenseOutDTO = new ExpenseDTO();
+        ExpenseOutDTO expenseOutDTO = new ExpenseOutDTO();
         expenseOutDTO.setName("Test Expense");
         expenseOutDTO.setPrice(100.0);
         expenseOutDTO.setAppointmentId(1);

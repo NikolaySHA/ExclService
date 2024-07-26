@@ -1,16 +1,15 @@
 package com.NikolaySHA.ExclusiveService.service;
 
-import com.NikolaySHA.ExclusiveService.model.dto.ExpenseDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.ExpenseInDTO;
+import com.NikolaySHA.ExclusiveService.model.dto.ExpenseOutDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ExpenseService {
-    void createExpense(ExpenseDTO expenseOutDTO);
-    
+    void createExpense(ExpenseOutDTO expenseOutDTO);
     void deleteExpense(Long id);
-    
-    ExpenseDTO getExpenseById(Long id);
-    
-    List<ExpenseDTO> getAllExpenses();
-    List<ExpenseDTO> getAllExpensesByAppointmentId(Long id);
+    ExpenseInDTO getExpenseById(Long id);
+    List<ExpenseInDTO> GetExpensesForAppointment(Long id);
+    public double getTotalExpensesForAppointment(Long appointmentId);
 }

@@ -9,10 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ExpenseDTO {
-    @NotNull(message = "{error_message_not_null}")
+public class ExpenseInDTO {
+    private Long id;
     private String name;
-    @Positive(message = "{error_message_positive_price}")
     private double price;
     private long appointmentId;
     

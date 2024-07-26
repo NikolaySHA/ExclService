@@ -100,9 +100,9 @@
                                         <td class="bg-warning" style="width: 5%">
                                             <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
                                         </td>
-                                        <td th:text="${appointment.date}">Дата</td>
-                                        <td th:text="${appointment.car.licensePlate}">Рег. Номер</td>
-                                        <td th:text="${appointment.paintDetails}">Детайли за боя</td>
+                                        <td th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.date}">Дата</td>
+                                        <td th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.car.licensePlate}">Рег. Номер</td>
+                                        <td th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.paintDetails}">Детайли за боя</td>
                                         <td sec:authorize="hasRole('ROLE_ADMIN')">
                                             <form th:method="POST" th:action="@{/appointment/delete/{id}(id=${appointment.id})}">
                                                 <button class="bg-transparent border-0" type="submit">
