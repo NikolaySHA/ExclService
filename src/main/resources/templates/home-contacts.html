@@ -6,95 +6,98 @@
 <main>
     <div class="container bg-blur contacts-panel">
         <div class="row">
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0 p-5">
+                <div class="col-12 col-lg-12 p-4">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1291.0738502145058!2d27.329283618259144!3d42.59381289196046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a7c32e9e5b7b91%3A0x4a9efc1fd4f0720d!2sMy%20Company!5e0!3m2!1sen!2sbg!4v1618779561965!5m2!1sen!2sbg"
+                            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
             <!-- Contact Information Section -->
-            <div class="col-12 col-lg-6 bg-contact-info"
-                 style="background-image: url('./assets/img/contact-img-1.webp');">
-                <div class="contact-info-content">
-                    <h2 class="text-light" th:text="#{contact-form-heading}"></h2>
-                    <p class="lead fs-4 text-light opacity-75 mb-4" th:text="#{contact-info}"></p>
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="bg-contact-info h-100" style="background-image: url('./assets/img/contact-img-1.webp');">
+                    <div class="contact-info-content p-4">
+                        <h2 class="text-light" th:text="#{contact-form-heading}"></h2>
+                        <p class="lead fs-4 text-light opacity-75 mb-4" th:text="#{contact-info}"></p>
 
-                    <!-- Address -->
-                    <div class="d-flex mb-4">
-                        <div class="text-primary me-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-geo" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z" />
-                            </svg>
+                        <!-- Address -->
+                        <div class="d-flex mb-4">
+                            <div class="text-primary me-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-geo" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-light" th:text="#{contact-address}"></h4>
+                                <a th:href="@{'https://maps.app.goo.gl/cFwKBYrQBYPQYKCKA'}">
+                                    <address class="link-light text-yellow" th:text="#{contact-address-info}"></address>
+                                </a>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="text-light" th:text="#{contact-address}"></h4>
-                            <a th:href="@{'https://maps.app.goo.gl/cFwKBYrQBYPQYKCKA'}">
-                                <address class="link-light text-yellow" th:text="#{contact-address-info}"></address>
-                            </a>
+
+                        <!-- Phone -->
+                        <div class="d-flex mb-4">
+                            <div class="text-primary me-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-telephone-outbound" viewBox="0 0 16 16">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-light" th:text="#{phone}"></h4>
+                                <p class="mb-0">
+                                    <a class="link-light text-yellow" th:href="'tel:+359894646769'">+359 894 646 769</a>
+                                </p>
+                            </div>
                         </div>
+
+                        <!-- Contact Form -->
+                        <form th:action="@{/contacts}" method="post">
+                            <div class="row mb-4">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="name" class="form-label text-light">Name:</label>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label text-light">Email:</label>
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="Your Email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone" class="form-label text-light">Phone:</label>
+                                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Your Phone (optional)">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="subject" class="form-label text-light">Subject:</label>
+                                        <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="form-group">
+                                    <label for="message" class="form-label text-light">Message:</label>
+                                    <textarea id="message" name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-warning">Send Message</button>
+                            </div>
+                            <!-- Success Message -->
+                            <div id="success-message" class="alert alert-success mt-3 d-none" role="alert">
+                                Your message has been sent successfully!
+                            </div>
+                        </form>
                     </div>
-
-                    <!-- Phone -->
-                    <div class="d-flex mb-4">
-                        <div class="text-primary me-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-telephone-outbound" viewBox="0 0 16 16">
-                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-light" th:text="#{phone}"></h4>
-                            <p class="mb-0">
-                                <a class="link-light text-yellow" th:href="'tel:+359894646769'">+359 894 646 769</a>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Contact Form -->
-                    <form th:action="@{/contacts}" method="post">
-                        <div class="row mb-4">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="name" class="form-label text-light">Name:</label>
-                                    <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="email" class="form-label text-light">Email:</label>
-                                    <input type="email" id="email" name="email" class="form-control" placeholder="Your Email" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="phone" class="form-label text-light">Phone:</label>
-                                    <input type="tel" id="phone" name="phone" class="form-control" placeholder="Your Phone (optional)">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="subject" class="form-label text-light">Subject:</label>
-                                    <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="form-group">
-                                <label for="message" class="form-label text-light">Message:</label>
-                                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-warning">Send Message</button>
-                        </div>
-                        <!-- Success Message -->
-                        <div id="success-message" class="alert alert-success mt-3 d-none" role="alert">
-                            Your message has been sent successfully!
-                        </div>
-                    </form>
                 </div>
             </div>
 
-            <!-- Map Section -->
-            <div class="col-12 col-lg-6">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1291.0738502145058!2d27.329283618259144!3d42.59381289196046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a7c32e9e5b7b91%3A0x4a9efc1fd4f0720d!2sMy%20Company!5e0!3m2!1sen!2sbg!4v1618779561965!5m2!1sen!2sbg"
-                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
+
         </div>
     </div>
 </main>
