@@ -73,6 +73,9 @@
                 </div>
             </div>
         </div>
+            <a class="btn btn-warning" th:href="@{/users/{id}(id=${userId})}">
+                <span th:text="#{my-profile}"></span>
+            </a>
     </div>
 </main>
 <footer th:replace="~{fragments/commons::footer}"></footer>

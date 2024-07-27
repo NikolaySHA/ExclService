@@ -43,6 +43,7 @@ public class HomeController {
             model.addAttribute("appointmentsData", appointmentsForCustomer);
             List<Car> myCars = carService.findCarsByUser(userService.findLoggedUser().getId());
             model.addAttribute("myCarsData", myCars);
+            model.addAttribute("userId", userService.findLoggedUser().getId().toString());
             return "home";
         } else {
             return "index";

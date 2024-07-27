@@ -5,6 +5,8 @@ import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserLoginDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserViewDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
+import com.NikolaySHA.ExclusiveService.model.entity.UserRole;
+import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
 import com.NikolaySHA.ExclusiveService.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -16,7 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-;import java.util.Optional;
+;import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -87,6 +91,11 @@ public class UserController {
             return "redirect:/error/contact-admin";
         }
         UserViewDTO data = modelMapper.map(user, UserViewDTO.class);
+//        List<UserRolesEnum> userRoles = List.of(UserRolesEnum.CUSTOMER);
+//        if (userService.loggedUserHasRole("ADMIN")){
+//            userRoles.add(UserRolesEnum.ADMIN);
+//        }
+//        model.addAttribute("roles", userRoles);
         model.addAttribute("userViewData", data);
         model.addAttribute("id", id);
         return "view-user";

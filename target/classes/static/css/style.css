@@ -102,17 +102,17 @@ body > main {
     align-items: center;
     justify-content: center;
 }
-.navbar-toggler {
-    color: #F2CD13!important; /* Цветът на иконката или текста в бутона */ /* Жълта граница на бутона */
-    background-color: transparent; /* Прозрачен фон на бутона */
-    transition: background-color 0.3s, border-color 0.3s; /* Плавен преход за ховър ефектите */
-}
-/* Стил при ховър на бутона */
-.navbar-toggler:hover {
-    border-color: white; /* Бяла граница при ховър */
-    background-color: #F2CD13; /* Червен фон при ховър */
+/*.navbar-toggler {*/
+/*    color: #F2CD13!important; !* Цветът на иконката или текста в бутона *! !* Жълта граница на бутона *!*/
+/*    background-color: transparent; !* Прозрачен фон на бутона *!*/
+/*    transition: background-color 0.3s, border-color 0.3s; !* Плавен преход за ховър ефектите *!*/
+/*}*/
+/*!* Стил при ховър на бутона *!*/
+/*.navbar-toggler:hover {*/
+/*    border-color: white; !* Бяла граница при ховър *!*/
+/*    background-color: #F2CD13; !* Червен фон при ховър *!*/
 
-}
+/*}*/
 
 .rounded-flag {
     width: 100%;
