@@ -127,7 +127,7 @@ public class UserController {
         }
         return "redirect:/";
     }
-    @PostMapping("/users/add-admin/{id}")
+    @PostMapping("/add-admin/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String addAdmin(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         Optional<User> optionalUser = userService.findById(id);
@@ -143,7 +143,7 @@ public class UserController {
         return "redirect:/users/" + id; // Redirects to the user's page after adding admin role
     }
     
-    @PostMapping("/users/removeAdmin")
+    @PostMapping("/remove-admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String removeAdmin(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         Optional<User> optionalUser = userService.findById(id);

@@ -18,7 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -46,8 +48,11 @@ public class AdminController {
         if (searchCriteria.getDate() != null || searchCriteria.getLicensePlate() != null || searchCriteria.getMake() != null || searchCriteria.getCustomer() != null || searchCriteria.getStatus() != null) {
             appointments = appointmentService.searchAppointments(searchCriteria.getDate(), searchCriteria.getLicensePlate(), searchCriteria.getMake(), searchCriteria.getCustomer(), searchCriteria.getStatus());
         } else {
-            appointments = appointmentService.getAllAppointments();
+            appointments = appointmentService.getAllAppointments()
+                    .stream().filter(appointment -> !appointment.getStatus().equals(Status.COMPLETED))
+                    .collect(Collectors.toList());
         }
+        appointments = appointments.stream().sorted(Comparator.comparing(Appointment::getDate)).collect(Collectors.toList());
         model.addAttribute("appointmentsData", appointments);
         model.addAttribute("searchCriteria", searchCriteria);
         
