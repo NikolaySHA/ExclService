@@ -1,6 +1,5 @@
 package com.NikolaySHA.ExclusiveService.web.controller;
 
-import com.NikolaySHA.ExclusiveService.web.aop.WarnIfExecutionExceeds;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserLoginDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
@@ -54,7 +53,6 @@ public class UserController {
         model.addAttribute("isEdit", false);
         return "form-user";
     }
-    @WarnIfExecutionExceeds(threshold = 1500)
     @PostMapping("/register")
     public String doRegisterUser(@Valid @ModelAttribute("userData") UserRegisterDTO data, BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes) {

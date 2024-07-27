@@ -1,4 +1,4 @@
-package com.NikolaySHA.ExclusiveService.model.dto;
+package com.NikolaySHA.ExclusiveService.model.dto.userDTO;
 
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
 import org.junit.jupiter.api.BeforeEach;

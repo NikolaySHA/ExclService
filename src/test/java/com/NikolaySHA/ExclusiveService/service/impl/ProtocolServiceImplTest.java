@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,15 +41,16 @@ class ProtocolServiceImplTest {
     private ProtocolServiceImpl protocolService;
     
     private Appointment appointment;
-    private Car car;
-    private User user;
+    private TransferProtocol transferProtocol;
+    private ProtocolDTO protocolDTO;
     
     @BeforeEach
     void setUp() {
-        user = new User();
+        // Set up User, Car, and Appointment
+        User user = new User();
         user.setName("Mad Max");
         
-        car = new Car();
+        Car car = new Car();
         car.setMake("AUDI");
         car.setModel("RS6");
         car.setLicensePlate("CB6666BC");
@@ -56,89 +58,90 @@ class ProtocolServiceImplTest {
         appointment = new Appointment();
         appointment.setCar(car);
         appointment.setUser(user);
-        appointment.setStatus(Status.COMPLETED);  // Change this status for testing isFinished = false scenario
+        appointment.setStatus(Status.COMPLETED);
         appointment.setProtocols(Collections.emptyList());
+        
+        transferProtocol = new TransferProtocol();
+        transferProtocol.setId(1L);
+        transferProtocol.setLicensePlate("CBCBCBCB");
+        
+        protocolDTO = new ProtocolDTO();
+        protocolDTO.setId(1L);
+        protocolDTO.setLicensePlate("CBCBCBCB");
     }
     
     @Test
     void testCreateTransferProtocolFinishedTrue() {
+        when(modelMapper.map(any(Appointment.class), eq(TransferProtocol.class))).thenReturn(transferProtocol);
+        when(protocolRepository.save(any(TransferProtocol.class))).thenReturn(transferProtocol);
         doNothing().when(appointmentService).save(any(Appointment.class));
-        when(protocolRepository.save(any(TransferProtocol.class))).thenReturn(new TransferProtocol());
         
         protocolService.createTransferProtocol(appointment);
         
         verify(protocolRepository, times(1)).save(any(TransferProtocol.class));
         verify(appointmentService, times(1)).save(any(Appointment.class));
+        assertEquals(1, appointment.getProtocols().size());  // Check that the protocol was added
     }
     
     @Test
     void testCreateTransferProtocolFinishedFalse() {
-        appointment.setStatus(Status.IN_PROGRESS);  // Set status to IN_PROGRESS for isFinished = true scenario
+        appointment.setStatus(Status.IN_PROGRESS);
         
+        when(modelMapper.map(any(Appointment.class), eq(TransferProtocol.class))).thenReturn(transferProtocol);
+        when(protocolRepository.save(any(TransferProtocol.class))).thenReturn(transferProtocol);
         doNothing().when(appointmentService).save(any(Appointment.class));
-        when(protocolRepository.save(any(TransferProtocol.class))).thenReturn(new TransferProtocol());
         
         protocolService.createTransferProtocol(appointment);
         
         verify(protocolRepository, times(1)).save(any(TransferProtocol.class));
         verify(appointmentService, times(1)).save(any(Appointment.class));
+        assertEquals(1, appointment.getProtocols().size());  // Check that the protocol was added
     }
+    
     @Test
     void testGetTransferProtocolById() {
-        TransferProtocol protocol = new TransferProtocol();
-        protocol.setId(1L);
+        when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
+        when(modelMapper.map(any(TransferProtocol.class), eq(ProtocolDTO.class))).thenReturn(protocolDTO);
         
-        when(protocolRepository.findById(1L)).thenReturn(Optional.of(protocol));
-        when(modelMapper.map(any(TransferProtocol.class), eq(ProtocolDTO.class))).thenReturn(new ProtocolDTO());
+        ProtocolDTO result = protocolService.getTransferProtocolById(1L);
         
-        ProtocolDTO protocolDTO = protocolService.getTransferProtocolById(1L);
-        
-        assertNotNull(protocolDTO);
+        assertNotNull(result);
+        assertEquals("CBCBCBCB", result.getLicensePlate());
         verify(protocolRepository, times(1)).findById(1L);
     }
     
     @Test
     void testGetAllTransferProtocols() {
-        TransferProtocol protocol = new TransferProtocol();
+        when(protocolRepository.findAll()).thenReturn(List.of(transferProtocol));
+        when(modelMapper.map(any(TransferProtocol.class), eq(ProtocolDTO.class))).thenReturn(protocolDTO);
         
-        when(protocolRepository.findAll()).thenReturn(List.of(protocol));
-        when(modelMapper.map(any(TransferProtocol.class), eq(ProtocolDTO.class))).thenReturn(new ProtocolDTO());
+        List<ProtocolDTO> result = protocolService.getAllTransferProtocols();
         
-        List<ProtocolDTO> protocols = protocolService.getAllTransferProtocols();
-        
-        assertTrue(protocols.size() > 0);
+        assertNotNull(result);
+        assertTrue(result.size() > 0);
+        assertEquals("CBCBCBCB", result.get(0).getLicensePlate());
         verify(protocolRepository, times(1)).findAll();
     }
+    
     @Test
     void testDeleteProtocol() {
-        TransferProtocol protocol = new TransferProtocol();
-        protocol.setId(1L);
-        
-        when(protocolRepository.findById(1L)).thenReturn(Optional.of(protocol));
+        when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
         doNothing().when(protocolRepository).delete(any(TransferProtocol.class));
         
         protocolService.deleteProtocol(1L);
         
         verify(protocolRepository, times(1)).findById(1L);
-        verify(protocolRepository, times(1)).delete(protocol);
+        verify(protocolRepository, times(1)).delete(transferProtocol);
     }
- 
+    
     @Test
     void testFindById() {
+        when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
         
-        TransferProtocol protocol = new TransferProtocol();
-        protocol.setId(1L);
-        protocol.setLicensePlate("CBCBCBCB");
-        
-       
-        when(protocolRepository.findById(1L)).thenReturn(Optional.of(protocol));
         Optional<TransferProtocol> result = protocolService.findById(1L);
+        
         assertTrue(result.isPresent());
         assertEquals("CBCBCBCB", result.get().getLicensePlate());
-        
         verify(protocolRepository, times(1)).findById(1L);
     }
-    
-    
-    
 }

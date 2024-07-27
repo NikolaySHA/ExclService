@@ -1,6 +1,6 @@
 spring:
   application:
-    name: mobilele
+    name: ExclusiveService
   jpa:
     defer-datasource-initialization: true
     properties:

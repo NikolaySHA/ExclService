@@ -1,20 +1,40 @@
-package com.NikolaySHA.ExclusiveService.web.controller;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
-@SpringBootTest
-@AutoConfigureMockMvc
-class UserControllerIt {
-    @Autowired
-    private MockMvc mockMvc;
-    
-    
+//package com.NikolaySHA.ExclusiveService.web.controller;
+//
+//import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserEditDTO;
+//import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
+//import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserViewDTO;
+//import com.NikolaySHA.ExclusiveService.model.entity.User;
+//import com.NikolaySHA.ExclusiveService.repo.UserRepository;
+//import com.NikolaySHA.ExclusiveService.service.AppointmentService;
+//import com.NikolaySHA.ExclusiveService.service.CarService;
+//import com.NikolaySHA.ExclusiveService.service.UserService;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//import org.mockito.Mock;
+//import org.modelmapper.ModelMapper;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.test.web.servlet.MockMvc;
+//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+//import org.springframework.validation.BindingResult;
+//
+//import java.util.Optional;
+//
+//import static org.mockito.ArgumentMatchers.*;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+//
+//@SpringBootTest
+//@AutoConfigureMockMvc
+//class UserControllerIt {
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//
 //    @Autowired
 //    private UserRepository userRepository;
 //    private UserController userController;
@@ -30,12 +50,12 @@ class UserControllerIt {
 //
 //    @Mock
 //    private ModelMapper modelMapper;
-
+//
 //    @BeforeEach
 //    void setUp() {
 //        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
 //    }
-
+//
 //    @Test
 //    void testRegisterPage() throws Exception {
 //        mockMvc.perform(get("/register"))
@@ -45,9 +65,9 @@ class UserControllerIt {
 //
 //    @Test
 //    void testDoRegister_Success() throws Exception {
-//        RegisterDTO registerDTO = new RegisterDTO();
+//        UserRegisterDTO registerDTO = new UserRegisterDTO();
 //
-//        when(userService.register(any(RegisterDTO.class))).thenReturn(true);
+//        when(userService.register(any(UserRegisterDTO.class))).thenReturn(true);
 //
 //        mockMvc.perform(post("/register")
 //                        .flashAttr("registerData", registerDTO))
@@ -57,7 +77,7 @@ class UserControllerIt {
 //
 //    @Test
 //    void testDoRegister_Failure() throws Exception {
-//        RegisterDTO registerDTO = new RegisterDTO();
+//        UserRegisterDTO registerDTO = new UserRegisterDTO();
 //        BindingResult bindingResult = mock(BindingResult.class);
 //        when(bindingResult.hasErrors()).thenReturn(true);
 //
@@ -81,7 +101,7 @@ class UserControllerIt {
 //    void testViewUser_Success() throws Exception {
 //        Long userId = 1L;
 //        User user = new User();
-//        ShowUserDTO showUserDTO = new ShowUserDTO();
+//        UserViewDTO showUserDTO = new UserViewDTO();
 //        when(userService.findById(userId)).thenReturn(Optional.of(user));
 //        when(carService.findCarsByUser(userId)).thenReturn(null);
 //        when(appointmentService.getAppointmentsByUserEmail(anyString())).thenReturn(null);
@@ -95,9 +115,9 @@ class UserControllerIt {
 //    void testEditUserForm_Success() throws Exception {
 //        Long userId = 1L;
 //        User user = new User();
-//        EditUserDTO editUserDTO = new EditUserDTO();
+//        UserEditDTO editUserDTO = new UserEditDTO();
 //        when(userService.findById(userId)).thenReturn(Optional.of(user));
-//        when(modelMapper.map(user, EditUserDTO.class)).thenReturn(editUserDTO);
+//        when(modelMapper.map(user, UserEditDTO.class)).thenReturn(editUserDTO);
 //
 //        mockMvc.perform(get("/users/edit/{id}", userId))
 //                .andExpect(status().isOk())
@@ -107,8 +127,8 @@ class UserControllerIt {
 //    @Test
 //    void testUpdateUser_Success() throws Exception {
 //        Long userId = 1L;
-//        EditUserDTO editUserDTO = new EditUserDTO();
-//        when(userService.updateUser(anyLong(), any(EditUserDTO.class))).thenReturn(true);
+//        UserEditDTO editUserDTO = new UserEditDTO();
+//        when(userService.updateUser(anyLong(), any(UserEditDTO.class))).thenReturn(true);
 //
 //        mockMvc.perform(post("/users/edit/{id}", userId)
 //                        .flashAttr("editUserData", editUserDTO))
@@ -140,4 +160,4 @@ class UserControllerIt {
 //                .andExpect(status().is3xxRedirection())
 //                .andExpect(redirectedUrl("/users/" + userId));
 //    }
-}
+//}

@@ -11,7 +11,6 @@ import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import com.NikolaySHA.ExclusiveService.web.aop.WarnIfExecutionExceeds;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +36,7 @@ public class AdminController {
     public String errorContactAdmin(){
         return "error-contact-admin";
     }
-    @WarnIfExecutionExceeds(threshold = 1000)
+   
     @GetMapping("/garage/appointments")
     @PreAuthorize("hasRole('ADMIN')")
     public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
@@ -54,7 +53,7 @@ public class AdminController {
         
         return "garage-appointments";
     }
-    @WarnIfExecutionExceeds(threshold = 1000)
+   
     @GetMapping("/garage/cars")
     @PreAuthorize("hasRole('ADMIN')")
     public String searchAppointments(@AuthenticationPrincipal UserDetails userDetails, Model model,
@@ -71,7 +70,7 @@ public class AdminController {
         
         return "garage-cars";
     }
-    @WarnIfExecutionExceeds(threshold = 1000)
+   
     @GetMapping("/garage/users")
     @PreAuthorize("hasRole('ADMIN')")
     public String searchCustomers(@AuthenticationPrincipal UserDetails userDetails, Model model,

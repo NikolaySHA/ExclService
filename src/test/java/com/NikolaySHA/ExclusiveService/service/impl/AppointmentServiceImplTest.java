@@ -5,11 +5,9 @@ import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.EditAppointmentD
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
-import com.NikolaySHA.ExclusiveService.model.enums.PaymentMethod;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.AppointmentRepository;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import com.NikolaySHA.ExclusiveService.service.impl.AppointmentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,13 +21,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AppointmentServiceImplTest {
-    
-    @InjectMocks
-    private AppointmentServiceImpl appointmentService;
+public class AppointmentServiceImplTest {
     
     @Mock
     private AppointmentRepository appointmentRepository;
@@ -40,149 +37,148 @@ class AppointmentServiceImplTest {
     @Mock
     private ModelMapper modelMapper;
     
+    @InjectMocks
+    private AppointmentServiceImpl appointmentService;
+    
     private AddAppointmentDTO addAppointmentDTO;
     private EditAppointmentDTO editAppointmentDTO;
-    private Appointment testAppointment;
-    private User testUser;
-    private Car testCar;
+    private Appointment appointment;
+    private User user;
+    private Car car;
     
     @BeforeEach
     void setUp() {
-        testUser = new User();
-        testUser.setEmail("test@example.com");
+        user = new User();
+        user.setEmail("test@test.com");
         
-        testCar = new Car();
-        testCar.setOwner(testUser);
-        
-        testAppointment = new Appointment();
-        testAppointment.setId(1L);
-        testAppointment.setUser(testUser);
-        testAppointment.setCar(testCar);
-        testAppointment.setDate(LocalDate.now());
-        testAppointment.setStatus(Status.SCHEDULED);
+        car = new Car();
+        car.setOwner(user);
         
         addAppointmentDTO = new AddAppointmentDTO();
-        addAppointmentDTO.setDate(LocalDate.now());
-        addAppointmentDTO.setPaymentMethod(PaymentMethod.ASSIGMENT_LETTER);
-        addAppointmentDTO.setCar(testCar);
-        addAppointmentDTO.setPaintDetails(10);
-        addAppointmentDTO.setComment("Test Comment");
+        addAppointmentDTO.setCar(car);
+        
+        appointment = new Appointment();
+        appointment.setUser(user);
+        appointment.setStatus(Status.SCHEDULED);
+        appointment.setPaintDetails(2);
         
         editAppointmentDTO = new EditAppointmentDTO();
-        editAppointmentDTO.setDate(LocalDate.now().plusDays(1));
-        editAppointmentDTO.setPaymentMethod(PaymentMethod.PRIVATE_ORDER);
-        editAppointmentDTO.setStatus(Status.COMPLETED);
+        editAppointmentDTO.setUser(user);
+        editAppointmentDTO.setComment("New Comment");
+        editAppointmentDTO.setDate(LocalDate.now());
+        editAppointmentDTO.setStatus(Status.PENDING);
     }
     
     @Test
     void testCreate() {
-        appointmentRepository.save(testAppointment);
-        assertEquals(1, appointmentRepository.findAll().size());
+        when(modelMapper.map(any(AddAppointmentDTO.class), any(Class.class))).thenReturn(appointment);
         
+        boolean result = appointmentService.create(addAppointmentDTO);
+        
+        assertTrue(result);
+        verify(appointmentRepository, times(1)).save(any(Appointment.class));
     }
     
     @Test
     void testGetAppointmentsByUserEmail() {
-        when(appointmentRepository.findByUser_Email("test@example.com")).thenReturn(List.of(testAppointment));
+        when(appointmentRepository.findByUser_Email(anyString())).thenReturn(List.of(appointment));
         
-        List<Appointment> result = appointmentService.getAppointmentsByUserEmail("test@example.com");
+        List<Appointment> appointments = appointmentService.getAppointmentsByUserEmail("test@test.com");
         
-        assertEquals(1, result.size());
-        assertEquals(testAppointment, result.get(0));
+        assertEquals(1, appointments.size());
+        verify(appointmentRepository, times(1)).findByUser_Email(anyString());
     }
     
     @Test
     void testSearchAppointments() {
         LocalDate date = LocalDate.now();
-        when(appointmentRepository.findAppointments(date, null, null, null, Status.SCHEDULED))
-                .thenReturn(List.of(testAppointment));
+        when(appointmentRepository.findAppointments(any(), anyString(), anyString(), anyString(), any())).thenReturn(List.of(appointment));
         
-        List<Appointment> result = appointmentService.searchAppointments(date.toString(), null, null, null, Status.SCHEDULED);
+        List<Appointment> appointments = appointmentService.searchAppointments(date.toString(), "123", "Make", "Client", Status.SCHEDULED);
         
-        assertEquals(1, result.size());
-        assertEquals(testAppointment, result.get(0));
+        assertEquals(1, appointments.size());
+        verify(appointmentRepository, times(1)).findAppointments(any(), anyString(), anyString(), anyString(), any());
     }
     
     @Test
     void testGetAllAppointments() {
-        when(appointmentRepository.findAll()).thenReturn(List.of(testAppointment));
+        when(appointmentRepository.findAll()).thenReturn(List.of(appointment));
         
-        List<Appointment> result = appointmentService.getAllAppointments();
+        List<Appointment> appointments = appointmentService.getAllAppointments();
         
-        assertEquals(1, result.size());
-        assertEquals(testAppointment, result.get(0));
+        assertEquals(1, appointments.size());
+        verify(appointmentRepository, times(1)).findAll();
     }
     
     @Test
     void testUpdateAppointmentStatus() {
-        appointmentService.updateAppointmentStatus(testAppointment, Status.COMPLETED);
+        appointmentService.updateAppointmentStatus(appointment, Status.COMPLETED);
         
-        assertEquals(Status.COMPLETED, testAppointment.getStatus());
+        assertEquals(Status.COMPLETED, appointment.getStatus());
     }
     
     @Test
     void testFindByDate() {
-        LocalDate date = LocalDate.now();
-        when(appointmentRepository.findByDate(date)).thenReturn(List.of(testAppointment));
+        when(appointmentRepository.findByDate(any(LocalDate.class))).thenReturn(List.of(appointment));
         
-        List<Appointment> result = appointmentService.findByDate(date);
+        List<Appointment> appointments = appointmentService.findByDate(LocalDate.now());
         
-        assertEquals(1, result.size());
-        assertEquals(testAppointment, result.get(0));
+        assertEquals(1, appointments.size());
+        verify(appointmentRepository, times(1)).findByDate(any(LocalDate.class));
     }
     
     @Test
     void testFindById() {
-        when(appointmentRepository.findById(1L)).thenReturn(Optional.of(testAppointment));
+        when(appointmentRepository.findById(anyLong())).thenReturn(Optional.of(appointment));
         
-        Optional<Appointment> result = appointmentService.findById(1L);
+        Optional<Appointment> foundAppointment = appointmentService.findById(1L);
         
-        assertTrue(result.isPresent());
-        assertEquals(testAppointment, result.get());
+        assertTrue(foundAppointment.isPresent());
+        assertEquals(appointment, foundAppointment.get());
+        verify(appointmentRepository, times(1)).findById(anyLong());
     }
     
     @Test
     void testDelete() {
-        doNothing().when(appointmentRepository).delete(testAppointment);
+        appointmentService.delete(appointment);
         
-        appointmentService.delete(testAppointment);
-        
-        verify(appointmentRepository, times(1)).delete(testAppointment);
+        verify(appointmentRepository, times(1)).delete(any(Appointment.class));
     }
     
     @Test
     void testUpdateAppointment() {
-        when(appointmentRepository.findById(1L)).thenReturn(Optional.of(testAppointment));
+        when(appointmentRepository.findById(anyLong())).thenReturn(Optional.of(appointment));
         
         boolean result = appointmentService.updateAppointment(1L, editAppointmentDTO);
         
         assertTrue(result);
-        verify(appointmentRepository, times(1)).save(testAppointment);
+        assertEquals(editAppointmentDTO.getComment(), appointment.getComment());
+        assertEquals(editAppointmentDTO.getDate(), appointment.getDate());
+        verify(appointmentRepository, times(1)).save(any(Appointment.class));
     }
     
     @Test
     void testSave() {
-        appointmentService.save(testAppointment);
+        appointmentService.save(appointment);
         
-        verify(appointmentRepository, times(1)).save(testAppointment);
+        verify(appointmentRepository, times(1)).save(any(Appointment.class));
     }
     
     @Test
     void testFindByIdInitializingUsersWithCars() {
-        when(appointmentRepository.findByIdWithUserAndCars(1L)).thenReturn(Optional.of(testAppointment));
+        when(appointmentRepository.findByIdWithUserAndCars(anyLong())).thenReturn(Optional.of(appointment));
         
-        Optional<Appointment> result = appointmentService.findByIdInitializingUsersWithCars(1L);
+        Optional<Appointment> foundAppointment = appointmentService.findByIdInitializingUsersWithCars(1L);
         
-        assertTrue(result.isPresent());
-        assertEquals(testAppointment, result.get());
+        assertTrue(foundAppointment.isPresent());
+        assertEquals(appointment, foundAppointment.get());
+        verify(appointmentRepository, times(1)).findByIdWithUserAndCars(anyLong());
     }
     
     @Test
     void testSaveAll() {
-        List<Appointment> appointments = List.of(testAppointment);
+        appointmentService.saveAll(List.of(appointment));
         
-        appointmentService.saveAll(appointments);
-        
-        verify(appointmentRepository, times(1)).saveAll(appointments);
+        verify(appointmentRepository, times(1)).saveAll(anyList());
     }
 }
