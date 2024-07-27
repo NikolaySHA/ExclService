@@ -8,6 +8,7 @@ import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.entity.UserRole;
 import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
 import com.NikolaySHA.ExclusiveService.service.UserService;
+import com.NikolaySHA.ExclusiveService.service.impl.EmailSenderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,8 @@ public class UserController {
     private final UserService userService;
     
     private final ModelMapper modelMapper;
+    
+    private final EmailSenderService emailService;
     
     @ModelAttribute("userData")
     public UserRegisterDTO userDTO() {
@@ -75,6 +78,8 @@ public class UserController {
             return "redirect:/users/register";
             }
         redirectAttributes.addFlashAttribute("successfulRegistration", true);
+        emailService.sendSimpleEmail(data.getEmail(), "Успешна регистрация", "Вие се регистрирахте успешно в апликацията на 'Екслкузив сервиз'. Може да добавите своя автомобил и да запишете час за него. До скоро!");
+        emailService.sendSimpleEmail("exclautoservice@gmail.com", "Нова регистрация.", String.format("Потребител с име %s и %s се регистрира в приложението.", data.getName(), data. getEmail()));
         return "redirect:/users/login";
     }
     @GetMapping("/{id}")
@@ -91,11 +96,7 @@ public class UserController {
             return "redirect:/error/contact-admin";
         }
         UserViewDTO data = modelMapper.map(user, UserViewDTO.class);
-//        List<UserRolesEnum> userRoles = List.of(UserRolesEnum.CUSTOMER);
-//        if (userService.loggedUserHasRole("ADMIN")){
-//            userRoles.add(UserRolesEnum.ADMIN);
-//        }
-//        model.addAttribute("roles", userRoles);
+
         model.addAttribute("userViewData", data);
         model.addAttribute("id", id);
         return "view-user";
