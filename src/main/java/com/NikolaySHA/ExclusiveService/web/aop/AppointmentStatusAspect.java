@@ -43,7 +43,7 @@ public class AppointmentStatusAspect {
         switch (newStatus){
             case PENDING:
                 emailSender.sendSimpleEmail(user.getEmail(), "Записан час за сервиз",
-                        String.format("Вие имате записан час, днес - %s,/n за вашия автомобил: %s, Марка: %s, Модел: %s./n Очакваме ви!",
+                        String.format("Вие имате записан час, днес - %s,\n за вашия автомобил: %s, Марка: %s, Модел: %s.\n Очакваме ви!",
                                 appointment.getDate(),
                                 appointment.getCar().getLicensePlate(),
                                 appointment.getCar().getMake(),
@@ -56,13 +56,13 @@ public class AppointmentStatusAspect {
                                 appointment.getCar().getModel()));
             case IN_PROGRESS:
                  emailSender.sendSimpleEmail(user.getEmail(), "Приет автомобил",
-                        String.format("Вашия автомобил: %s, Марка: %s, Модел: %s./n е приет за ремонт. Ще ви информираме при промяна на статуса на ремонта.",
+                        String.format("Вашия автомобил: %s, Марка: %s, Модел: %s.\n е приет за ремонт. Ще ви информираме при промяна на статуса на ремонта.",
                                 appointment.getCar().getLicensePlate(),
                                 appointment.getCar().getMake(),
                                 appointment.getCar().getModel()));
             case COMPLETED:
                 emailSender.sendSimpleEmail(user.getEmail(), "Завършен ремонт",
-                        String.format("Вашия автомобил: %s, Марка: %s, Модел: %s./n е готов. Заповядайте да си го получите!.",
+                        String.format("Вашия автомобил: %s, Марка: %s, Модел: %s.\n е готов. Заповядайте да си го получите!.",
                                 appointment.getCar().getLicensePlate(),
                                 appointment.getCar().getMake(),
                                 appointment.getCar().getModel()));
