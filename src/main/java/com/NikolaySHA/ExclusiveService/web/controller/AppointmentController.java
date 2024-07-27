@@ -68,7 +68,7 @@ public class AppointmentController {
         List<Car> carsData = getCarList();
         if (carsData.isEmpty()) {
             redirectAttributes.addFlashAttribute("showErrorMessage", true);
-            return "redirect:/add-car";
+            return "redirect:/cars/add";
         }
         model.addAttribute("isEdit", false);
         model.addAttribute("carsData", carsData);

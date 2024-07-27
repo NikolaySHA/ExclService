@@ -68,13 +68,13 @@
                     <a class="nav-link text-light active h5 text-stroke" sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/contacts}" th:text="#{nav_bar_contact_us}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/appointments}">Ремонти</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/appointments}" th:text="#{nav_bar_repairs}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/cars}">Автомобили</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/cars}" th:text="#{nav_bar_cars}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/users}">Клиенти</a>
+                    <a class="nav-link text-light active h5 text-stroke" th:href="@{/garage/users}" th:text="#{nav_bar_customers}"></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light active h5 text-stroke" th:href="@{'https://maps.app.goo.gl/cFwKBYrQBYPQYKCKA'}">
@@ -130,7 +130,7 @@
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </button>
                     </form>
-                </li>
+
                 <li th:if="${#locale.toString().equals('en')}">
                     <a href="?lang=bg" class="nav-link">
                         <div class="flag-container">
@@ -138,6 +138,7 @@
                         </div>
                     </a>
                 </li>
+
                 <li th:if="${#locale.toString().equals('bg')}">
                     <a href="?lang=en" class="nav-link">
                         <div class="flag-container">
