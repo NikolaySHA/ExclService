@@ -1,5 +1,6 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
+import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.AppointmentRepository;
 import com.NikolaySHA.ExclusiveService.service.AvailableDateService;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,6 @@ public class AvailableDateServiceImpl implements AvailableDateService {
         LocalDate startOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate endOfWeek = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY));
         
-        return appointmentRepository.findTotalDetailsForWeek(startOfWeek, endOfWeek);
+        return appointmentRepository.findTotalDetailsForWeek(startOfWeek, endOfWeek, Status.COMPLETED);
     }
 }

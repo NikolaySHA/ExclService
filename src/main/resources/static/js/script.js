@@ -14,20 +14,7 @@ $(document).ready(function () {
         if (detailsCount) {
             $(this).css('background-color', 'yellow');
 
-            $.ajax({
-                url: 'http://localhost:8080//next-available-date',
-                type: 'GET',
-                data: {
-                    detailsCount: detailsCount
-                },
-                success: function (response) {
-                    console.log("Response received: ", response); // Логване на получените данни
-                    $('#date').val(response); // Поставяне на датата в полето
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error fetching next available date:', error);
-                }
-            });
+
         }
     });
 });

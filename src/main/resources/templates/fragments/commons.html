@@ -17,6 +17,28 @@
     <script src="https://kit.fontawesome.com/8c77968f69.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#paintDetails').change(function() {
+                var detailsCount = $(this).val();
+                if(detailsCount) {
+                    $.ajax({
+                        url: '/next-available-date',
+                        type: 'GET',
+                        data: {
+                            detailsCount: detailsCount
+                        },
+                        success: function(response) {
+                            $('#date').val(response);
+                        },
+                        error: function(error) {
+                            console.error('Error fetching the next available date', error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 
 </head>
 
@@ -109,16 +131,14 @@
                         </button>
                     </form>
                 </li>
-<!--                th:if="${#locale.toString().equals('en')}"-->
-                <li >
+                <li th:if="${#locale.toString().equals('en')}">
                     <a href="?lang=bg" class="nav-link">
                         <div class="flag-container">
                             <img src="/images/bg_flag.svg" alt="Bulgarian" class="rounded-flag">
                         </div>
                     </a>
                 </li>
-<!--                th:if="${#locale.toString().equals('bg')}"-->
-                <li >
+                <li th:if="${#locale.toString().equals('bg')}">
                     <a href="?lang=en" class="nav-link">
                         <div class="flag-container">
                             <img src="/images/uk_flag.svg" alt="English" class="rounded-flag">
