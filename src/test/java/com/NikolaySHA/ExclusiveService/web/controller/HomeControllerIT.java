@@ -6,7 +6,6 @@ import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import com.NikolaySHA.ExclusiveService.util.ExclusiveUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,15 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Collections;
-import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
