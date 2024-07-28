@@ -21,7 +21,6 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -41,7 +40,7 @@ public class GmailSender {
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_LABELS);
-    private static final String CREDENTIALS_FILE_PATH = "src/main/resources/json/gmailAPI.json";
+    private static final String CREDENTIALS_FILE_PATH = "json/client_secret_299103921534-8k56sq5oedhf8826kmeutodg1ni4bjhv.apps.googleusercontent.com.json";
     private static final String FROM_EMAIL_ADDRESS = "exclautoservice@gmail.com";
     private final Gmail service;
     
