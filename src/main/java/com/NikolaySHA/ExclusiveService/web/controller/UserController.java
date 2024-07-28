@@ -150,6 +150,7 @@ public class UserController {
             return "redirect:/users/" + id;
         }
         userService.addAdmin(id);
+        redirectAttributes.addFlashAttribute("addAdminMessage", true);
         return "redirect:/users/" + id; // Redirects to the user's page after adding admin role
     }
     
@@ -162,7 +163,11 @@ public class UserController {
             return "redirect:/error/contact-admin";
         }
         User user = optionalUser.get();
+        if (!userService.isAdmin(user.getRoles())) {
+            return "redirect:/users/" + id;
+        }
         userService.removeAdmin(id);
+        redirectAttributes.addFlashAttribute("removeAdminMessage", true);
         return "redirect:/users/" + id;
     }
    
