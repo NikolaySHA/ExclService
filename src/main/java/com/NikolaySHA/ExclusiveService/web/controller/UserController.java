@@ -161,6 +161,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
+        
         User user = optionalUser.get();
         if (!userService.isAdmin(user.getRoles())) {
             return "redirect:/users/" + id;
