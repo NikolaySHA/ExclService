@@ -153,7 +153,6 @@ public class UserController {
         redirectAttributes.addFlashAttribute("addAdminMessage", true);
         return "redirect:/users/" + id; // Redirects to the user's page after adding admin role
     }
-    
     @PostMapping("/remove-admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String removeAdmin(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
