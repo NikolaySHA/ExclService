@@ -78,8 +78,8 @@ public class UserController {
             return "redirect:/users/register";
             }
         redirectAttributes.addFlashAttribute("successfulRegistration", true);
-        emailService.sendSimpleEmail(data.getEmail(), "Успешна регистрация", "Вие се регистрирахте успешно в апликацията на 'Екслкузив сервиз'. Може да добавите своя автомобил и да запишете час за него. До скоро!");
-        emailService.sendSimpleEmail("exclautoservice@gmail.com", "Нова регистрация.", String.format("Потребител с име %s и %s се регистрира в приложението.", data.getName(), data. getEmail()));
+//        emailService.sendSimpleEmail(data.getEmail(), "Успешна регистрация", "Вие се регистрирахте успешно в апликацията на 'Екслкузив сервиз'. Може да добавите своя автомобил и да запишете час за него. До скоро!");
+//        emailService.sendSimpleEmail("exclautoservice@gmail.com", "Нова регистрация.", String.format("Потребител с име %s и %s се регистрира в приложението.", data.getName(), data. getEmail()));
         return "redirect:/users/login";
     }
     @GetMapping("/{id}")
@@ -151,7 +151,7 @@ public class UserController {
         }
         userService.addAdmin(id);
         redirectAttributes.addFlashAttribute("addAdminMessage", true);
-        return "redirect:/users/" + id; // Redirects to the user's page after adding admin role
+        return "redirect:/users/" + id;
     }
     @PostMapping("/remove-admin")
     @PreAuthorize("hasRole('ADMIN')")
@@ -161,7 +161,6 @@ public class UserController {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
-        
         User user = optionalUser.get();
         if (!userService.isAdmin(user.getRoles())) {
             return "redirect:/users/" + id;
