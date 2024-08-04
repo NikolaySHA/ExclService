@@ -14,10 +14,13 @@
           th:method="POST"
           th:object="${carData}">
         <div class="form-group">
-            <div class="alert alert-danger" th:if="${showErrorMessage}">
-                <a class="close" data-dismiss="alert" aria-label="close"></a>
-                <div th:text="#{error_message_must_have_car}"></div>
+            <div class="alert alert-danger alert-dismissible fade show" th:if="${showErrorMessage}">
+                <span th:text="#{error_message_must_have_car}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+
             <div class="label-holder text-white d-flex justify-content-center">
                 <label for="licensePlate" class="h4 mb-2"><span th:text="#{vehicle_license_plate}"></span><span class="text-danger"> *</span></label>
             </div>

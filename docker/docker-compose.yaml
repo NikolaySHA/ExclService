@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  db:
+    image: mysql
+    ports:
+      - "3307:3306"
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_bin']
+    environment:
+      - MYSQL_ROOT_USERNAME=db
+      - MYSQL_ROOT_PASSWORD=Niki860115
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  exclusive-service:
+    depends_on:
+      db:
+        condition: service_healthy
+    image: nikolaysha/exclusive-service
+    ports:
+      - "8080:8080"
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=Niki860115
+      - MAIL_SENDER_USERNAME=exclautoservice@gmail.com
+      - MAIL_SENDER_PASSWORD=Niki860115
+      - EXPENSES_BASE_URL=http://expenses-api:8081
+  expense-api:
+    depends_on:
+      db:
+        condition: service_healthy
+    image: nikolaysha/expenses-api
+    ports:
+      - "8081:8081"
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=Niki860115

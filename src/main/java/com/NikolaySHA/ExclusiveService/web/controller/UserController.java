@@ -5,12 +5,11 @@ import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserLoginDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserViewDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
-import com.NikolaySHA.ExclusiveService.model.entity.UserRole;
-import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
 import com.NikolaySHA.ExclusiveService.service.UserService;
 import com.NikolaySHA.ExclusiveService.service.impl.EmailSenderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,11 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-;import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -165,9 +162,10 @@ public class UserController {
         if (!userService.isAdmin(user.getRoles())) {
             return "redirect:/users/" + id;
         }
-        userService.removeAdmin(id);
-        redirectAttributes.addFlashAttribute("removeAdminMessage", true);
+        boolean success = userService.removeAdmin(id);
+        if (success) {
+            redirectAttributes.addFlashAttribute("removeAdminMessage", true);
+        }
         return "redirect:/users/" + id;
     }
-   
 }

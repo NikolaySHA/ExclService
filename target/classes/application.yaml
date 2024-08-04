@@ -6,7 +6,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
     properties:
       hibernate:
@@ -34,4 +33,4 @@ spring:
 
 expenses:
   api:
-    base-Url: "${EXPENSES_BASE_URL:http://localhost:8081}"
+    base-url: "${EXPENSES_BASE_URL:http://localhost:8081}"

@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.NikolaySHA.ExclusiveService.model.dto.ShowCarDTOTest
--------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in com.NikolaySHA.ExclusiveService.model.dto.ShowCarDTOTest

@@ -7,10 +7,7 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 public class RestConfig {
-//    @Bean("genericRestClient")
-//    public RestClient genericRestClient(){
-//        return RestClient.create();
-//    }
+
     @Bean("expensesRestClient")
     public RestClient expensesRestClient(ExpensesApiConfig expensesApiConfig) {
         return RestClient

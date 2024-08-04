@@ -112,24 +112,25 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void removeAdmin(Long userId) {
+    public boolean removeAdmin(Long userId) {
         User user = userRepository.findById(userId).get();
         List<UserRole> roles = user.getRoles();
         UserRole role = roleRepository.findByRole(UserRolesEnum.ADMIN);
         
         if (!roles.contains(role)){
-            return;
+            return false;
         }
         long count = userRepository.findAll().stream()
                 .filter(u -> u.getRoles().stream()
                         .anyMatch(role1 -> role1.getRole().name().equals("ADMIN")))
                 .count();
         if (count <2){
-            return;
+            return false;
         }
         roles.remove(role);
         user.setRoles(roles);
         userRepository.save(user);
+        return true;
     }
     
     @Override

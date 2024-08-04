@@ -3,10 +3,13 @@ package com.NikolaySHA.ExclusiveService.web.controller;
 import com.NikolaySHA.ExclusiveService.service.impl.EmailSenderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/contacts")
 public class ContactController {
     
     private final EmailSenderService emailSenderService;
@@ -15,7 +18,12 @@ public class ContactController {
         this.emailSenderService = emailSenderService;
     }
     
-    @PostMapping("/contacts")
+    @GetMapping("/")
+    public String contacts(){
+        return "home-contacts";
+    }
+    
+    @PostMapping("/")
     public String sendEmail(
             @RequestParam String name,
             @RequestParam String email,
@@ -34,7 +42,7 @@ public class ContactController {
         
         emailSenderService.sendSimpleEmail(to, emailSubject, emailText);
         
-        model.addAttribute("successContactMessage", "Вашето съобщение беше изпратено успешно!");
+        model.addAttribute("successContactMessage", true);
         
        
         return "home-contacts";

@@ -29,7 +29,7 @@ public interface UserService {
     
     void addAdmin(Long userId);
     
-    void removeAdmin(Long userId);
+    boolean removeAdmin(Long userId);
     
     boolean isAdmin(List<UserRole> roles);
     

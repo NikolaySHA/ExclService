@@ -62,8 +62,5 @@ public class HomeController {
     public String services(){
         return "home-services";
     }
-    @GetMapping("/contacts")
-    public String contacts(){
-        return "home-contacts";
-    }
+
 }

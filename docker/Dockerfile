@@ -1,5 +1,5 @@
 FROM amazoncorretto:21-alpine
 
-COPY target/Spring-Fundamentals-Exam-0.0.1-SNAPSHOT.jar app.jar
+COPY target/Exclusive-Service-0.0.1.jar app.jar
 
 ENTRYPOINT ["java", "-jar", "/app.jar"]
