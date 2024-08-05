@@ -8,10 +8,13 @@ import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.AppointmentRepository;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +25,28 @@ import java.util.Optional;
 public class AppointmentServiceImpl implements AppointmentService {
     
     private final AppointmentRepository appointmentRepository;
-    private final UserService userService;
     private final ModelMapper modelMapper;
+    private final GmailSender emailSender;
+ 
     
     @Override
-    public boolean create(AddAppointmentDTO data) {
+    public boolean create(AddAppointmentDTO data) throws MessagingException, GeneralSecurityException, IOException {
         User user = data.getCar().getOwner();
         Appointment appointment = modelMapper.map(data, Appointment.class);
         appointment.setUser(data.getCar().getOwner());
         appointment.setStatus(Status.SCHEDULED);
         this.appointmentRepository.save(appointment);
+        emailSender.sendMail("Записан нов час за сервиз", String.format("Вие записахте час за %s,\n за вашия автомобил: %s, марка: %s, модел: %s.\n Ще ви очакваме на посочената дата!",
+                appointment.getDate(),
+                appointment.getCar().getLicensePlate(),
+                appointment.getCar().getMake(),
+                appointment.getCar().getModel()), appointment.getUser().getEmail());
+        emailSender.sendMail( "Записан нов час",
+                String.format("Очаквайте на %s,\n автомобил: %s, марка: %s, модел: %s.\n !",
+                        appointment.getDate(),
+                        appointment.getCar().getLicensePlate(),
+                        appointment.getCar().getMake(),
+                        appointment.getCar().getModel()), "exclautoservice@gmail.com");
         return true;
     }
     

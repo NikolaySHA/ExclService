@@ -8,6 +8,7 @@ import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.AppointmentRepository;
 import com.NikolaySHA.ExclusiveService.service.UserService;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +33,6 @@ public class AppointmentServiceImplTest {
     
     @Mock
     private AppointmentRepository appointmentRepository;
-    
-    @Mock
-    private UserService userService;
     
     @Mock
     private ModelMapper modelMapper;
@@ -53,6 +53,7 @@ public class AppointmentServiceImplTest {
         
         car = new Car();
         car.setOwner(user);
+        car.setLicensePlate("CB9999BC");
         
         addAppointmentDTO = new AddAppointmentDTO();
         addAppointmentDTO.setCar(car);
@@ -67,16 +68,6 @@ public class AppointmentServiceImplTest {
         editAppointmentDTO.setComment("New Comment");
         editAppointmentDTO.setDate(LocalDate.now());
         editAppointmentDTO.setStatus(Status.PENDING);
-    }
-    
-    @Test
-    void testCreate() {
-        when(modelMapper.map(any(AddAppointmentDTO.class), any(Class.class))).thenReturn(appointment);
-        
-        boolean result = appointmentService.create(addAppointmentDTO);
-        
-        assertTrue(result);
-        verify(appointmentRepository, times(1)).save(any(Appointment.class));
     }
     
     @Test

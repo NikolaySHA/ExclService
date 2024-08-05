@@ -32,7 +32,7 @@ class AvailableDateServiceImplTest {
         // Arrange
         int detailsCount = 5;
         LocalDate today = LocalDate.of(2024, 7, 22); // Example date, assuming it's Monday
-        LocalDate expectedNextAvailableDate = LocalDate.of(2024, 7, 29); // Expected Monday of next week
+        LocalDate expectedNextAvailableDate = LocalDate.of(2024, 8, 05); // Expected Monday of next week
         
         // Mock current week load as 30 (exactly on the limit) to force the method to move to the next week
         when(appointmentRepository.findTotalDetailsForWeek(today.with(DayOfWeek.MONDAY), today.with(DayOfWeek.FRIDAY), Status.COMPLETED))

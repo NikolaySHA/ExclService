@@ -6,9 +6,7 @@ import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserRegisterDTO;
 import com.NikolaySHA.ExclusiveService.model.dto.userDTO.UserViewDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.service.UserService;
-import com.NikolaySHA.ExclusiveService.service.impl.EmailSenderService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +26,6 @@ public class UserController {
     private final UserService userService;
     
     private final ModelMapper modelMapper;
-    
-    private final EmailSenderService emailService;
     
     @ModelAttribute("userData")
     public UserRegisterDTO userDTO() {

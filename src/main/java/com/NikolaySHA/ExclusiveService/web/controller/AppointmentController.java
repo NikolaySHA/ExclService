@@ -12,6 +12,7 @@ import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
 import com.NikolaySHA.ExclusiveService.service.ExpenseService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -21,7 +22,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +79,7 @@ public class AppointmentController {
     }
     
     @PostMapping("/add")
-    public String doAddAppointment(@Valid AddAppointmentDTO data, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String doAddAppointment(@Valid AddAppointmentDTO data, BindingResult bindingResult, RedirectAttributes redirectAttributes) throws MessagingException, GeneralSecurityException, IOException {
         if (userService.findLoggedUser() == null) {
             return "redirect:/";
         }

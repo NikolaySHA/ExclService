@@ -33,4 +33,4 @@ spring:
 
 expenses:
   api:
-    base-url: "${EXPENSES_BASE_URL:http://localhost:8081}"
+    baseUrl: "${EXPENSES_BASE_URL:http://localhost:8081}"

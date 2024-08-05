@@ -1,6 +1,5 @@
 package com.NikolaySHA.ExclusiveService.service.impl;
 
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -21,10 +20,9 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -33,15 +31,15 @@ import java.util.Properties;
 
 import static jakarta.mail.Message.RecipientType.TO;
 
-
+@Component
 public class GmailSender {
     
     private static final String APPLICATION_NAME = "Exclusive Service Email API";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_LABELS);
-    private static final String CREDENTIALS_FILE_PATH = "json/client_secret_299103921534-8k56sq5oedhf8826kmeutodg1ni4bjhv.apps.googleusercontent.com.json";
-    private static final String FROM_EMAIL_ADDRESS = "exclautoservice@gmail.com";
+    private static final List<String> SCOPES = Collections.singletonList(GmailScopes.GMAIL_SEND);  // Updated Scope
+    private static final String CREDENTIALS_FILE_PATH = "/client_secret_299103921534-n6n44h5ju3493qilbskniinitmd0cbu4.apps.googleusercontent.com.json";
+    private static final String SENDER = "exclautoservice@gmail.com";
     private final Gmail service;
     
     public GmailSender() throws GeneralSecurityException, IOException {
@@ -52,35 +50,32 @@ public class GmailSender {
     }
     
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
-                throws IOException {
-            // Load client secrets.
-            GoogleClientSecrets clientSecrets =
-                    GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(GmailSender.class.getResourceAsStream(CREDENTIALS_FILE_PATH)));
-            
-            // Build flow and trigger user authorization request.
-            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                    .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
-                    .setAccessType("offline")
-                    .build();
-            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-            Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-            //returns an authorized Credential object.
-            return credential;
+            throws IOException {
+        InputStream in = GmailSender.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        if (in == null) {
+            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+        }
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        
+        // Build flow and trigger user authorization request.
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                .setDataStoreFactory(new FileDataStoreFactory(Paths.get(TOKENS_DIRECTORY_PATH).toFile()))
+                .setAccessType("offline")  // Ensure offline access
+                .build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
-    public void sendMail(String subject, String message) throws IOException, GeneralSecurityException, MessagingException {
-        
-        
-       
-       
+    
+    public void sendMail(String subject, String message, String recipient) throws IOException, GeneralSecurityException, MessagingException {
         
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
         
         MimeMessage email = new MimeMessage(session);
         
-        email.setFrom(new InternetAddress(FROM_EMAIL_ADDRESS));
-        email.addRecipient(TO, new InternetAddress(FROM_EMAIL_ADDRESS));
+        email.setFrom(new InternetAddress(SENDER));
+        email.addRecipient(TO, new InternetAddress(recipient));  // Correct the recipient address
         email.setSubject(subject);
         email.setText(message);
         
@@ -106,9 +101,10 @@ public class GmailSender {
             }
         }
     }
+    
     public static void main(String[] args) throws GeneralSecurityException, IOException, MessagingException {
         new GmailSender().sendMail("A new message", """
-        Hello World!
-    """);
+                Hello World!
+                """, SENDER);
     }
 }

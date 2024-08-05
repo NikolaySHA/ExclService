@@ -6,8 +6,8 @@ import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.ProtocolService;
-import com.NikolaySHA.ExclusiveService.service.impl.EmailSenderService;
-import com.NikolaySHA.ExclusiveService.web.aop.AppointmentStatusAspect;
+import com.NikolaySHA.ExclusiveService.service.impl.GmailSender;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,10 +15,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +34,7 @@ public class AppointmentStatusAspectTest {
     private AppointmentService appointmentService;
     
     @Mock
-    private EmailSenderService emailSender;
+    private GmailSender emailSender;
     
     @InjectMocks
     private AppointmentStatusAspect appointmentStatusAspect;
@@ -60,7 +63,6 @@ public class AppointmentStatusAspectTest {
     
     @Test
     public void testAfterUpdateAppointmentStatus_withInProgress() {
-        
         when(appointmentService.findById(appointment.getId())).thenReturn(Optional.of(appointment));
         
         appointmentStatusAspect.issueTransferProtocolAfterUpdateAppointmentStatus(appointment, Status.IN_PROGRESS);
@@ -70,7 +72,6 @@ public class AppointmentStatusAspectTest {
     
     @Test
     public void testAfterUpdateAppointmentStatus_withCompleted() {
-        
         when(appointmentService.findById(appointment.getId())).thenReturn(Optional.of(appointment));
         
         appointmentStatusAspect.issueTransferProtocolAfterUpdateAppointmentStatus(appointment, Status.COMPLETED);
@@ -80,7 +81,6 @@ public class AppointmentStatusAspectTest {
     
     @Test
     public void testAfterUpdateAppointmentStatus_withOtherStatus() {
-        
         appointmentStatusAspect.issueTransferProtocolAfterUpdateAppointmentStatus(appointment, Status.SCHEDULED);
         
         verify(protocolService, times(0)).createTransferProtocol(any(Appointment.class));
@@ -88,7 +88,6 @@ public class AppointmentStatusAspectTest {
     
     @Test
     public void testAfterUpdateAppointmentStatus_withNonExistentAppointment() {
-        
         when(appointmentService.findById(appointment.getId())).thenReturn(Optional.empty());
         
         appointmentStatusAspect.issueTransferProtocolAfterUpdateAppointmentStatus(appointment, Status.IN_PROGRESS);
@@ -96,34 +95,32 @@ public class AppointmentStatusAspectTest {
         verify(protocolService, times(0)).createTransferProtocol(any(Appointment.class));
     }
     
-    // Новите тестове за метода sendEmailAfterUpdateAppointmentStatus
-    
     @Test
-    public void testSendEmailAfterUpdateAppointmentStatus_withPending() {
-        appointmentStatusAspect.sendEmailAfterUpdateAppointmentStatus(appointment, Status.PENDING);
-        
-        verify(emailSender, times(1)).sendSimpleEmail(eq(user.getEmail()), eq("Записан час за сервиз"), anyString());
-        verify(emailSender, times(1)).sendSimpleEmail(eq("exclautoservice@gmail.com"), eq("Предстоящ ремонт"), anyString());
-    }
-    
-    @Test
-    public void testSendEmailAfterUpdateAppointmentStatus_withInProgress() {
+    public void testSendEmailAfterUpdateAppointmentStatus_withInProgress() throws MessagingException, GeneralSecurityException, IOException {
         appointmentStatusAspect.sendEmailAfterUpdateAppointmentStatus(appointment, Status.IN_PROGRESS);
         
-        verify(emailSender, times(1)).sendSimpleEmail(eq(user.getEmail()), eq("Приет автомобил"), anyString());
+        verify(emailSender, times(1)).sendMail(
+                eq(user.getEmail()),
+                eq("Приет автомобил"),
+                contains("Вашия автомобил: 123ABC")
+        );
     }
     
     @Test
-    public void testSendEmailAfterUpdateAppointmentStatus_withCompleted() {
+    public void testSendEmailAfterUpdateAppointmentStatus_withCompleted() throws MessagingException, GeneralSecurityException, IOException {
         appointmentStatusAspect.sendEmailAfterUpdateAppointmentStatus(appointment, Status.COMPLETED);
         
-        verify(emailSender, times(1)).sendSimpleEmail(eq(user.getEmail()), eq("Завършен ремонт"), anyString());
+        verify(emailSender, times(1)).sendMail(
+                eq(user.getEmail()),
+                eq("Завършен ремонт"),
+                contains("Вашия автомобил: 123ABC")
+        );
     }
     
     @Test
-    public void testSendEmailAfterUpdateAppointmentStatus_withOtherStatus() {
+    public void testSendEmailAfterUpdateAppointmentStatus_withOtherStatus() throws MessagingException, GeneralSecurityException, IOException {
         appointmentStatusAspect.sendEmailAfterUpdateAppointmentStatus(appointment, Status.SCHEDULED);
         
-        verify(emailSender, times(0)).sendSimpleEmail(anyString(), anyString(), anyString());
+        verify(emailSender, times(0)).sendMail(anyString(), anyString(), anyString());
     }
 }

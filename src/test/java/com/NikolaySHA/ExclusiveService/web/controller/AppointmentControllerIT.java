@@ -11,6 +11,7 @@ import com.NikolaySHA.ExclusiveService.service.AppointmentService;
 import com.NikolaySHA.ExclusiveService.service.CarService;
 import com.NikolaySHA.ExclusiveService.service.ExpenseService;
 import com.NikolaySHA.ExclusiveService.service.UserService;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +70,7 @@ public class AppointmentControllerIT {
     
     
     @Test
-    void testDoAddAppointmentSuccess() {
+    void testDoAddAppointmentSuccess() throws MessagingException, GeneralSecurityException, IOException {
         AddAppointmentDTO dto = new AddAppointmentDTO();
         when(userService.findLoggedUser()).thenReturn(loggedInUser);
         when(appointmentService.create(any(AddAppointmentDTO.class))).thenReturn(true);
@@ -78,7 +81,7 @@ public class AppointmentControllerIT {
     }
     
     @Test
-    void testDoAddAppointmentFailure() {
+    void testDoAddAppointmentFailure() throws MessagingException, GeneralSecurityException, IOException {
         AddAppointmentDTO dto = new AddAppointmentDTO();
         when(userService.findLoggedUser()).thenReturn(loggedInUser);
         when(appointmentService.create(any(AddAppointmentDTO.class))).thenReturn(false);
