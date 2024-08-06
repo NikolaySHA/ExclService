@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:width="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/commons::head}">
 </head>
 <body>
@@ -73,8 +73,9 @@
                             </thead>
                             <tbody>
                             <tr th:each="appointment : ${appointmentsData}">
-                                <td class="bg-warning" scope="row" style="width: 5%">
-                                    <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                <td class="bg-warning" scope="row" style="width: 3%">
+                                    <i class="fa-solid fa-square-parking fa-xl" style="color: #0a0a0a;"></i>
+<!--                                    <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">-->
                                 </td>
                                 <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getDate()}"></a></td>
                                 <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}">[<span th:text="${appointment.car.getLicensePlate()}"></span>]

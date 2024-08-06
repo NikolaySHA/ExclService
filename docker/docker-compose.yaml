@@ -21,6 +21,7 @@ services:
     image: nikolaysha/exclusive-service
     ports:
       - "8080:8080"
+      - "8888:8888"
     environment:
       - MYSQL_HOST=db
       - MYSQL_PORT=3306
@@ -29,6 +30,7 @@ services:
       - MAIL_SENDER_USERNAME=exclautoservice@gmail.com
       - MAIL_SENDER_PASSWORD=Niki860115
       - EXPENSES_BASE_URL=http://expenses-api:8081
+      - OAUTH_REDIRECT_URI=http://localhost:8888/oauth2callback
   expenses-api:
     depends_on:
       db:

@@ -17,7 +17,6 @@ com/NikolaySHA/ExclusiveService/model/entity/UserRoleTest.class
 com/NikolaySHA/ExclusiveService/model/entity/UserTest.class
 com/NikolaySHA/ExclusiveService/model/dto/carDTO/CarViewDTOTest.class
 com/NikolaySHA/ExclusiveService/web/controller/UserControllerIT.class
-com/NikolaySHA/ExclusiveService/service/impl/EmailSenderServiceTest.class
 com/NikolaySHA/ExclusiveService/model/dto/appointmentDTO/EditAppointmentDTOTest.class
 com/NikolaySHA/ExclusiveService/model/dto/carDTO/CarSearchDTOTest.class
 com/NikolaySHA/ExclusiveService/web/aop/AppointmentStatusAspectTest.class

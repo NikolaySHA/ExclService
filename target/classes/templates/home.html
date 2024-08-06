@@ -2,7 +2,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/commons::head}">
-<!--    <script src="https://kit.fontawesome.com/8c77968f69.js" crossorigin="anonymous"></script>-->
 </head>
 <body>
 <header th:replace="~{fragments/commons::nav}"></header>
@@ -23,9 +22,10 @@
                                 <td>Премахни</td>
                             </tr>
                             <tr th:each="car : ${myCarsData}">
-                                <td class="bg-success" scope="row" style="width: 5%">
-                                    <img class="mr-2 " src="/images/p911.png" alt="myCars" width="35px"
-                                         height="35px">
+                                <td class="bg-warning-container" style="width: 4%">
+                                    <div class="bg-warning">
+                                        <img class="appointment-icon" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                    </div>
                                 </td>
                                 <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getLicensePlate()}"></a></td>
                                 <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getMake()}"></a></td>
@@ -60,7 +60,7 @@
                             </tr>
                             <tr th:each="appointment : ${appointmentsData}">
                                 <td class="bg-warning" scope="row" style="width: 5%">
-                                    <img class="mr-2 " src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                    <i class="fa-solid fa-square-parking fa-xl" style="color: black;"></i>
                                 </td>
                                 <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.getDate()}"></a></td>
                                 <td><a class="text-light" th:href="@{/appointments/{id}(id=${appointment.id})}" th:text="${appointment.car.getLicensePlate()}"></a></td>

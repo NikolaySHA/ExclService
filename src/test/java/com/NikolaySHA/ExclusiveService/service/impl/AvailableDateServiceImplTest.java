@@ -31,14 +31,16 @@ class AvailableDateServiceImplTest {
     void testCalculateNextAvailableDate() {
         // Arrange
         int detailsCount = 5;
-        LocalDate today = LocalDate.of(2024, 7, 22); // Example date, assuming it's Monday
-        LocalDate expectedNextAvailableDate = LocalDate.of(2024, 8, 05); // Expected Monday of next week
+        LocalDate today = LocalDate.now();
         
         // Mock current week load as 30 (exactly on the limit) to force the method to move to the next week
         when(appointmentRepository.findTotalDetailsForWeek(today.with(DayOfWeek.MONDAY), today.with(DayOfWeek.FRIDAY), Status.COMPLETED))
                 .thenReturn(30);
+        
         // Mock next week load as 0 (free week) to satisfy the condition
-        when(appointmentRepository.findTotalDetailsForWeek(today.plusWeeks(1).with(DayOfWeek.MONDAY), today.plusWeeks(1).with(DayOfWeek.FRIDAY), Status.COMPLETED))
+        LocalDate nextMonday = today.plusWeeks(1).with(DayOfWeek.MONDAY);
+        LocalDate nextFriday = today.plusWeeks(1).with(DayOfWeek.FRIDAY);
+        when(appointmentRepository.findTotalDetailsForWeek(nextMonday, nextFriday, Status.COMPLETED))
                 .thenReturn(0);
         
         // Act
@@ -46,7 +48,8 @@ class AvailableDateServiceImplTest {
         
         // Assert
         assertNotNull(result);
-        assertEquals(expectedNextAvailableDate, result);
+        // The expected date should be the first available day of the next week (which is a Monday)
+        assertEquals(nextMonday, result);
     }
     
     @Test

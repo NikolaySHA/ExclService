@@ -52,8 +52,10 @@
                             <tbody>
                             <tr th:each="car : ${carsData}">
                                 <a th:href="@{/cars/{id}(id=${car.id})}" style="display: table-row; color: inherit; text-decoration: none;">
-                                    <td class="bg-warning" scope="row" style="width: 5%">
-                                        <img class="mr-2" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                    <td class="bg-warning-container" style="width: 4%">
+                                        <div class="bg-warning">
+                                            <img class="appointment-icon" src="/images/p911.png" alt="Appointments" width="35px" height="35px">
+                                        </div>
                                     </td>
                                     <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getLicensePlate()}"></a></td>
                                     <td><a class="text-light" th:href="@{/cars/{id}(id=${car.id})}" th:text="${car.getMake()}"></a></td>

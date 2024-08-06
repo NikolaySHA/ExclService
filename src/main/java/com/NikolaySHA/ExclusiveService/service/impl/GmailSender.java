@@ -101,10 +101,4 @@ public class GmailSender {
             }
         }
     }
-    
-    public static void main(String[] args) throws GeneralSecurityException, IOException, MessagingException {
-        new GmailSender().sendMail("A new message", """
-                Hello World!
-                """, SENDER);
-    }
 }

@@ -46,7 +46,6 @@ class ProtocolServiceImplTest {
     
     @BeforeEach
     void setUp() {
-        // Set up User, Car, and Appointment
         User user = new User();
         user.setName("Mad Max");
         
@@ -97,13 +96,17 @@ class ProtocolServiceImplTest {
         verify(appointmentService, times(1)).save(any(Appointment.class));
         assertEquals(1, appointment.getProtocols().size());  // Check that the protocol was added
     }
+    
     @Test
     void testFindById() {
+
         when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
+        when(modelMapper.map(transferProtocol, ProtocolDTO.class)).thenReturn(protocolDTO);
         
         ProtocolDTO result = protocolService.getTransferProtocolById(1L);
         
         assertEquals("CBCBCBCB", result.getLicensePlate());
         verify(protocolRepository, times(1)).findById(1L);
+        verify(modelMapper, times(1)).map(transferProtocol, ProtocolDTO.class);
     }
 }
