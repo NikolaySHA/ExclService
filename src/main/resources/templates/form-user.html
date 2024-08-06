@@ -8,24 +8,24 @@
         <span class="badge badge-pill badge-warning" th:text="${isEdit} ? 'Промени профил' : #{register}"></span>
     </h1>
     <hr class="hr-3 w-25 bg-white"/>
-    <div class="alert alert-success alert-dismissible fade show" th:if="${passwordMismatch}">
-        <span th:text="#{password_miss-match}"></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="alert alert-danger alert-dismissible fade show" th:if="${registrationFailed}">
-        <span th:text="#{registration_failed}"></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
     <form class="mx-auto w-75 bg-blur col-xl-3 col-md-4 col-sm-5"
           style="padding: 20px;"
           th:action="@{${isEdit} ? '/users/edit/' + ${id} : '/users/register'}"
           th:method="POST"
           th:object="${userData}">
         <div class="form-group">
+            <div class="alert alert-success alert-dismissible fade show" th:if="${passwordMismatch}">
+                <span th:text="#{password_miss-match}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert alert-danger alert-dismissible fade show" th:if="${registrationFailed}">
+                <span th:text="#{registration_failed}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div>
                 <div class="label-holder text-white d-flex justify-content-center">
                     <label for="email" class="h4 mb-2"><span th:text="#{email}"></span><span class="text-danger"> *</span></label>

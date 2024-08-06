@@ -12,9 +12,4 @@ public interface ProtocolService {
     
     ProtocolDTO getTransferProtocolById(Long id);
     
-    List<ProtocolDTO> getAllTransferProtocols();
-    
-    void deleteProtocol(Long id);
-    
-    Optional<TransferProtocol> findById(Long id);
 }

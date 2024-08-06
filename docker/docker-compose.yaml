@@ -29,7 +29,7 @@ services:
       - MAIL_SENDER_USERNAME=exclautoservice@gmail.com
       - MAIL_SENDER_PASSWORD=Niki860115
       - EXPENSES_BASE_URL=http://expenses-api:8081
-  expense-api:
+  expenses-api:
     depends_on:
       db:
         condition: service_healthy

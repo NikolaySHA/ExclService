@@ -8,6 +8,7 @@ import com.NikolaySHA.ExclusiveService.model.enums.UserRolesEnum;
 import com.NikolaySHA.ExclusiveService.repo.RoleRepository;
 import com.NikolaySHA.ExclusiveService.repo.UserRepository;
 import com.NikolaySHA.ExclusiveService.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public boolean register(UserRegisterDTO data) {
+        
         Optional<User> optionalUser = userRepository.findByEmail(data.getEmail());
         if (optionalUser.isPresent()){
             return false;
@@ -50,13 +52,14 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
+    @Transactional
     public User findLoggedUser() {
         String email = exclusiveUserDetailsService.getAuthentication().getName();
-        
         return userRepository.findByEmail(email).orElse(null);
     }
     
     @Override
+    @Transactional
     public boolean loggedUserHasRole(String role) {
         UserDetails userDetails = (UserDetails) exclusiveUserDetailsService.getAuthentication().getPrincipal();
         return userDetails.getAuthorities().stream()

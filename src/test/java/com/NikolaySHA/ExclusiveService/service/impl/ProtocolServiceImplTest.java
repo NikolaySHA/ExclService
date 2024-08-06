@@ -97,51 +97,13 @@ class ProtocolServiceImplTest {
         verify(appointmentService, times(1)).save(any(Appointment.class));
         assertEquals(1, appointment.getProtocols().size());  // Check that the protocol was added
     }
-    
-    @Test
-    void testGetTransferProtocolById() {
-        when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
-        when(modelMapper.map(any(TransferProtocol.class), eq(ProtocolDTO.class))).thenReturn(protocolDTO);
-        
-        ProtocolDTO result = protocolService.getTransferProtocolById(1L);
-        
-        assertNotNull(result);
-        assertEquals("CBCBCBCB", result.getLicensePlate());
-        verify(protocolRepository, times(1)).findById(1L);
-    }
-    
-    @Test
-    void testGetAllTransferProtocols() {
-        when(protocolRepository.findAll()).thenReturn(List.of(transferProtocol));
-        when(modelMapper.map(any(TransferProtocol.class), eq(ProtocolDTO.class))).thenReturn(protocolDTO);
-        
-        List<ProtocolDTO> result = protocolService.getAllTransferProtocols();
-        
-        assertNotNull(result);
-        assertTrue(result.size() > 0);
-        assertEquals("CBCBCBCB", result.get(0).getLicensePlate());
-        verify(protocolRepository, times(1)).findAll();
-    }
-    
-    @Test
-    void testDeleteProtocol() {
-        when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
-        doNothing().when(protocolRepository).delete(any(TransferProtocol.class));
-        
-        protocolService.deleteProtocol(1L);
-        
-        verify(protocolRepository, times(1)).findById(1L);
-        verify(protocolRepository, times(1)).delete(transferProtocol);
-    }
-    
     @Test
     void testFindById() {
         when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
         
-        Optional<TransferProtocol> result = protocolService.findById(1L);
+        ProtocolDTO result = protocolService.getTransferProtocolById(1L);
         
-        assertTrue(result.isPresent());
-        assertEquals("CBCBCBCB", result.get().getLicensePlate());
+        assertEquals("CBCBCBCB", result.getLicensePlate());
         verify(protocolRepository, times(1)).findById(1L);
     }
 }

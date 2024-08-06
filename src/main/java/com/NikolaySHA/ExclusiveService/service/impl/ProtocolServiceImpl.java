@@ -51,27 +51,7 @@ public class ProtocolServiceImpl implements ProtocolService {
         return protocolRepository.findById(id)
                 .map(this::map).orElseThrow(() -> new IllegalArgumentException("Not found!"));
     }
-    
-    @Override
-    public List<ProtocolDTO> getAllTransferProtocols() {
-        
-        return protocolRepository.findAll()
-                .stream()
-                .map(this::map)
-                .collect(Collectors.toList());
-    }
     private ProtocolDTO map(TransferProtocol data){
         return this.modelMapper.map(data, ProtocolDTO.class);
     }
-    
-    @Override
-    public Optional<TransferProtocol> findById(Long id) {
-        return protocolRepository.findById(id);
-    }
-    
-    @Override
-    public void deleteProtocol(Long id) {
-        protocolRepository.delete(protocolRepository.findById(id).get());
-    }
-    
 }

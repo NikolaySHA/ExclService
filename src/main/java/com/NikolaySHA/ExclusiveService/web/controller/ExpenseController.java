@@ -24,12 +24,6 @@ public class ExpenseController {
 
         return "redirect:/appointments/" + dto.getAppointmentId();
     }
-//    @PostMapping("/expenses/{id}")
-//    public String GetExpensesForAppointment(@PathVariable Long id){
-//        expenseService.GetExpensesForAppointment(id);
-//
-//        return "redirect:/appointments/" + id;
-//    }
     @PostMapping("/{id}")
     public String deleteExpense(@PathVariable Long id, @RequestParam Long appointmentId) {
         expenseService.deleteExpense(id);
