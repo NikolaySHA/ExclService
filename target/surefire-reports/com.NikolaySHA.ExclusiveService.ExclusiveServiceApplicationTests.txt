@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.NikolaySHA.ExclusiveService.ExclusiveServiceApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.619 s -- in com.NikolaySHA.ExclusiveService.ExclusiveServiceApplicationTests

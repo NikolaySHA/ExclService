@@ -3,6 +3,7 @@ package com.NikolaySHA.ExclusiveService.util;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.service.AppointmentService;
+import com.NikolaySHA.ExclusiveService.service.impl.UpdateAppointmentStatusService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +25,8 @@ public class ScheduledOperationsTest {
     
     @Mock
     private AppointmentService appointmentService;
+    @Mock
+    private UpdateAppointmentStatusService updateStatusService;
     
     @InjectMocks
     private ScheduledOperations scheduledOperations;
@@ -59,7 +62,7 @@ public class ScheduledOperationsTest {
             Appointment appointment = invocation.getArgument(0);
             appointment.setStatus(Status.PENDING);
             return null;
-        }).when(appointmentService).updateAppointmentStatus(any(Appointment.class), eq(Status.PENDING));
+        }).when(updateStatusService).updateAppointmentStatus(any(Appointment.class), eq(Status.PENDING));
         
         // Call the method to be tested
         scheduledOperations.updateAppointmentStatusAtMidnight();
@@ -68,7 +71,7 @@ public class ScheduledOperationsTest {
         verify(appointmentService, times(1)).findByDate(LocalDate.now());
         
         // Verify that updateAppointmentStatus was called for each appointment
-        verify(appointmentService, times(mockAppointments.size()))
+        verify(updateStatusService, times(mockAppointments.size()))
                 .updateAppointmentStatus(any(Appointment.class), eq(Status.PENDING));
         
         // Capture the list of appointments passed to saveAll

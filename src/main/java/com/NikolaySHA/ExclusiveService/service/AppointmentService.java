@@ -17,7 +17,7 @@ public interface AppointmentService {
     boolean create(AddAppointmentDTO data) throws MessagingException, GeneralSecurityException, IOException;
     List<Appointment> getAppointmentsByUserEmail(String email);
     List<Appointment> getAllAppointments();
-    void updateAppointmentStatus(Appointment appointment, Status status);
+//    void updateAppointmentStatus(Appointment appointment, Status status);
     List<Appointment> searchAppointments(String date, String licensePlate, String make, String client, Status status);
     Optional<Appointment> findById(Long id);
     Optional<Appointment> findByIdInitializingUsersWithCars(Long id);

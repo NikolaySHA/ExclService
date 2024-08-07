@@ -27,6 +27,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
     private final GmailSender emailSender;
+    private final UpdateAppointmentStatusService updateAppointmentStatusService;
  
     
     @Override
@@ -72,10 +73,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> getAllAppointments() {
         return this.appointmentRepository.findAll();
     }
-    @Override
-    public void updateAppointmentStatus(Appointment appointment, Status status) {
-        appointment.setStatus(status);
-    }
+//    @Override
+//    public void updateAppointmentStatus(Appointment appointment, Status status) {
+//        appointment.setStatus(status);
+//    }
     
     @Override
     public List<Appointment> findByDate(LocalDate today) {
@@ -118,7 +119,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             editedAppointment.setCar(appointment.getCar());
         }
         if (appointment.getStatus() != null && !appointment.getStatus().equals(editedAppointment.getStatus())){
-            updateAppointmentStatus(editedAppointment, appointment.getStatus());
+            updateAppointmentStatusService.updateAppointmentStatus(editedAppointment, appointment.getStatus());
         }
        
         this.appointmentRepository.save(editedAppointment);

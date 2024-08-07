@@ -101,12 +101,6 @@ public class AppointmentServiceImplTest {
         verify(appointmentRepository, times(1)).findAll();
     }
     
-    @Test
-    void testUpdateAppointmentStatus() {
-        appointmentService.updateAppointmentStatus(appointment, Status.COMPLETED);
-        
-        assertEquals(Status.COMPLETED, appointment.getStatus());
-    }
     
     @Test
     void testFindByDate() {

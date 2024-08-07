@@ -17,21 +17,21 @@ public class AvailableDateServiceImpl implements AvailableDateService {
     
     @Override
     public LocalDate calculateNextAvailableDate(int detailsCount) {
-        LocalDate currentDate = LocalDate.now();
+        LocalDate tomorowDate = LocalDate.now().plusDays(1);
         int weeklyLimit = 30;
         
         while (true) {
-            if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                currentDate = currentDate.plusDays(1);
+            if (tomorowDate.getDayOfWeek() == DayOfWeek.SATURDAY || tomorowDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                tomorowDate = tomorowDate.plusDays(1);
                 continue;
             }
             
-            int currentWeekLoad = getCurrentWeekLoad(currentDate);
+            int currentWeekLoad = getCurrentWeekLoad(tomorowDate);
             
             if (currentWeekLoad + detailsCount <= weeklyLimit) {
-                return currentDate;
+                return tomorowDate;
             } else {
-                currentDate = currentDate.plusDays(1);
+                tomorowDate = tomorowDate.plusDays(1);
             }
         }
     }
