@@ -108,10 +108,10 @@
                         <div class="bg-dark rounded" style="height: 12vh; overflow: auto">
                             <div class="d-flex flex-wrap justify-content-center align-items-start" style="height: 100%;">
                                 <div th:each="protocol : ${protocols}" class="p-2 text-center">
-                                    <a th:href="@{/protocol/{id}(id=${protocol.id})}"
-                                       class="d-block mb-2">
-                                        <i class="fa-solid fa-file-pdf" style="color: #FFD43B; font-size: 2rem;"></i>
+                                    <a th:href="@{/protocol/{id}(id=${protocol.id})}" target="_blank" class="d-block mb-2">
+                                    <i class="fa-solid fa-file-pdf" style="color: #FFD43B; font-size: 2rem;"></i>
                                     </a>
+
                                     <form th:action="@{/protocol/delete/{appointmentId}/{id}(appointmentId=${appointmentId}, id=${protocol.id})}" method="post">
                                         <button type="submit" class="btn btn-danger btn-sm">
                                             Изтрий
