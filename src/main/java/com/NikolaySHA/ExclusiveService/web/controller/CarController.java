@@ -108,7 +108,8 @@ public class CarController {
     public String updateCar(@PathVariable("id") Long id, @Valid @ModelAttribute("carData") CarDataDTO car,
                             BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         User loggedUser = userService.findLoggedUser();
-        if (!loggedUser.getId().equals(id) && !userService.loggedUserHasRole("ADMIN")) {
+        Long id1 = carService.findById(id).get().getOwner().getId();
+        if (!loggedUser.getId().equals(id1) && !userService.loggedUserHasRole("ADMIN")) {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }

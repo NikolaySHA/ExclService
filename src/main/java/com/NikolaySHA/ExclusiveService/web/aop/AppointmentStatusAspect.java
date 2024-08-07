@@ -52,7 +52,7 @@ public class AppointmentStatusAspect {
                         appointment.getCar().getLicensePlate(),
                         appointment.getCar().getMake(),
                         appointment.getCar().getModel()),
-                        appointment.getUser().getEmail());
+                        user.getEmail());
                 emailSender.sendMail("Предстоящ ремонт",
                         String.format("Очаквайте днес - %s,/n автомобил: %s, Марка: %s, Модел: %s./n !",
                                 appointment.getDate(),

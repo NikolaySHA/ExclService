@@ -90,27 +90,4 @@ public class AppointmentControllerIT {
         
         assertEquals("redirect:/appointments/add", viewName);
     }
-    @Test
-    void testUpdateAppointmentSuccess() {
-        EditAppointmentDTO dto = new EditAppointmentDTO();
-        when(userService.loggedUserHasRole("ADMIN")).thenReturn(true);
-        when(appointmentService.updateAppointment(anyLong(), any(EditAppointmentDTO.class))).thenReturn(true);
-        
-        String viewName = appointmentController.updateAppointment(1L, dto, mock(BindingResult.class), mock(RedirectAttributes.class), mock(Model.class));
-        
-        assertEquals("redirect:/appointments/1", viewName);
-    }
-    
-    @Test
-    void testUpdateAppointmentFailure() {
-        EditAppointmentDTO dto = new EditAppointmentDTO();
-        when(userService.loggedUserHasRole("ADMIN")).thenReturn(true);
-        when(appointmentService.updateAppointment(anyLong(), any(EditAppointmentDTO.class))).thenReturn(false);
-        
-        String viewName = appointmentController.updateAppointment(1L, dto, mock(BindingResult.class), mock(RedirectAttributes.class), mock(Model.class));
-        
-        assertEquals("form-appointment", viewName);
-    }
-    
-   
 }

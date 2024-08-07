@@ -129,7 +129,7 @@ public class AppointmentController {
     @PostMapping("/edit/{id}")
     @Transactional
     public String updateAppointment(@PathVariable("id") Long id, @Valid EditAppointmentDTO appointment, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        if (!userService.loggedUserHasRole("ADMIN")) {
+        if (!userService.findLoggedUser().getId().equals(appointment.getUser().getId()) && !userService.loggedUserHasRole("ADMIN")) {
             redirectAttributes.addFlashAttribute("notFoundErrorMessage", true);
             return "redirect:/error/contact-admin";
         }
