@@ -13,7 +13,6 @@
                 <div class="card flex-fill">
                     <div class="card-body text-center">
                         <i class="fa-solid fa-square-parking fa-2xl" style="color: #F2CD13;"></i>
-                        <!--                        <img src="/images/p911.png" alt="Car" class="rounded-circle p-1 bg-transparent" width="200px" height="100px">-->
                         <div class="mt-3">
                             <div>
                                 <label class="text-yellow">Автомобил</label>
@@ -51,7 +50,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <!-- Right Column -->
@@ -100,6 +98,27 @@
                                 </tr>
                                 </tfoot>
                             </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Transfer Protocols Section -->
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h4 class="mySticky bg-gray text-light mb-0 mt-2">Протоколи</h4>
+                        <div class="bg-dark rounded" style="height: 12vh; overflow: auto">
+                            <div class="d-flex flex-wrap justify-content-center align-items-start" style="height: 100%;">
+                                <div th:each="protocol : ${protocols}" class="p-2 text-center">
+                                    <a th:href="@{/protocol/{id}(id=${protocol.id})}"
+                                       class="d-block mb-2">
+                                        <i class="fa-solid fa-file-pdf" style="color: #FFD43B; font-size: 2rem;"></i>
+                                    </a>
+                                    <form th:action="@{/protocol/delete/{appointmentId}/{id}(appointmentId=${appointmentId}, id=${protocol.id})}" method="post">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            Изтрий
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

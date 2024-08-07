@@ -7,7 +7,6 @@ import com.NikolaySHA.ExclusiveService.model.entity.Car;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
 import com.NikolaySHA.ExclusiveService.repo.AppointmentRepository;
-import com.NikolaySHA.ExclusiveService.service.UserService;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.OngoingStubbing;
 import org.modelmapper.ModelMapper;
 
 import java.io.IOException;
@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +35,12 @@ public class AppointmentServiceImplTest {
     
     @Mock
     private ModelMapper modelMapper;
+    
+    @Mock
+    private GmailSender emailSender;
+    
+    @Mock
+    private UpdateAppointmentStatusService updateAppointmentStatusService;
     
     @InjectMocks
     private AppointmentServiceImpl appointmentService;
@@ -54,20 +59,45 @@ public class AppointmentServiceImplTest {
         car = new Car();
         car.setOwner(user);
         car.setLicensePlate("CB9999BC");
+        car.setMake("Toyota");
+        car.setModel("Corolla");
         
         addAppointmentDTO = new AddAppointmentDTO();
         addAppointmentDTO.setCar(car);
+        addAppointmentDTO.setDate(LocalDate.now());
         
         appointment = new Appointment();
         appointment.setUser(user);
+        appointment.setCar(car);
         appointment.setStatus(Status.SCHEDULED);
         appointment.setPaintDetails(2);
+        appointment.setDate(LocalDate.now());
         
         editAppointmentDTO = new EditAppointmentDTO();
         editAppointmentDTO.setUser(user);
         editAppointmentDTO.setComment("New Comment");
-        editAppointmentDTO.setDate(LocalDate.now());
+        editAppointmentDTO.setDate(LocalDate.now().plusDays(1));
         editAppointmentDTO.setStatus(Status.PENDING);
+    }
+    
+    @Test
+    void testCreateAppointment() throws MessagingException, GeneralSecurityException, IOException {
+        when(modelMapper.map(any(AddAppointmentDTO.class), eq(Appointment.class))).thenReturn(appointment);
+        
+        boolean result = appointmentService.create(addAppointmentDTO);
+        
+        assertTrue(result);
+        verify(appointmentRepository, times(1)).save(any(Appointment.class));
+        verify(emailSender, times(1)).sendMail(
+                eq("Записан нов час за сервиз"),
+                contains("Вие записахте час за"),
+                eq(user.getEmail())
+        );
+        verify(emailSender, times(1)).sendMail(
+                eq("Записан нов час"),
+                contains("Очаквайте на"),
+                eq("exclautoservice@gmail.com")
+        );
     }
     
     @Test
@@ -85,7 +115,7 @@ public class AppointmentServiceImplTest {
         LocalDate date = LocalDate.now();
         when(appointmentRepository.findAppointments(any(), anyString(), anyString(), anyString(), any())).thenReturn(List.of(appointment));
         
-        List<Appointment> appointments = appointmentService.searchAppointments(date.toString(), "123", "Make", "Client", Status.SCHEDULED);
+        List<Appointment> appointments = appointmentService.searchAppointments(date.toString(), "CB9999BC", "Toyota", "Client", Status.SCHEDULED);
         
         assertEquals(1, appointments.size());
         verify(appointmentRepository, times(1)).findAppointments(any(), anyString(), anyString(), anyString(), any());
@@ -100,7 +130,6 @@ public class AppointmentServiceImplTest {
         assertEquals(1, appointments.size());
         verify(appointmentRepository, times(1)).findAll();
     }
-    
     
     @Test
     void testFindByDate() {
@@ -124,6 +153,16 @@ public class AppointmentServiceImplTest {
     }
     
     @Test
+    void testFindByIdWithEmptyResult() {
+        when(appointmentRepository.findById(anyLong())).thenReturn(Optional.empty());
+        
+        Optional<Appointment> foundAppointment = appointmentService.findById(1L);
+        
+        assertFalse(foundAppointment.isPresent());
+        verify(appointmentRepository, times(1)).findById(anyLong());
+    }
+    
+    @Test
     void testDelete() {
         appointmentService.delete(appointment);
         
@@ -133,7 +172,7 @@ public class AppointmentServiceImplTest {
     @Test
     void testUpdateAppointment() {
         when(appointmentRepository.findById(anyLong())).thenReturn(Optional.of(appointment));
-        
+      
         boolean result = appointmentService.updateAppointment(1L, editAppointmentDTO);
         
         assertTrue(result);

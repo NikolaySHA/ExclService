@@ -16,4 +16,5 @@ public interface ProtocolService {
     
     ProtocolDTO getTransferProtocolById(Long id);
     
+    void delete(Long id, Long appointment_id);
 }

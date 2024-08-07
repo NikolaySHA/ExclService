@@ -6,12 +6,10 @@ import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.EditAppointmentD
 import com.NikolaySHA.ExclusiveService.model.dto.appointmentDTO.ShowAppointmentDTO;
 import com.NikolaySHA.ExclusiveService.model.entity.Appointment;
 import com.NikolaySHA.ExclusiveService.model.entity.Car;
+import com.NikolaySHA.ExclusiveService.model.entity.TransferProtocol;
 import com.NikolaySHA.ExclusiveService.model.entity.User;
 import com.NikolaySHA.ExclusiveService.model.enums.Status;
-import com.NikolaySHA.ExclusiveService.service.AppointmentService;
-import com.NikolaySHA.ExclusiveService.service.CarService;
-import com.NikolaySHA.ExclusiveService.service.ExpenseService;
-import com.NikolaySHA.ExclusiveService.service.UserService;
+import com.NikolaySHA.ExclusiveService.service.*;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -37,13 +35,15 @@ public class AppointmentController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final ExpenseService expenseService;
+    private final ProtocolService protocolService;
     
-    public AppointmentController(AppointmentService appointmentService, CarService carService, UserService userService, ModelMapper modelMapper, ExpenseService expenseService) {
+    public AppointmentController(AppointmentService appointmentService, CarService carService, UserService userService, ModelMapper modelMapper, ExpenseService expenseService, ProtocolService protocolService) {
         this.appointmentService = appointmentService;
         this.carService = carService;
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.expenseService = expenseService;
+        this.protocolService = protocolService;
     }
     
     @ModelAttribute("appointmentData")
@@ -102,11 +102,14 @@ public class AppointmentController {
         Appointment appointment = getValidatedAppointment(id, redirectAttributes);
         if (appointment == null) return "redirect:/error/contact-admin";
         List<ExpenseInDTO> expensesList = expenseService.GetExpensesForAppointment(id);
+        List<TransferProtocol> transferProtocols = appointment.getProtocols();
         ShowAppointmentDTO data = modelMapper.map(appointment, ShowAppointmentDTO.class);
         double totalExpenses = expenseService.getTotalExpensesForAppointment(id);
         model.addAttribute("showAppointmentData", data);
         model.addAttribute("expenses", expensesList);
         model.addAttribute("totalExpenses", totalExpenses);
+        model.addAttribute("appointmentId", id);
+        model.addAttribute("protocols", transferProtocols);
         return "view-appointment";
     }
     

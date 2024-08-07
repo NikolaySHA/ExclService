@@ -17,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,6 +52,7 @@ class ProtocolServiceImplTest {
         car.setMake("AUDI");
         car.setModel("RS6");
         car.setLicensePlate("CB6666BC");
+        car.setOwner(user);  // Ensure the car has an owner
         
         appointment = new Appointment();
         appointment.setCar(car);
@@ -71,7 +71,6 @@ class ProtocolServiceImplTest {
     
     @Test
     void testCreateTransferProtocolFinishedTrue() {
-        when(modelMapper.map(any(Appointment.class), eq(TransferProtocol.class))).thenReturn(transferProtocol);
         when(protocolRepository.save(any(TransferProtocol.class))).thenReturn(transferProtocol);
         doNothing().when(appointmentService).save(any(Appointment.class));
         
@@ -86,7 +85,6 @@ class ProtocolServiceImplTest {
     void testCreateTransferProtocolFinishedFalse() {
         appointment.setStatus(Status.IN_PROGRESS);
         
-        when(modelMapper.map(any(Appointment.class), eq(TransferProtocol.class))).thenReturn(transferProtocol);
         when(protocolRepository.save(any(TransferProtocol.class))).thenReturn(transferProtocol);
         doNothing().when(appointmentService).save(any(Appointment.class));
         
@@ -99,7 +97,6 @@ class ProtocolServiceImplTest {
     
     @Test
     void testFindById() {
-
         when(protocolRepository.findById(1L)).thenReturn(Optional.of(transferProtocol));
         when(modelMapper.map(transferProtocol, ProtocolDTO.class)).thenReturn(protocolDTO);
         
@@ -108,5 +105,18 @@ class ProtocolServiceImplTest {
         assertEquals("CBCBCBCB", result.getLicensePlate());
         verify(protocolRepository, times(1)).findById(1L);
         verify(modelMapper, times(1)).map(transferProtocol, ProtocolDTO.class);
+    }
+    
+    @Test
+    void testFindByIdNotFound() {
+        when(protocolRepository.findById(1L)).thenReturn(Optional.empty());
+        
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            protocolService.getTransferProtocolById(1L);
+        });
+        
+        assertEquals("Not found!", thrown.getMessage());
+        verify(protocolRepository, times(1)).findById(1L);
+        verify(modelMapper, never()).map(any(TransferProtocol.class), eq(ProtocolDTO.class));
     }
 }
