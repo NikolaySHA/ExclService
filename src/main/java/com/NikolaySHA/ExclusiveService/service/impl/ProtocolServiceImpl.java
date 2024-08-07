@@ -39,7 +39,13 @@ public class ProtocolServiceImpl implements ProtocolService {
     @Transactional
     public void createTransferProtocol(Appointment data) {
         
-        TransferProtocol transferProtocol = modelMapper.map(data, TransferProtocol.class);
+        TransferProtocol transferProtocol = new TransferProtocol();
+        transferProtocol.setDate(data.getDate());
+        transferProtocol.setLicensePlate(data.getCar().getLicensePlate());
+        transferProtocol.setModel(data.getCar().getModel());
+        transferProtocol.setMake(data.getCar().getMake());
+        transferProtocol.setCustomerName(data.getCar().getOwner().getName());
+        
         if (data.getStatus().equals(Status.COMPLETED)) {
             transferProtocol.setFinished(false);
         } else {

@@ -15,8 +15,11 @@ public class I18NConfig {
     
     @Bean
     public LocaleResolver localeResolver() {
-        return new CookieLocaleResolver("lang");
-    }
+        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        cookieLocaleResolver.setDefaultLocale(new Locale("bg"));
+        cookieLocaleResolver.setCookieName("lang");
+        return cookieLocaleResolver;
+        }
     
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {

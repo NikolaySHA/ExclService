@@ -10,7 +10,6 @@ import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +44,7 @@ public class AppointmentStatusAspect {
     @After("updateAppointmentStatusPointcut(appointment, newStatus)")
     @Transactional
     public void sendEmailAfterUpdateAppointmentStatus(Appointment appointment, Status newStatus) throws MessagingException, GeneralSecurityException, IOException {
-        User user = appointment.getUser();
+        User user = appointment.getCar().getOwner();
         switch (newStatus){
             case PENDING:
                 emailSender.sendMail("Записан час за сервиз", String.format("Вие имате записан час, днес - %s,\n за вашия автомобил: %s, Марка: %s, Модел: %s.\n Очакваме ви!",
@@ -66,15 +65,16 @@ public class AppointmentStatusAspect {
                         String.format("Вашия автомобил: %s, Марка: %s, Модел: %s.\n е приет за ремонт. Ще ви информираме при промяна на статуса на ремонта.",
                                 appointment.getCar().getLicensePlate(),
                                 appointment.getCar().getMake(),
-                                appointment.getCar().getModel()), user.getEmail());
+                                appointment.getCar().getModel()),
+                         user.getEmail());
                  break;
             case COMPLETED:
-                emailSender.sendMail(user.getEmail(), "Завършен ремонт",
-                        String.format("Вашия автомобил: %s, Марка: %s, Модел: %s.\n е готов. Заповядайте да си го получите!.",
-                                appointment.getCar().getLicensePlate(),
-                                appointment.getCar().getMake(),
-                                appointment.getCar().getModel(),
-                                appointment.getUser().getEmail()));
+                emailSender.sendMail("Завършен ремонт",
+                        String.format("Вашия автомобил: %s, Марка: %s, Модел: %s.\n е готов. Заповядайте да си го получите.",
+                            appointment.getCar().getLicensePlate(),
+                            appointment.getCar().getMake(),
+                            appointment.getCar().getModel()),
+                        user.getEmail());
                 break;
         }
     }
